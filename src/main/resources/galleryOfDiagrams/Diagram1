@@ -1,0 +1,6 @@
+{
+  "@class" : "raf.dsw.classycraft.app.model.modelImplementation.Diagram",
+  "name" : "Diagram1",
+  "children" : [ "java.util.ArrayList", [ ] ],
+  "path" : "src\\main\\resources\\galleryOfDiagrams\\Diagram1"
+}
