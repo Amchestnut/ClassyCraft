@@ -1,0 +1,1 @@
+[ERROR][08.01.2024][20:8] Morate selektovati neki Package da bi ste ucitali diagram!
