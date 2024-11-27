@@ -70,22 +70,22 @@ public class ConnectionPainter extends ElementPainter {
             g.draw(rectangleAroundConnection);
 
 
-            if (diagramElement instanceof Asocijacija) {
+            if (diagramElement instanceof AssociationConnection) {
                 drawAssociationConnection(g);
             }
-            else if (diagramElement instanceof Nasledjivanje) {
+            else if (diagramElement instanceof InheritanceConnection) {
                 drawInheritanceConnection(g, first, second);
             }
-            else if (diagramElement instanceof Realizacija) {
+            else if (diagramElement instanceof RealisationConnection) {
                 drawRealisationConnection(g, first, second);
             }
-            if (diagramElement instanceof Zavisnost) {
+            if (diagramElement instanceof DependencyConnection) {
                 drawDependencyConnection(g, first, second);
             }
-            else if (diagramElement instanceof Agregacija) {
+            else if (diagramElement instanceof AggregationConnection) {
                 drawAggregationConnection(g, first, second);
             }
-            else if (diagramElement instanceof Kompozicija) {
+            else if (diagramElement instanceof CompositionConnection) {
                 drawCompositionConnection(g, first, second);
             }
 

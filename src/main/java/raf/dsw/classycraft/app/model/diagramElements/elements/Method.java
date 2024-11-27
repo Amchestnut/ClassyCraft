@@ -1,12 +1,15 @@
 package raf.dsw.classycraft.app.model.diagramElements.elements;
 
-public class Metoda extends ClassContent{
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
+@JsonTypeName("Method")
+public class Method extends ClassContent{
     private String methodName;
-    public Metoda(String vidljivost, String methodName) {
+    public Method(String vidljivost, String methodName) {
         super(vidljivost);
         this.methodName = methodName;
     }
-    public Metoda(){
+    public Method(){
         super();
     }
     public String getMethodName() {

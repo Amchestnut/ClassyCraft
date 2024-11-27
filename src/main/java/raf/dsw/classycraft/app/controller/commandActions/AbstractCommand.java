@@ -1,13 +1,13 @@
 package raf.dsw.classycraft.app.controller.commandActions;
 
 import raf.dsw.classycraft.app.gui.swing.painters.ElementPainter;
-import raf.dsw.classycraft.app.gui.swing.painters.elementi.ApstraknaKlasaPainter;
+import raf.dsw.classycraft.app.gui.swing.painters.elementi.AbstractClassPainter;
 import raf.dsw.classycraft.app.gui.swing.painters.elementi.EnumPainter;
 import raf.dsw.classycraft.app.gui.swing.painters.elementi.InterfejsPainter;
 import raf.dsw.classycraft.app.gui.swing.painters.elementi.KlasaPainter;
 import raf.dsw.classycraft.app.gui.swing.view.MainFrame;
 import raf.dsw.classycraft.app.model.diagramElements.DiagramElement;
-import raf.dsw.classycraft.app.model.diagramElements.elements.ApstraktnaKlasa;
+import raf.dsw.classycraft.app.model.diagramElements.elements.AbstractClass;
 import raf.dsw.classycraft.app.model.diagramElements.elements.Enum;
 import raf.dsw.classycraft.app.model.diagramElements.elements.Interfejs;
 import raf.dsw.classycraft.app.model.diagramElements.elements.Klasa;
@@ -28,8 +28,8 @@ public abstract class AbstractCommand {
         else if(diagramElement instanceof Enum){
             elementPainter = new EnumPainter(diagramElement);
         }
-        else if(diagramElement instanceof ApstraktnaKlasa){
-            elementPainter = new ApstraknaKlasaPainter(diagramElement);
+        else if(diagramElement instanceof AbstractClass){
+            elementPainter = new AbstractClassPainter(diagramElement);
         }
         return elementPainter;
     }

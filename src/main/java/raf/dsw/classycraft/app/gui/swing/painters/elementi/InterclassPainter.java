@@ -71,8 +71,8 @@ public class InterclassPainter extends ElementPainter {         /// nacrtaj me k
         // pisanje atributa i metoda za klasu
         if(diagramElement instanceof Klasa){
             for (ClassContent attribute : ((Klasa)diagramElement).getAttributes()) {
-                if(attribute instanceof Atribut){
-                    String sb = attribute.getVidljivost() + ((Atribut) attribute).getAttributeName();
+                if(attribute instanceof Attribute){
+                    String sb = attribute.getVidljivost() + ((Attribute) attribute).getAttributeName();
                     g.drawString(sb, x + PADDING, y+ currentY + PADDING);
                     currentY += LINE_HEIGHT;
                     containsAttribute = true;
@@ -87,8 +87,8 @@ public class InterclassPainter extends ElementPainter {         /// nacrtaj me k
             }
 
             for (ClassContent method : ((Klasa)diagramElement).getMethods()) {
-                if(method instanceof Metoda){
-                    String sb = method.getVidljivost() + ((Metoda) method).getMethodName();
+                if(method instanceof Method){
+                    String sb = method.getVidljivost() + ((Method) method).getMethodName();
                     g.drawString(sb, x + PADDING,y+ currentY + PADDING);
                     currentY += LINE_HEIGHT;
                 }
@@ -99,8 +99,8 @@ public class InterclassPainter extends ElementPainter {         /// nacrtaj me k
             currentY += 10;
             lineAfterAttributesY = y + currentY - 9;        // za iscrtavanje linije
             for (ClassContent method : ((Interfejs)diagramElement).getMethods()) {
-                if(method instanceof Metoda){
-                    String sb = method.getVidljivost() + ((Metoda) method).getMethodName();
+                if(method instanceof Method){
+                    String sb = method.getVidljivost() + ((Method) method).getMethodName();
                     g.drawString(sb, x + PADDING,y+ currentY + PADDING);
                     currentY += LINE_HEIGHT;
                 }
@@ -109,8 +109,8 @@ public class InterclassPainter extends ElementPainter {         /// nacrtaj me k
         // pisanje atributa i metoda za enum
         if(diagramElement instanceof Enum){
             for (ClassContent attribute : ((Enum)diagramElement).getAttributes()) {
-                if(attribute instanceof Atribut){
-                    String sb = attribute.getVidljivost() + ((Atribut) attribute).getAttributeName();
+                if(attribute instanceof Attribute){
+                    String sb = attribute.getVidljivost() + ((Attribute) attribute).getAttributeName();
                     g.drawString(sb, x + PADDING, y+ currentY + PADDING);
                     currentY += LINE_HEIGHT;
                     containsAttribute = true;
@@ -124,18 +124,18 @@ public class InterclassPainter extends ElementPainter {         /// nacrtaj me k
                 lineAfterAttributesY = y + currentY - 9;        // za iscrtavanje linije kad nema atributa, da ostane prazan prostor
             }
             for (ClassContent method : ((Enum)diagramElement).getMethods()) {
-                if(method instanceof Metoda){
-                    String sb = method.getVidljivost() + ((Metoda) method).getMethodName();
+                if(method instanceof Method){
+                    String sb = method.getVidljivost() + ((Method) method).getMethodName();
                     g.drawString(sb, x + PADDING,y+ currentY + PADDING);
                     currentY += LINE_HEIGHT;
                 }
             }
         }
         // pisanje atributa i metoda za apstrakt class
-        if(diagramElement instanceof ApstraktnaKlasa){
-            for (ClassContent attribute : ((ApstraktnaKlasa)diagramElement).getAttributes()) {
-                if(attribute instanceof Atribut){
-                    String sb = attribute.getVidljivost() + ((Atribut) attribute).getAttributeName();
+        if(diagramElement instanceof AbstractClass){
+            for (ClassContent attribute : ((AbstractClass)diagramElement).getAttributes()) {
+                if(attribute instanceof Attribute){
+                    String sb = attribute.getVidljivost() + ((Attribute) attribute).getAttributeName();
                     g.drawString(sb, x + PADDING, y+ currentY + PADDING);
                     currentY += LINE_HEIGHT;
                     containsAttribute = true;
@@ -148,9 +148,9 @@ public class InterclassPainter extends ElementPainter {         /// nacrtaj me k
                 currentY += 10;
                 lineAfterAttributesY = y + currentY - 9;        // za iscrtavanje linije kad nema atributa, da ostane prazan prostor
             }
-            for (ClassContent method : ((ApstraktnaKlasa)diagramElement).getMethods()) {
-                if(method instanceof Metoda){
-                    String sb = method.getVidljivost() + ((Metoda) method).getMethodName();
+            for (ClassContent method : ((AbstractClass)diagramElement).getMethods()) {
+                if(method instanceof Method){
+                    String sb = method.getVidljivost() + ((Method) method).getMethodName();
                     g.drawString(sb, x + PADDING,y+ currentY + PADDING);
                     currentY += LINE_HEIGHT;
                 }

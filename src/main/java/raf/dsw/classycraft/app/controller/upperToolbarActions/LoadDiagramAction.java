@@ -45,28 +45,30 @@ public class LoadDiagramAction extends AbstractClassyAction {
         ClassyTreeItem parentItem = MainFrame.getInstance().getClassyTree().getSelectedNode();
         if(!(parentItem.getClassyNode() instanceof Package)) {
             ApplicationFramework.getInstance().getMessageGenerator().generateMessage(
-                    "Morate selektovati neki Package da bi ste ucitali diagram!", MessageType.ERROR);
+                    "You need to select a Package in orded to load a Diagram!", MessageType.ERROR);
             return;
         }
-        MainFrame.getInstance().getPackageView().dodajMeKaoSubscribera(diagram);                                      //dodavanje subova
+        MainFrame.getInstance().getPackageView().dodajMeKaoSubscribera(diagram);    // adding subscribers
 
         Package parent = (Package)parentItem.getClassyNode();
         ClassyTreeItem diagramItem = new ClassyTreeItem(diagram);
-        diagram.setParent(parent);                                      //u modelu dodajem caleta
+        diagram.setParent(parent);                                      // We add the parent in the model
 
-        parent.addChild(diagram);                                       //dodaje decu u model
-        parentItem.add(diagramItem);                                    //dodaje dete u drvo
+        parent.addChild(diagram);                                       // We add children in the model
+        parentItem.add(diagramItem);                                    // We add children in the tree
         diagramItem.setParent(parentItem);
 
         parent.notifySubscribers(new NotificationForOpeningPackage(parent, diagram));
 
-        addChildToDiagramFromLoadDiagram(diagramItem, parentItem);      //dodavanje dece
+        addChildToDiagramFromLoadDiagram(diagramItem, parentItem);      // Adding children
 
         diagram.notifySubscribers(new NotificationForResettingCommandManager(diagram));
         SwingUtilities.updateComponentTreeUI(MainFrame.getInstance().getClassyTree().getTreeView());
         MainFrame.getInstance().getPackageView().repaint();
     }
-    public void addChildToDiagramFromLoadDiagram(ClassyTreeItem diagramItem, ClassyTreeItem parent) {                          //rekurzija za veze i klase (za sad samo klase jbg)
+
+    // Recursion for adding classes and connections
+    public void addChildToDiagramFromLoadDiagram(ClassyTreeItem diagramItem, ClassyTreeItem parent) {
         if (diagramItem.getClassyNode() instanceof Diagram) {
             Diagram diagram = (Diagram) diagramItem.getClassyNode();
 
@@ -78,7 +80,7 @@ public class LoadDiagramAction extends AbstractClassyAction {
                     continue;
 
                 element.setParent(diagram);
-                SwingUtilities.updateComponentTreeUI(MainFrame.getInstance().getClassyTree().getTreeView());             // odmah se prikazi
+                SwingUtilities.updateComponentTreeUI(MainFrame.getInstance().getClassyTree().getTreeView());    // show yourself now
             }
         }
     }

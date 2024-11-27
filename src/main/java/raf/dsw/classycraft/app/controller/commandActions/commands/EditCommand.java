@@ -148,9 +148,9 @@ public class EditCommand extends AbstractCommand {
             ((Enum) diagramElement).setAttributes(oldAtributes);
             ((Enum) diagramElement).setMethods(oldMethods);
         }
-        else if(diagramElement instanceof ApstraktnaKlasa){
-            ((ApstraktnaKlasa) diagramElement).setAttributes(oldAtributes);
-            ((ApstraktnaKlasa) diagramElement).setMethods(oldMethods);
+        else if(diagramElement instanceof AbstractClass){
+            ((AbstractClass) diagramElement).setAttributes(oldAtributes);
+            ((AbstractClass) diagramElement).setMethods(oldMethods);
         }
         ((Interclass) diagramElement).setDimension(company.odredjivanjeVelicinePravougaonika(oldName, oldAtributes, oldMethods));
     }
@@ -175,13 +175,13 @@ public class EditCommand extends AbstractCommand {
             newAtributes = atributi;
             ((Enum) diagramElement).setAttributes(newAtributes);
             ((Enum) diagramElement).setMethods(newMethods);
-        } else if (diagramElement instanceof ApstraktnaKlasa) {
-            oldAtributes = ((ApstraktnaKlasa) diagramElement).getAttributes();
-            oldMethods = ((ApstraktnaKlasa) diagramElement).getMethods();
+        } else if (diagramElement instanceof AbstractClass) {
+            oldAtributes = ((AbstractClass) diagramElement).getAttributes();
+            oldMethods = ((AbstractClass) diagramElement).getMethods();
             newMethods = metode;
             newAtributes = atributi;
-            ((ApstraktnaKlasa) diagramElement).setAttributes(newAtributes);
-            ((ApstraktnaKlasa) diagramElement).setMethods(newMethods);
+            ((AbstractClass) diagramElement).setAttributes(newAtributes);
+            ((AbstractClass) diagramElement).setMethods(newMethods);
         }
     }
 
@@ -204,23 +204,23 @@ public class EditCommand extends AbstractCommand {
             attributes.addAll(((Enum)diagramElement).getAttributes());
             methods.addAll(((Enum)diagramElement).getMethods());
         }
-        else if(diagramElement instanceof ApstraktnaKlasa){
-            attributes.addAll(((ApstraktnaKlasa)diagramElement).getAttributes());
-            methods.addAll(((ApstraktnaKlasa)diagramElement).getMethods());
+        else if(diagramElement instanceof AbstractClass){
+            attributes.addAll(((AbstractClass)diagramElement).getAttributes());
+            methods.addAll(((AbstractClass)diagramElement).getMethods());
         }
 
         // convertujem attributes i methods u string format
         StringBuilder attributesString = new StringBuilder();
         for (ClassContent attribute : attributes) {
-            if(attribute instanceof Atribut){
-                attributesString.append(attribute.getVidljivost()).append(((Atribut) attribute).getAttributeName()).append("\n");
+            if(attribute instanceof Attribute){
+                attributesString.append(attribute.getVidljivost()).append(((Attribute) attribute).getAttributeName()).append("\n");
             }
         }
 
         StringBuilder methodsString = new StringBuilder();
         for (ClassContent method : methods) {
-            if(method instanceof Metoda){
-                methodsString.append(method.getVidljivost()).append(((Metoda) method).getMethodName()).append("\n");
+            if(method instanceof Method){
+                methodsString.append(method.getVidljivost()).append(((Method) method).getMethodName()).append("\n");
             }
         }
 
@@ -234,7 +234,7 @@ public class EditCommand extends AbstractCommand {
         else if(diagramElement instanceof Enum){
             data.setType("Enum Class");
         }
-        else if(diagramElement instanceof ApstraktnaKlasa){
+        else if(diagramElement instanceof AbstractClass){
             data.setType("Abstract Class");
         }
         data.setAttributes(attributesString.toString());

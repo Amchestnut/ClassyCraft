@@ -29,12 +29,12 @@ public class ScreenshotAction extends AbstractClassyAction {
         JScrollPane jScrollPane = (JScrollPane) packageView.getTabbedPane().getSelectedComponent();
         DiagramView diagramView = packageView.getDiagramViewFromScrollPane(jScrollPane);
 
-        Rectangle viewRect = jScrollPane.getViewport().getViewRect();                                           // ONLY the visible part (from viewport)
+        Rectangle viewRect = jScrollPane.getViewport().getViewRect(); // ONLY the visible part (from viewport)
 
         BufferedImage image = new BufferedImage(viewRect.width, viewRect.height, BufferedImage.TYPE_INT_ARGB);  // create an img of the size of the visible rectangle
-        Graphics2D g2d = image.createGraphics();                                                                // Use the DiagramView's paint method to draw only the visible part onto the image's graphics context - andrija
+        Graphics2D g2d = image.createGraphics();  // Use the DiagramView's paint method to draw only the visible part onto the image's graphics context - andrija
 
-        g2d.translate(-viewRect.x, -viewRect.y);                                                                // pomeramo offset diagramView, da bi uhvatili tacan deo
+        g2d.translate(-viewRect.x, -viewRect.y);   // Changing the offset of diagramview, to catch the right part
         diagramView.paint(g2d);
         g2d.dispose();
 

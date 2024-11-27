@@ -25,7 +25,7 @@ public class SaveProjectAction extends AbstractClassyAction {
 
         if(MainFrame.getInstance().getClassyTree().getSelectedNode() == null ||
                 !(MainFrame.getInstance().getClassyTree().getSelectedNode().getClassyNode() instanceof Project)){
-            ApplicationFramework.getInstance().getMessageGenerator().generateMessage("Morate selektovati neki Project!", MessageType.ERROR);
+            ApplicationFramework.getInstance().getMessageGenerator().generateMessage("You need to select a Project!", MessageType.ERROR);
             return;
         }
 

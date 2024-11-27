@@ -1,6 +1,38 @@
 {
   "@class" : "raf.dsw.classycraft.app.model.modelImplementation.Diagram",
   "name" : "Diagram1",
-  "children" : [ "java.util.ArrayList", [ ] ],
+  "children" : [ "java.util.ArrayList", [ {
+    "@class" : "raf.dsw.classycraft.app.model.diagramElements.elements.Klasa",
+    "name" : "+EmptyName",
+    "stroke" : 3,
+    "color" : -49088,
+    "location" : [ "java.awt.Point", {
+      "x" : 938.0,
+      "y" : 676.0
+    } ],
+    "dimension" : [ "java.awt.Dimension", {
+      "width" : 100.0,
+      "height" : 70.0
+    } ],
+    "attributes" : [ "java.util.ArrayList", [ ] ],
+    "methods" : [ "java.util.ArrayList", [ ] ],
+    "abstraction" : ""
+  }, {
+    "@class" : "raf.dsw.classycraft.app.model.diagramElements.elements.Klasa",
+    "name" : "+EmptyName",
+    "stroke" : 3,
+    "color" : -49088,
+    "location" : [ "java.awt.Point", {
+      "x" : 1164.0,
+      "y" : 847.0
+    } ],
+    "dimension" : [ "java.awt.Dimension", {
+      "width" : 100.0,
+      "height" : 70.0
+    } ],
+    "attributes" : [ "java.util.ArrayList", [ ] ],
+    "methods" : [ "java.util.ArrayList", [ ] ],
+    "abstraction" : ""
+  } ] ],
   "path" : "src\\main\\resources\\galleryOfDiagrams\\Diagram1"
 }

@@ -1,8 +1,11 @@
 package raf.dsw.classycraft.app.model.diagramElements.elements;
 
-public class Atribut extends ClassContent{
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
+@JsonTypeName("Attribute")
+public class Attribute extends ClassContent{
     private String attributeName;
-    public Atribut(String vidljivost, String attributeName) {
+    public Attribute(String vidljivost, String attributeName) {
         super(vidljivost);
         this.attributeName = attributeName;
     }
@@ -27,7 +30,7 @@ public class Atribut extends ClassContent{
         return stringBuilder.toString();
     }
 
-    public Atribut(){       //Za JSON
+    public Attribute(){       //Za JSON
         super();
     }
     public String getAttributeName() {

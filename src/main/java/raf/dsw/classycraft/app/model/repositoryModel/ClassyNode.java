@@ -1,9 +1,22 @@
 package raf.dsw.classycraft.app.model.repositoryModel;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import raf.dsw.classycraft.app.model.diagramElements.DiagramElement;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "@class")
+//@JsonTypeInfo(
+//        use = JsonTypeInfo.Id.NAME,
+//        include = JsonTypeInfo.As.PROPERTY,
+//        property = "type")
+//@JsonSubTypes({
+//        @JsonSubTypes.Type(value = ClassyNodeComposite.class, name = "Composite"),
+//        @JsonSubTypes.Type(value = DiagramElement.class, name = "DiagramElement"),
+//        // Add other direct subclasses
+//})
+
+
 public abstract class ClassyNode {
     @JsonIgnore
     private ClassyNode parent;

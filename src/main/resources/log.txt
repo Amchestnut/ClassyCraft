@@ -1,0 +1,15 @@
+[ERROR][27.11.2024][12:12] Morate selektovati neki Project!
+[ERROR][27.11.2024][12:12] Morate selektovati neki Project!
+[ERROR][27.11.2024][12:23] Morate selektovati neki Project!
+[ERROR][27.11.2024][12:28] Morate selektovati neki Project!
+[ERROR][27.11.2024][12:29] Morate selektovati neki Project!
+[ERROR][27.11.2024][12:50] Morate selektovati neki Project!
+[ERROR][27.11.2024][18:59] Morate selektovati neki Package da bi ste ucitali diagram!
+[ERROR][27.11.2024][19:0] Morate selektovati neki Project!
+[ERROR][27.11.2024][19:1] Morate selektovati neki Diagram!
+[ERROR][27.11.2024][19:1] Morate selektovati neki Diagram!
+[ERROR][27.11.2024][19:6] Morate selektovati neki Diagram!
+[ERROR][27.11.2024][19:6] Morate selektovati neki Diagram!
+[ERROR][27.11.2024][19:6] Morate selektovati neki Project!
+[ERROR][27.11.2024][19:7] Morate selektovati neki Project!
+[ERROR][27.11.2024][19:7] Morate selektovati neki Diagram!

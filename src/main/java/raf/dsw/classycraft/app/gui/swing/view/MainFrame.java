@@ -1,6 +1,7 @@
 package raf.dsw.classycraft.app.gui.swing.view;
 
 import raf.dsw.classycraft.app.controller.ActionManager;
+import raf.dsw.classycraft.app.controller.commandActions.CommandManager;
 import raf.dsw.classycraft.app.core.ApplicationFramework;
 import raf.dsw.classycraft.app.gui.swing.logger.LoggerFactory;
 import raf.dsw.classycraft.app.gui.swing.messanger.MessageType;
@@ -18,6 +19,7 @@ public class MainFrame extends JFrame implements ISubscriber {
     private ClassyTree classyTree;
     private JTree projectExplorer;
     private PackageView packageView;
+    private CommandManager commandManager;
 
     //buduca polja za sve komponente view-a na glavnom prozoru
 
@@ -30,6 +32,7 @@ public class MainFrame extends JFrame implements ISubscriber {
         packageView = new PackageView();
         actionManager.getUndoAction().setEnabled(false);
         actionManager.getRedoAction().setEnabled(false);
+        commandManager = new CommandManager();
 
         Toolkit kit = Toolkit.getDefaultToolkit();
         Dimension screenSize = kit.getScreenSize();
@@ -125,4 +128,7 @@ public class MainFrame extends JFrame implements ISubscriber {
         this.packageView = packageView;
     }
 
+    public CommandManager getCommandManager() {
+        return commandManager;
+    }
 }

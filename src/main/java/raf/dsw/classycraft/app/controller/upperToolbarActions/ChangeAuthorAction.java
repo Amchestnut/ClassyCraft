@@ -27,10 +27,10 @@ public class ChangeAuthorAction extends AbstractClassyAction {
         if(MainFrame.getInstance().getClassyTree().getSelectedNode() != null) {
             ClassyNode selected = MainFrame.getInstance().getClassyTree().getSelectedNode().getClassyNode();
             if (selected instanceof Diagram) {
-                ApplicationFramework.getInstance().getMessageGenerator().generateMessage("Morate selektovati neki Project!", MessageType.ERROR);
+                ApplicationFramework.getInstance().getMessageGenerator().generateMessage("You need to select a Project!", MessageType.ERROR);
             } else if (selected instanceof ClassyNodeComposite) {
                 if (!(selected instanceof Project)) {
-                    ApplicationFramework.getInstance().getMessageGenerator().generateMessage("Morate selektovati neki Project!", MessageType.ERROR);
+                    ApplicationFramework.getInstance().getMessageGenerator().generateMessage("You need to select a Project!", MessageType.ERROR);
                     return;
                 }
                 String entered = MainFrame.getInstance().enterAuthorNewName();
@@ -40,7 +40,7 @@ public class ChangeAuthorAction extends AbstractClassyAction {
             }
         }
         else{
-            ApplicationFramework.getInstance().getMessageGenerator().generateMessage("Morate selektovati neki Project!", MessageType.ERROR);
+            ApplicationFramework.getInstance().getMessageGenerator().generateMessage("You need to select a Project!", MessageType.ERROR);
         }
     }
 }

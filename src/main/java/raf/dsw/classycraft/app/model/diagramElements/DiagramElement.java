@@ -1,5 +1,10 @@
 package raf.dsw.classycraft.app.model.diagramElements;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import raf.dsw.classycraft.app.model.diagramElements.elements.Enum;
+import raf.dsw.classycraft.app.model.diagramElements.elements.Interfejs;
+import raf.dsw.classycraft.app.model.diagramElements.elements.Klasa;
 import raf.dsw.classycraft.app.model.repositoryModel.ClassyNode;
 import raf.dsw.classycraft.app.notifications.NotificationForChangedColor;
 import raf.dsw.classycraft.app.observer.IPublisher;
@@ -7,6 +12,18 @@ import raf.dsw.classycraft.app.observer.ISubscriber;
 
 import java.util.ArrayList;
 import java.util.List;
+
+//@JsonTypeInfo(
+//        use = JsonTypeInfo.Id.NAME,
+//        include = JsonTypeInfo.As.PROPERTY,
+//        property = "type")
+//@JsonSubTypes({
+//        @JsonSubTypes.Type(value = Klasa.class, name = "Class"),
+//        @JsonSubTypes.Type(value = Interfejs.class, name = "Interface"),
+//        @JsonSubTypes.Type(value = Enum.class, name = "EnumElement"),
+//        // Add other subclasses
+//})
+
 
 public abstract class DiagramElement extends ClassyNode implements IPublisher, Cloneable {
     private int stroke;

@@ -19,20 +19,29 @@ public class SaveDiagramAction extends AbstractClassyAction {
         putValue(NAME, "Save diagram");
         putValue(SHORT_DESCRIPTION, "Save diagram");
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if(MainFrame.getInstance().getClassyTree().getSelectedNode() == null ||
                 !(MainFrame.getInstance().getClassyTree().getSelectedNode().getClassyNode() instanceof Diagram)){
-            ApplicationFramework.getInstance().getMessageGenerator().generateMessage("Morate selektovati neki Diagram!", MessageType.ERROR);
+            ApplicationFramework.getInstance().getMessageGenerator().generateMessage("You need to select a Diagram!", MessageType.ERROR);
             return;
         }
 
         Diagram diagram = (Diagram) MainFrame.getInstance().getClassyTree().getSelectedNode().getClassyNode();
-        File diagramFile = new File("src/main/resources/galleryOfDiagrams/" + diagram.getName());
+        File diagramFile = null;
 
         if (diagram.getPath() == null || diagram.getPath().isEmpty()) {
-            diagram.setPath(diagramFile.getPath());
+            JFileChooser jFileChooser = new JFileChooser();
+            if (jFileChooser.showSaveDialog(MainFrame.getInstance()) == JFileChooser.APPROVE_OPTION) {
+                diagramFile = jFileChooser.getSelectedFile();
+                diagram.setPath(diagramFile.getPath());
+            } else {
+                return; // User cancelled
+            }
         }
+
         ApplicationFramework.getInstance().getSerializer().saveDiagram(diagram);
+//        System.out.println("Diagram saved successfully.");
     }
 }

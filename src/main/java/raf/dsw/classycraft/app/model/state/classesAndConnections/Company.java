@@ -45,9 +45,9 @@ public class Company extends AbstractFactory{
             ((Klasa)interclass).setMethods(metode);
         }
         else if(type.equalsIgnoreCase("Abstract Class")){
-            interclass = new ApstraktnaKlasa(0xFFFFFF40, 3, name, location, dimension);
-            ((ApstraktnaKlasa)interclass).setAttributes(atributi);
-            ((ApstraktnaKlasa)interclass).setMethods(metode);
+            interclass = new AbstractClass(0xFFFFFF40, 3, name, location, dimension);
+            ((AbstractClass)interclass).setAttributes(atributi);
+            ((AbstractClass)interclass).setMethods(metode);
         }
         else if(type.equalsIgnoreCase("Interface")){  // ako je korisnik kliknuo dodavanje interfejsa, ovde pravimo interfejs
             interclass = new Interfejs(0xFF40FF40, 3, name, location, dimension);
@@ -71,7 +71,7 @@ public class Company extends AbstractFactory{
                     String visibility = String.valueOf(pojedinacanAtribut.charAt(0));
                     String attributeName = pojedinacanAtribut.substring(1).trim();
 
-                    atributi.add(new Atribut(visibility, attributeName));
+                    atributi.add(new Attribute(visibility, attributeName));
                 }
             }
         }
@@ -86,7 +86,7 @@ public class Company extends AbstractFactory{
                     String visibility = String.valueOf(pojedinacnaMetoda.charAt(0));
                     String attributeName = pojedinacnaMetoda.substring(1).trim();
 
-                    metode.add(new Metoda(visibility, attributeName));
+                    metode.add(new Method(visibility, attributeName));
                 }
             }
         }
@@ -109,7 +109,7 @@ public class Company extends AbstractFactory{
         Connection connection = null;
 
         if(type.equalsIgnoreCase("asocijacija")){
-            connection = new Asocijacija(0xff000000,5, "Veza asocijacije", "asocijacija", interclassOD, interclassDO);
+            connection = new AssociationConnection(0xff000000,5, "Veza asocijacije", "asocijacija", interclassOD, interclassDO);
 
             connection.setVisibilityOfTheFirstElement(visibilityOfTheFirstElement);
             connection.setInstanceOfTheFirstElement(instanceOfTheFirstElement);
@@ -121,16 +121,16 @@ public class Company extends AbstractFactory{
 
         }
         else if(type.equalsIgnoreCase("nasledjivanje")){
-            connection = new Nasledjivanje(0xff000000,5, "Veza nasledjivanja", "nasledjivanje", interclassOD, interclassDO);
+            connection = new InheritanceConnection(0xff000000,5, "Veza nasledjivanja", "nasledjivanje", interclassOD, interclassDO);
         }
         else if(type.equalsIgnoreCase("realizacija")){
-            connection = new Realizacija(0xff000000,5, "Veza realizacije", "realizacija", interclassOD, interclassDO);
+            connection = new RealisationConnection(0xff000000,5, "Veza realizacije", "realizacija", interclassOD, interclassDO);
         }
         else if(type.equalsIgnoreCase("zavisnost")){
-            connection = new Zavisnost(0xff000000,5, "Veza zavisnosti", "zavisnost", interclassOD, interclassDO);
+            connection = new DependencyConnection(0xff000000,5, "Veza zavisnosti", "zavisnost", interclassOD, interclassDO);
         }
         else if(type.equalsIgnoreCase("agregacija")){
-            connection = new Agregacija(0xff000000,5, "Veza agregacije", "agregacija", interclassOD, interclassDO);
+            connection = new AggregationConnection(0xff000000,5, "Veza agregacije", "agregacija", interclassOD, interclassDO);
 
             connection.setVisibilityOfTheFirstElement(visibilityOfTheFirstElement);
             connection.setInstanceOfTheFirstElement(instanceOfTheFirstElement);
@@ -141,7 +141,7 @@ public class Company extends AbstractFactory{
             connection.setKardinalnostOfTheSecondElement(kardinalnostOfTheSecondElement);
         }
         else if(type.equalsIgnoreCase("kompozicija")){
-            connection = new Kompozicija(0xff000000,5, "Veza kompozicije", "kompozicija", interclassOD, interclassDO);
+            connection = new CompositionConnection(0xff000000,5, "Veza kompozicije", "kompozicija", interclassOD, interclassDO);
 
             connection.setVisibilityOfTheFirstElement(visibilityOfTheFirstElement);
             connection.setInstanceOfTheFirstElement(instanceOfTheFirstElement);
@@ -167,8 +167,8 @@ public class Company extends AbstractFactory{
         for(ClassContent cc : atributi){
             counterAttribute++;
             String currentAttribute = null;
-            if(cc instanceof Atribut){
-                currentAttribute = ((Atribut) cc).getAttributeName();
+            if(cc instanceof Attribute){
+                currentAttribute = ((Attribute) cc).getAttributeName();
             }
             int stringSize = 0;
             if(currentAttribute != null){
@@ -179,8 +179,8 @@ public class Company extends AbstractFactory{
         for(ClassContent cc : metode){
             counterMethod++;
             String currentMethod = null;
-            if(cc instanceof Metoda){
-                currentMethod = ((Metoda) cc).getMethodName();
+            if(cc instanceof Method){
+                currentMethod = ((Method) cc).getMethodName();
             }
             int stringSize = 0;
             if(currentMethod != null){

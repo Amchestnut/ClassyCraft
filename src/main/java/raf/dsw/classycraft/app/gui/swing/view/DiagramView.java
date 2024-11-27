@@ -840,8 +840,8 @@ public class DiagramView extends JPanel implements ISubscriber {
                 DiagramElement diagramElement = ((InterfejsPainter)painter).getDiagramElement();
                 diagramElement.setColor(0xFF40FF40);
             }
-            else if(painter instanceof ApstraknaKlasaPainter){
-                DiagramElement diagramElement = ((ApstraknaKlasaPainter)painter).getDiagramElement();
+            else if(painter instanceof AbstractClassPainter){
+                DiagramElement diagramElement = ((AbstractClassPainter)painter).getDiagramElement();
                 diagramElement.setColor(0xFFFFFF40);
             }
             else if(painter instanceof EnumPainter){

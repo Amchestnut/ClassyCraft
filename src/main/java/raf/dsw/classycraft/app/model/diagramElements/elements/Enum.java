@@ -1,10 +1,13 @@
 package raf.dsw.classycraft.app.model.diagramElements.elements;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@JsonTypeName("Enum")
 public class Enum extends Interclass{
     private List<ClassContent> attributes;
     private List<ClassContent> methods;

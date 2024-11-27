@@ -1,7 +1,2 @@
-<<<<<<< HEAD
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/-0SayETg)
-Igor Gajic RN 78/2023
-Andrija Milikic RN 84/2023
-=======
 ClassyCraft - Software tool used to make UML Class Diagrams
->>>>>>> 63dd82542fe4994ab5b7f917ee4e0a2276a23ce2
+

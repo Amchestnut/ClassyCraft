@@ -8,6 +8,7 @@ import java.util.List;
 public class CommandManager {
     private List<AbstractCommand> commands;
     private int currentCommand;
+    private boolean isLoading = false; // New flag for serialisation, we dont want commands to be present when loaded
 
     public CommandManager() {
         this.currentCommand = 0;
@@ -15,20 +16,29 @@ public class CommandManager {
     }
 
     public void addCommand(AbstractCommand command){
+        if (isLoading) {
+            return; // Skip adding commands during loading
+        }
         while(currentCommand < commands.size())
             commands.remove(currentCommand);
         commands.add(command);
         doCommand();
     }
-    public void doCommand(){
-        if(currentCommand < commands.size()){
+
+    public void doCommand() {
+        if (isLoading) {
+            return; // Skip command execution during loading
+        }
+
+        if (currentCommand < commands.size()) {
             commands.get(currentCommand++).doCommand();
             MainFrame.getInstance().getActionManager().getUndoAction().setEnabled(true);
         }
-        if(currentCommand == commands.size()){
+        if (currentCommand == commands.size()) {
             MainFrame.getInstance().getActionManager().getRedoAction().setEnabled(false);
         }
     }
+
     public void undoCommand(){
         if(currentCommand > 0){
             commands.get(--currentCommand).undoCommand();
@@ -61,5 +71,9 @@ public class CommandManager {
             MainFrame.getInstance().getActionManager().getUndoAction().setEnabled(true);
             MainFrame.getInstance().getActionManager().getRedoAction().setEnabled(false);
         }
+    }
+
+    public void setLoading(boolean loading) {
+        this.isLoading = loading;
     }
 }

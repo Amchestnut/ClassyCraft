@@ -22,7 +22,7 @@ public class AddClassyNodeAction extends AbstractClassyAction {
     public void actionPerformed(ActionEvent e) {
         ClassyTreeItem selected = MainFrame.getInstance().getClassyTree().getSelectedNode();
         if(selected == null){
-            ApplicationFramework.getInstance().getMessageGenerator().generateMessage("Morate selektovati Project Explorer!", MessageType.ERROR);
+            ApplicationFramework.getInstance().getMessageGenerator().generateMessage("You need to select a Project Explorer!", MessageType.ERROR);
             return;
         }
         MainFrame.getInstance().getClassyTree().addChild(selected);

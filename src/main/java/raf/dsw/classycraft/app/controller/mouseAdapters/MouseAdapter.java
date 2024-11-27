@@ -5,14 +5,10 @@ import raf.dsw.classycraft.app.gui.swing.view.MainFrame;
 
 import java.awt.event.MouseEvent;
 
-/*  MouseAdapter koriscen jer ako bi koristio MouseListener morao bih da implementiram svih 8 metoda
+public class MouseAdapter extends java.awt.event.MouseAdapter {
 
-    *** Ako kliknemo na DIAGRAMVIEW, OVDE SE TO REGISTRUJE
-    - Vidi u klasi MouseAdapter koje sve metode jos imaju i kako da ih koristis
-    - ako slucajno negde koristim Mouseadapter.getDiagramView moguce da sam preksrsio mvc
- */
-public class MouseAdapter extends java.awt.event.MouseAdapter {                 // ovde cuvam DIAGRAM VIEW
-
+    // If we click on DiagramView, it is registered here
+    // We listen to clicks that were made on the DiagramView`
     private DiagramView diagramView;
 
     public MouseAdapter(DiagramView diagramView) {

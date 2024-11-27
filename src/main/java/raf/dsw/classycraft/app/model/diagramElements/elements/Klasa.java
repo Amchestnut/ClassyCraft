@@ -1,5 +1,6 @@
 package raf.dsw.classycraft.app.model.diagramElements.elements;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import raf.dsw.classycraft.app.model.diagramElements.connections.*;
 
 import java.awt.*;
@@ -7,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@JsonTypeName("Klasa")
 public class Klasa extends Interclass{
     private List<ClassContent> attributes;
     private List<ClassContent> methods;
@@ -60,7 +62,7 @@ public class Klasa extends Interclass{
             stringBuilder.append("\t").append(classContent.export()).append("\n");
         }
         for(Connection connection : getAllConnectionsOnThisInterclass()){       //za sakrivene
-            if(connection instanceof Zavisnost && connection.getInterclassOD().equals(this)){
+            if(connection instanceof DependencyConnection && connection.getInterclassOD().equals(this)){
                 Interclass druga = connection.getInterclassDO();
 
                 String temp = String.valueOf(druga.getName().charAt(0));
@@ -83,7 +85,7 @@ public class Klasa extends Interclass{
 
                 stringBuilder.append("\t").append(vidljivost).append(ime).append(" ").append(ime.toLowerCase()).append(";\n");
             }
-            if(connection instanceof Asocijacija){
+            if(connection instanceof AssociationConnection){
                 Interclass druga;
                 if(connection.getInterclassOD().equals(this))
                     druga = connection.getInterclassDO();
@@ -110,7 +112,7 @@ public class Klasa extends Interclass{
 
                 stringBuilder.append("\t").append(vidljivost).append(ime).append(" ").append(ime.toLowerCase()).append(";\n");
             }
-            if(connection instanceof Agregacija && connection.getInterclassOD().equals(this)){
+            if(connection instanceof AggregationConnection && connection.getInterclassOD().equals(this)){
                 Interclass druga = connection.getInterclassDO();
 
                 String temp = String.valueOf(druga.getName().charAt(0));
@@ -133,7 +135,7 @@ public class Klasa extends Interclass{
 
                 stringBuilder.append("\t").append(vidljivost).append(ime).append(" ").append(ime.toLowerCase()).append(";\n");
             }
-            if(connection instanceof Kompozicija && connection.getInterclassOD().equals(this)){
+            if(connection instanceof CompositionConnection && connection.getInterclassOD().equals(this)){
                 Interclass druga = connection.getInterclassDO();
 
                 String temp = String.valueOf(druga.getName().charAt(0));
@@ -183,7 +185,7 @@ public class Klasa extends Interclass{
         for(Connection connection : getAllConnectionsOnThisInterclass()){
             if(connection.getInterclassOD().equals(this)){
                 Interclass interclass = connection.getInterclassDO();
-                if(connection instanceof Realizacija) {
+                if(connection instanceof RealisationConnection) {
                     String temp = String.valueOf(interclass.getName().charAt(0));
                     if(temp.equals("+"))
                         temp = "\\+";
@@ -191,7 +193,7 @@ public class Klasa extends Interclass{
                     String ime = interclass.getName().split(temp)[1];
                     stringBuilder.append(" implements " + ime);
                 }
-                else if(connection instanceof Nasledjivanje){
+                else if(connection instanceof InheritanceConnection){
                     String tmp = String.valueOf(interclass.getName().charAt(0));
                     if(tmp.equals("+"))
                         tmp = "\\+";

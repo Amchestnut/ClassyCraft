@@ -1,24 +1,26 @@
 package raf.dsw.classycraft.app.model.diagramElements.elements;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import raf.dsw.classycraft.app.model.diagramElements.connections.Connection;
-import raf.dsw.classycraft.app.model.diagramElements.connections.Nasledjivanje;
-import raf.dsw.classycraft.app.model.diagramElements.connections.Realizacija;
+import raf.dsw.classycraft.app.model.diagramElements.connections.InheritanceConnection;
+import raf.dsw.classycraft.app.model.diagramElements.connections.RealisationConnection;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class ApstraktnaKlasa extends Interclass{
+@JsonTypeName("AbstractClass")
+public class AbstractClass extends Interclass{
     private List<ClassContent> attributes;
     private List<ClassContent> methods;
 
-    public ApstraktnaKlasa(int color, int stroke, String name, Point location, Dimension dimension) {       // recept za crtanje
+    public AbstractClass(int color, int stroke, String name, Point location, Dimension dimension) {       // recept za crtanje
         super(color, stroke, name, location, dimension);
         attributes = new ArrayList<>();
         methods = new ArrayList<>();
     }
-    public ApstraktnaKlasa(){ //za Json, nema drugu svrhu
+    public AbstractClass(){ //za Json, nema drugu svrhu
         attributes = new ArrayList<>();
         methods = new ArrayList<>();
     }
@@ -92,10 +94,10 @@ public class ApstraktnaKlasa extends Interclass{
         for(Connection connection : getAllConnectionsOnThisInterclass()){
             if(connection.getInterclassOD().equals(this)){
                 Interclass interclass = connection.getInterclassDO();
-                if(connection instanceof Realizacija) {
+                if(connection instanceof RealisationConnection) {
                     stringBuilder.append(" implements ").append(interclass.getName());
                 }
-                else if(connection instanceof Nasledjivanje){
+                else if(connection instanceof InheritanceConnection){
                     String tmp = String.valueOf(interclass.getName().charAt(0));
                     if(tmp.equals("+"))
                         tmp = "\\+";

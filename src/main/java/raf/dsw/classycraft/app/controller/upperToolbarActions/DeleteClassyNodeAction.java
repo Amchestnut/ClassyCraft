@@ -24,7 +24,7 @@ public class DeleteClassyNodeAction extends AbstractClassyAction {
     public void actionPerformed(ActionEvent e) {
         ClassyTreeItem selected = MainFrame.getInstance().getClassyTree().getSelectedNode();
         if(selected == null){
-            ApplicationFramework.getInstance().getMessageGenerator().generateMessage("Morate selektovati node da biste ga izbrisali!", MessageType.ERROR);
+            ApplicationFramework.getInstance().getMessageGenerator().generateMessage("You need to select a Node in order to delete him!", MessageType.ERROR);
             return;
         }
         if(selected.getClassyNode() instanceof Project){

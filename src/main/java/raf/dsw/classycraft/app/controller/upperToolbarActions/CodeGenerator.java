@@ -3,7 +3,7 @@ package raf.dsw.classycraft.app.controller.upperToolbarActions;
 import raf.dsw.classycraft.app.controller.AbstractClassyAction;
 import raf.dsw.classycraft.app.gui.swing.view.MainFrame;
 import raf.dsw.classycraft.app.model.diagramElements.connections.Connection;
-import raf.dsw.classycraft.app.model.diagramElements.elements.ApstraktnaKlasa;
+import raf.dsw.classycraft.app.model.diagramElements.elements.AbstractClass;
 import raf.dsw.classycraft.app.model.diagramElements.elements.Enum;
 import raf.dsw.classycraft.app.model.diagramElements.elements.Interfejs;
 import raf.dsw.classycraft.app.model.diagramElements.elements.Klasa;
@@ -69,9 +69,9 @@ public class CodeGenerator extends AbstractClassyAction {
                                             writeExport(diagramElement, writer);
                                             writer.write(((Enum)diagramElement).export());
                                         }
-                                        else if(diagramElement instanceof ApstraktnaKlasa){
+                                        else if(diagramElement instanceof AbstractClass){
                                             writeExport(diagramElement, writer);
-                                            writer.write(((ApstraktnaKlasa) diagramElement).export());
+                                            writer.write(((AbstractClass) diagramElement).export());
                                         }
                                     } catch (IOException ex) {
                                         ex.printStackTrace();

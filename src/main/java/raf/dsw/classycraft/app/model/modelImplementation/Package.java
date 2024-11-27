@@ -1,5 +1,6 @@
 package raf.dsw.classycraft.app.model.modelImplementation;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import raf.dsw.classycraft.app.model.repositoryModel.ClassyNode;
 import raf.dsw.classycraft.app.model.repositoryModel.ClassyNodeComposite;
 import raf.dsw.classycraft.app.notifications.NotificationForAddingAndRemoving;
@@ -11,6 +12,7 @@ import raf.dsw.classycraft.app.observer.ISubscriber;
 import java.util.ArrayList;
 import java.util.List;
 
+@JsonTypeName("Package")
 public class Package extends ClassyNodeComposite implements IPublisher {
     private String path;
     private transient List<ISubscriber> subs;

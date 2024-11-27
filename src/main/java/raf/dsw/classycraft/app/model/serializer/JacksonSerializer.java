@@ -1,5 +1,6 @@
 package raf.dsw.classycraft.app.model.serializer;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
@@ -21,52 +22,45 @@ import java.util.List;
 
 public class JacksonSerializer {
     private final ObjectMapper objectMapper;
-    public JacksonSerializer(){
-        List<ClassyNode> a = new ArrayList<>();
+
+    public JacksonSerializer() {
         objectMapper = new ObjectMapper();
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-        PolymorphicTypeValidator ptv = BasicPolymorphicTypeValidator.builder()              //prihvatamo ove tipove podataka (bunio se dzekson)
-                .allowIfSubType(Project.class)
-                .allowIfSubType(Package.class)
-                .allowIfSubType(Diagram.class)
-                .allowIfSubType(Klasa.class)
-                .allowIfSubType(ApstraktnaKlasa.class)
-                .allowIfSubType(Enum.class)
-                .allowIfSubType(Interfejs.class)
-                .allowIfSubType(Agregacija.class)
-                .allowIfSubType(Asocijacija.class)
-                .allowIfSubType(Kompozicija.class)
-                .allowIfSubType(Nasledjivanje.class)
-                .allowIfSubType(Realizacija.class)
-                .allowIfSubType(Zavisnost.class)
-                .allowIfSubType(Point.class)
-                .allowIfSubType("java.util.List")
-                .allowIfSubType("java.util.ArrayList")
-                .allowIfSubType("java.awt.Point")
-                .allowIfSubType("java.awt.Dimension")
-                .allowIfSubType(Atribut.class)
-                .allowIfSubType(Metoda.class)
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        // Enable default typing with a base package or trusted types
+        PolymorphicTypeValidator ptv = BasicPolymorphicTypeValidator.builder()
+                .allowIfBaseType("raf.dsw.classycraft.app.model")
+                .allowIfSubType("java.util.")
+                .allowIfSubType("java.awt.") // Allow all java.awt classes
                 .build();
+
         objectMapper.activateDefaultTyping(ptv, ObjectMapper.DefaultTyping.NON_FINAL);
     }
+
     public void saveProject(Project project) {
-        try (FileWriter writer = new FileWriter(project.getPath())) {
-            objectMapper.writeValue(writer, project);
+        try {
+            objectMapper.writeValue(new File(project.getPath()), project);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    public Project loadProject(File file){
-        try (FileReader fileReader = new FileReader(file)) {
-            return objectMapper.readValue(fileReader, Project.class);
+
+    public Project loadProject(File file) {
+        try {
+            return objectMapper.readValue(file, Project.class);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
     }
+
     public void saveDiagram(Diagram diagram){
-        try (FileWriter writer = new FileWriter(diagram.getPath())) {
-            objectMapper.writeValue(writer, diagram);
+//        try (FileWriter writer = new FileWriter(diagram.getPath())) {
+//            objectMapper.writeValue(writer, diagram);
+        try{
+            System.out.println("PRINTING FROM JACKSON");
+            objectMapper.writeValue(new File(diagram.getPath()), diagram);
         } catch (IOException e) {
             e.printStackTrace();
         }

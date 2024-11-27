@@ -80,22 +80,22 @@ public class AddConnectionCommand extends AbstractCommand {
 
 
         ElementPainter elementPainter = null;
-        if(diagramElement instanceof Asocijacija){
+        if(diagramElement instanceof AssociationConnection){
             elementPainter = new AsocijacijaPainter(interclassOD, interclassDO, diagramElement);            /// PROMENJENO JE sa interclassPainter na interclassu ZBOG KONEKCIONIH TACAKA
         }
-        else if(diagramElement instanceof Nasledjivanje){
+        else if(diagramElement instanceof InheritanceConnection){
             elementPainter = new NasledjivanjePainter(interclassOD, interclassDO, diagramElement);
         }
-        else if(diagramElement instanceof Realizacija){
+        else if(diagramElement instanceof RealisationConnection){
             elementPainter = new RealizacijaPainter(interclassOD, interclassDO, diagramElement);
         }
-        else if(diagramElement instanceof Zavisnost){
+        else if(diagramElement instanceof DependencyConnection){
             elementPainter = new ZavisnostPainter(interclassOD, interclassDO, diagramElement);
         }
-        else if(diagramElement instanceof Agregacija){
-            elementPainter = new AgregacijaPainter(interclassOD, interclassDO, diagramElement);
+        else if(diagramElement instanceof AggregationConnection){
+            elementPainter = new AggregationPainter(interclassOD, interclassDO, diagramElement);
         }
-        else if(diagramElement instanceof Kompozicija){
+        else if(diagramElement instanceof CompositionConnection){
             elementPainter = new KompozicijaPainter(interclassOD, interclassDO, diagramElement);
         }
         return elementPainter;

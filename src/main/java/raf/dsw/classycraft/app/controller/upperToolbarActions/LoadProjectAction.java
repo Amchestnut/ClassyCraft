@@ -42,22 +42,37 @@ public class LoadProjectAction extends AbstractClassyAction {
             }
         }
     }
-    public void loadProject(Project project){
-        ClassyTreeItem parent = MainFrame.getInstance().getClassyTree().getRoot();
-        if(project == null)
-            return;
-        MainFrame.getInstance().getPackageView().dodajMeKaoSubscribera(project);
-        ClassyTreeItem itemForProject = new ClassyTreeItem(project);
-        ((ClassyNodeComposite) parent.getClassyNode()).addChild(project);                           // ali moram da ga isto i dodam u model        (za Model)
-        parent.add(itemForProject);                                                    // ovo sluzi da se prikaze na stablu (view)    (za JTree)
 
-        addChildrenFromLoadProjectRecurively(null, itemForProject);             //rekurzija bato
+    public void loadProject(Project project) {
+        if (project == null) {
+            return;   // Project is null, skipping load
+        }
 
-        if (parent.getClassyNode() instanceof ProjectExplorer || parent.getClassyNode() instanceof Project)
-            MainFrame.getInstance().getClassyTree().getTreeView().expandPath(MainFrame.getInstance().getClassyTree().getTreeView().getSelectionPath());
-        SwingUtilities.updateComponentTreeUI(MainFrame.getInstance().getClassyTree().getTreeView());
-        MainFrame.getInstance().getPackageView().repaint();
+        // Set loading mode
+        MainFrame.getInstance().getCommandManager().setLoading(true);
+
+        try {
+            ClassyTreeItem parent = MainFrame.getInstance().getClassyTree().getRoot();
+            MainFrame.getInstance().getPackageView().dodajMeKaoSubscribera(project);
+            ClassyTreeItem itemForProject = new ClassyTreeItem(project);
+            ((ClassyNodeComposite) parent.getClassyNode()).addChild(project);
+            parent.add(itemForProject);
+            addChildrenFromLoadProjectRecurively(null, itemForProject);
+
+            if (parent.getClassyNode() instanceof ProjectExplorer || parent.getClassyNode() instanceof Project) {
+                MainFrame.getInstance().getClassyTree().getTreeView().expandPath(
+                        MainFrame.getInstance().getClassyTree().getTreeView().getSelectionPath()
+                );
+            }
+            SwingUtilities.updateComponentTreeUI(MainFrame.getInstance().getClassyTree().getTreeView());
+            MainFrame.getInstance().getPackageView().repaint();
+        }
+        finally {
+            // Reset loading mode
+            MainFrame.getInstance().getCommandManager().setLoading(false);
+        }
     }
+
     private ClassyTreeItem addChildrenFromLoadProjectRecurively(ClassyTreeItem parent, ClassyTreeItem child){
         if(child == null)
             return null;
@@ -66,7 +81,7 @@ public class LoadProjectAction extends AbstractClassyAction {
             if(parent != null) {
                 parent.add(child);
             }
-            for(ClassyNode childOfChild : ((ClassyNodeComposite) child.getClassyNode()).getChildren()){         //ide kroz listu dece i redom ih dodaje u stablo, i ovako
+            for(ClassyNode childOfChild : ((ClassyNodeComposite) child.getClassyNode()).getChildren()){         // Goes through the list of children and adds them to the tree
                 childOfChild.setParent(child.getClassyNode());
 
                 ClassyTreeItem novi = addChildrenFromLoadProjectRecurively(child, new ClassyTreeItem(childOfChild));
@@ -80,16 +95,18 @@ public class LoadProjectAction extends AbstractClassyAction {
             if(child.getClassyNode().getParent() == null){
                 child.getClassyNode().setParent(parent.getClassyNode());
             }
-            ((Package) child.getClassyNode()).notifySubscribers(new NotificationForOpeningPackage(child.getClassyNode(), null));      //ako je dete paket otvori ga (da bi se napravili diagramViewi)
+            // If the child is a package, open it (so the diagramView's can be made)
+            ((Package) child.getClassyNode()).notifySubscribers(new NotificationForOpeningPackage(child.getClassyNode(), null));
         }
         if(child.getClassyNode() instanceof Diagram) {
-            addChildToDiagramFromLoadProject(child, parent);                                                                    //rekurzija za veze i klase
+            addChildToDiagramFromLoadProject(child, parent);    // Recursion for classes and connections
             ((Diagram) child.getClassyNode()).notifySubscribers(new NotificationForResettingCommandManager((Diagram) child.getClassyNode()));
         }
         return child;
     }
 
-    public void addChildToDiagramFromLoadProject(ClassyTreeItem diagramItem, ClassyTreeItem parent) {                          //rekurzija za veze i klase (za sad samo klase jbg)
+    // Recursion for classes and connections
+    public void addChildToDiagramFromLoadProject(ClassyTreeItem diagramItem, ClassyTreeItem parent) {
         if (diagramItem.getClassyNode() instanceof Diagram) {
 
             if(parent.getClassyNode() instanceof Package){
@@ -105,7 +122,7 @@ public class LoadProjectAction extends AbstractClassyAction {
                 if(!(element instanceof DiagramElement))
                     continue;
                 element.setParent(diagram);
-                SwingUtilities.updateComponentTreeUI(MainFrame.getInstance().getClassyTree().getTreeView());             // odmah se prikazi
+                SwingUtilities.updateComponentTreeUI(MainFrame.getInstance().getClassyTree().getTreeView());    // Show yourself now
             }
         }
     }
