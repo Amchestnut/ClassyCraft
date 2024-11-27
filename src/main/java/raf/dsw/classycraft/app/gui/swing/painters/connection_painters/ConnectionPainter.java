@@ -1,4 +1,4 @@
-package raf.dsw.classycraft.app.gui.swing.painters.veze;
+package raf.dsw.classycraft.app.gui.swing.painters.connection_painters;
 
 import raf.dsw.classycraft.app.gui.swing.painters.ElementPainter;
 import raf.dsw.classycraft.app.model.diagramElements.DiagramElement;
@@ -11,15 +11,15 @@ import java.awt.geom.Rectangle2D;
 
 public class ConnectionPainter extends ElementPainter {
 
-    private DiagramElement interclassOD;
-    private DiagramElement interclassDO;
+    private DiagramElement interclassFROM;
+    private DiagramElement interclassTO;
     private Line2D myConnection = null;
     private DiagramElement diagramElement;
     private Rectangle2D rectangleAroundConnection;
 
-    public ConnectionPainter(DiagramElement interclassOD, DiagramElement interclassDO, DiagramElement diagramElement) {
-        this.interclassOD = interclassOD;
-        this.interclassDO = interclassDO;
+    public ConnectionPainter(DiagramElement interclassFROM, DiagramElement interclassTO, DiagramElement diagramElement) {
+        this.interclassFROM = interclassFROM;
+        this.interclassTO = interclassTO;
         this.diagramElement = diagramElement;
     }
 
@@ -31,14 +31,14 @@ public class ConnectionPainter extends ElementPainter {
         Point first = null;
         Point second = null;
 
-        if(interclassOD instanceof Interclass && interclassDO instanceof Interclass){
-            if(((Interclass) interclassOD).getKonekcioneTacke().isEmpty())
-                ((Interclass) interclassOD).setKonekcioneTacke(interclassOD);
-            if(((Interclass) interclassDO).getKonekcioneTacke().isEmpty())
-                ((Interclass) interclassDO).setKonekcioneTacke(interclassDO);
+        if(interclassFROM instanceof Interclass && interclassTO instanceof Interclass){
+            if(((Interclass) interclassFROM).getKonekcioneTacke().isEmpty())
+                ((Interclass) interclassFROM).setKonekcioneTacke(interclassFROM);
+            if(((Interclass) interclassTO).getKonekcioneTacke().isEmpty())
+                ((Interclass) interclassTO).setKonekcioneTacke(interclassTO);
 
-            for(Point p1 : ((Interclass) interclassOD).getKonekcioneTacke()){
-                for(Point p2 : ((Interclass) interclassDO).getKonekcioneTacke()){
+            for(Point p1 : ((Interclass) interclassFROM).getKonekcioneTacke()){
+                for(Point p2 : ((Interclass) interclassTO).getKonekcioneTacke()){
                     double distance = p1.distance(p2);
                     if(distance < minDistance){
                         minDistance = distance;
@@ -224,37 +224,37 @@ public class ConnectionPainter extends ElementPainter {
 
         g.setColor(Color.BLACK);
         g.setStroke(new BasicStroke(3));
-        g.drawLine(arrowSide1.x, arrowSide1.y, to.x, to.y);         // prva linija strelice
-        g.drawLine(arrowSide2.x, arrowSide2.y, to.x, to.y);         // druga linija strelice
+        g.drawLine(arrowSide1.x, arrowSide1.y, to.x, to.y);         // First arrow line
+        g.drawLine(arrowSide2.x, arrowSide2.y, to.x, to.y);         // Second arrow line
 
         g.setStroke(new BasicStroke(3));
 
-        double drugiUgao = Math.atan2(from.y - to.y, from.x - to.x);
+        double secondAngle = Math.atan2(from.y - to.y, from.x - to.x);
 
         int offsetDistance = 16;
         Point newTo = new Point(
-                (int) (from.x - offsetDistance * Math.cos(drugiUgao)),
-                (int) (from.y - offsetDistance * Math.sin(drugiUgao))
+                (int) (from.x - offsetDistance * Math.cos(secondAngle)),
+                (int) (from.y - offsetDistance * Math.sin(secondAngle))
         );
 
         int diamondLength = 8;
         int diamondWidth = diamondLength * 2;
 
         Point diamondLeft = new Point(
-                (int) (newTo.x + diamondLength * Math.cos(drugiUgao + Math.PI / 2)),
-                (int) (newTo.y + diamondLength * Math.sin(drugiUgao + Math.PI / 2))
+                (int) (newTo.x + diamondLength * Math.cos(secondAngle + Math.PI / 2)),
+                (int) (newTo.y + diamondLength * Math.sin(secondAngle + Math.PI / 2))
         );
         Point diamondRight = new Point(
-                (int) (newTo.x + diamondLength * Math.cos(drugiUgao - Math.PI / 2)),
-                (int) (newTo.y + diamondLength * Math.sin(drugiUgao - Math.PI / 2))
+                (int) (newTo.x + diamondLength * Math.cos(secondAngle - Math.PI / 2)),
+                (int) (newTo.y + diamondLength * Math.sin(secondAngle - Math.PI / 2))
         );
         Point diamondTip = new Point(
-                (int) (newTo.x + diamondWidth * Math.cos(drugiUgao)),
-                (int) (newTo.y + diamondWidth * Math.sin(drugiUgao))
+                (int) (newTo.x + diamondWidth * Math.cos(secondAngle)),
+                (int) (newTo.y + diamondWidth * Math.sin(secondAngle))
         );
         Point diamondBase = new Point(
-                (int) (newTo.x - diamondWidth * Math.cos(drugiUgao)),
-                (int) (newTo.y - diamondWidth * Math.sin(drugiUgao))
+                (int) (newTo.x - diamondWidth * Math.cos(secondAngle)),
+                (int) (newTo.y - diamondWidth * Math.sin(secondAngle))
         );
 
         Polygon diamond = new Polygon();
@@ -270,8 +270,8 @@ public class ConnectionPainter extends ElementPainter {
         g.drawPolygon(diamond);
 
         int colorCode = diagramElement.getColor();
-        Color bojica = new Color(colorCode, true);
-        g.setColor(bojica);
+        Color currentColor = new Color(colorCode, true);
+        g.setColor(currentColor);
         g.drawLine(diamondBase.x, diamondBase.y, to.x, to.y);
     }
 
@@ -293,64 +293,64 @@ public class ConnectionPainter extends ElementPainter {
 
         g.setColor(Color.BLACK);
         g.setStroke(new BasicStroke(3));
-        g.drawLine(arrowSide1.x, arrowSide1.y, to.x, to.y);         // prva linija strelice
-        g.drawLine(arrowSide2.x, arrowSide2.y, to.x, to.y);         // druga linija strelice
+        g.drawLine(arrowSide1.x, arrowSide1.y, to.x, to.y);
+        g.drawLine(arrowSide2.x, arrowSide2.y, to.x, to.y);
 
-        // sada radimo dijamant
+        // Now we draw the diamond
         g.setStroke(new BasicStroke(3));
 
-        // direkcija linija
-        double drugiUgao = Math.atan2(from.y - to.y, from.x - to.x);
+        // Direction of the lines
+        double secondAngle = Math.atan2(from.y - to.y, from.x - to.x);
 
-        // pomerim 'to' blize za 16 pixela
+        // Move that closer, for 16 pixels
         int offsetDistance = 16;
         Point newTo = new Point(
-                (int) (from.x - offsetDistance * Math.cos(drugiUgao)),
-                (int) (from.y - offsetDistance * Math.sin(drugiUgao))
+                (int) (from.x - offsetDistance * Math.cos(secondAngle)),
+                (int) (from.y - offsetDistance * Math.sin(secondAngle))
         );
 
-        // velicina dijamanta
-        int diamondLength = 8; // poluprecnik
-        int diamondWidth = diamondLength * 2; // precnik
+        // Diamond size
+        int diamondLength = 8; // radius
+        int diamondWidth = diamondLength * 2; // diameter
 
         Point diamondLeft = new Point(
-                (int) (newTo.x + diamondLength * Math.cos(drugiUgao + Math.PI / 2)),
-                (int) (newTo.y + diamondLength * Math.sin(drugiUgao + Math.PI / 2))
+                (int) (newTo.x + diamondLength * Math.cos(secondAngle + Math.PI / 2)),
+                (int) (newTo.y + diamondLength * Math.sin(secondAngle + Math.PI / 2))
         );
         Point diamondRight = new Point(
-                (int) (newTo.x + diamondLength * Math.cos(drugiUgao - Math.PI / 2)),
-                (int) (newTo.y + diamondLength * Math.sin(drugiUgao - Math.PI / 2))
+                (int) (newTo.x + diamondLength * Math.cos(secondAngle - Math.PI / 2)),
+                (int) (newTo.y + diamondLength * Math.sin(secondAngle - Math.PI / 2))
         );
         Point diamondTip = new Point(
-                (int) (newTo.x + diamondWidth * Math.cos(drugiUgao)),
-                (int) (newTo.y + diamondWidth * Math.sin(drugiUgao))
+                (int) (newTo.x + diamondWidth * Math.cos(secondAngle)),
+                (int) (newTo.y + diamondWidth * Math.sin(secondAngle))
         );
         Point diamondBase = new Point(
-                (int) (newTo.x - diamondWidth * Math.cos(drugiUgao)),
-                (int) (newTo.y - diamondWidth * Math.sin(drugiUgao))
+                (int) (newTo.x - diamondWidth * Math.cos(secondAngle)),
+                (int) (newTo.y - diamondWidth * Math.sin(secondAngle))
         );
 
-        // ovde ga crtam, tj tacke
+        // Here we draw it (the points)
         Polygon diamond = new Polygon();
         diamond.addPoint(diamondBase.x, diamondBase.y);
         diamond.addPoint(diamondLeft.x, diamondLeft.y);
         diamond.addPoint(diamondTip.x, diamondTip.y);
         diamond.addPoint(diamondRight.x, diamondRight.y);
 
-        // boja popuni
+        // Fill it with color
         g.setColor(Color.BLACK);
         g.fillPolygon(diamond);
 
-        // crtaj od , do
+        // Draw From-To
         int colorCode = diagramElement.getColor();
-        Color bojica = new Color(colorCode, true);
-        g.setColor(bojica);
+        Color currentColor = new Color(colorCode, true);
+        g.setColor(currentColor);
         g.drawLine(diamondBase.x, diamondBase.y, to.x, to.y);
     }
 
 
     @Override
-    public boolean elementAt(DiagramElement diagramElement, Point location) {          // da li se nalazi neki element na TOJ TACKI
+    public boolean elementAt(DiagramElement diagramElement, Point location) { // Is there an element on this point?
         return getRectangleAroundConnection().contains(location);
     }
 
@@ -362,20 +362,20 @@ public class ConnectionPainter extends ElementPainter {
         this.myConnection = myConnection;
     }
 
-    public DiagramElement getInterclassOD() {
-        return interclassOD;
+    public DiagramElement getinterclassFROM() {
+        return interclassFROM;
     }
 
-    public void setInterclassOD(DiagramElement interclassOD) {
-        this.interclassOD = interclassOD;
+    public void setinterclassFROM(DiagramElement interclassFROM) {
+        this.interclassFROM = interclassFROM;
     }
 
-    public DiagramElement getInterclassDO() {
-        return interclassDO;
+    public DiagramElement getinterclassTO() {
+        return interclassTO;
     }
 
-    public void setInterclassDO(DiagramElement interclassDO) {
-        this.interclassDO = interclassDO;
+    public void setinterclassTO(DiagramElement interclassTO) {
+        this.interclassTO = interclassTO;
     }
 
     public DiagramElement getDiagramElement() {

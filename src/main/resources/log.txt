@@ -13,3 +13,5 @@
 [ERROR][27.11.2024][19:6] Morate selektovati neki Project!
 [ERROR][27.11.2024][19:7] Morate selektovati neki Project!
 [ERROR][27.11.2024][19:7] Morate selektovati neki Diagram!
+[ERROR][27.11.2024][21:53] You can't move the element here, because he intersects with someone!
+[ERROR][27.11.2024][21:53] You can't move the element here, because he intersects with someone!

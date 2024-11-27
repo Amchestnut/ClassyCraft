@@ -1,8 +1,8 @@
 package raf.dsw.classycraft.app.model.state.functions;
 
 import raf.dsw.classycraft.app.gui.swing.painters.ElementPainter;
-import raf.dsw.classycraft.app.gui.swing.painters.elementi.InterclassPainter;
-import raf.dsw.classycraft.app.gui.swing.painters.veze.ConnectionPainter;
+import raf.dsw.classycraft.app.gui.swing.painters.element_painters.InterclassPainter;
+import raf.dsw.classycraft.app.gui.swing.painters.connection_painters.ConnectionPainter;
 import raf.dsw.classycraft.app.gui.swing.view.DiagramView;
 import raf.dsw.classycraft.app.model.diagramElements.DiagramElement;
 import raf.dsw.classycraft.app.model.diagramElements.connections.Connection;
@@ -12,14 +12,15 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 /*
-      -Prolazimo kroz sve paintere
-      - ako je instanca interclasa (moramo zbog castovanja, a i super je fora, jer ako je veza, necemo je uopste "menjati" nego samo selektovati)
-      - ako se neki painter nalazi na tacki koja je trenutno KLIKNUTA
-      - promeni mu boju u crnu
+      - Iterate through all painters.
+      - If the instance is an interclass (this is necessary for casting, and it's a cool feature because if it's a connection, we won't "change" it, only select it).
+      - If a painter is located at the point currently CLICKED,
+      - Change its color to black.
 
-      - znaci moram u MODELU da promenim boju na crnu
-      - kad promenim boju u MODELU, trigeruje se notify, i ide odma repaint (tehnicki cim se bilo sta promeni)
+      - This means I need to change the color to black in the MODEL.
+      - When the color is changed in the MODEL, it triggers a notify, which immediately causes a repaint (technically, repaint happens as soon as any change occurs).
  */
+
 public class SelectState implements State {
 
     private Point pocetnaTackaZaPravougaonik;
@@ -30,7 +31,7 @@ public class SelectState implements State {
         pocetnaTackaZaPravougaonik = new Point(x, y);
 
         boolean somethingWasSelectedBefore = false;
-        if(!diagramView.getSelectionedRectangles().isEmpty()){       // ako je neki vec bio kliknut, izbaci ga iz liste da bi kliknuo novi
+        if(!diagramView.getSelectionedRectangles().isEmpty()){       // If any was clicked before, kick him off to create a new one
             diagramView.getSelectionedRectangles().clear();
             somethingWasSelectedBefore = true;
         }
@@ -44,8 +45,8 @@ public class SelectState implements State {
         }
 
         for(ElementPainter painter : diagramView.getPainters()){
-            if(painter instanceof InterclassPainter){               // ako jeste, onda zelim da mu promenim boju
-                if(painter.elementAt(painter.getDiagramElement(), new Point(x, y))){    // ako se nalazi tu, TRUE
+            if(painter instanceof InterclassPainter){   // If yes, I want to change his color
+                if(painter.elementAt(painter.getDiagramElement(), new Point(x, y))){   // If he is there, TRUE
                     DiagramElement diagramElement = painter.getDiagramElement();
                     diagramElement.setColor(0xFFFFFFFF);
                     diagramView.addRectangleToSelected(painter);
@@ -83,16 +84,16 @@ public class SelectState implements State {
         diagramView.setSelectionRectangle(selectionRect);
 
         for(ElementPainter painter : diagramView.getPainters()) {
-            // Da li pravougaonik sece klase?
+            // Does the rectangle intersects with classes?
             if(painter instanceof InterclassPainter){
                 Rectangle painterBounds = ((InterclassPainter) painter).getShape().getBounds();
                 if(painterBounds.intersects(selectionRect)){
                     DiagramElement diagramElement = painter.getDiagramElement();
-                    diagramElement.setColor(0xFFFFFFFF);                      // ovo sredjuje observer
+                    diagramElement.setColor(0xFFFFFFFF);                      // This is handled by observer
                     diagramView.addRectangleToSelected(painter);
                 }
             }
-            // da li pravougaonik sece linije?
+            // Does the rectangle intersects with connections?
             else if (painter instanceof ConnectionPainter) {
                 Rectangle2D rectangleAroundConnection = ((ConnectionPainter) painter).getRectangleAroundConnection();
                 if (rectangleAroundConnection != null && rectangleAroundConnection.intersects(selectionRect)) {

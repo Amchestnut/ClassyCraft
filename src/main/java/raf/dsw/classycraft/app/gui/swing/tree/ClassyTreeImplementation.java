@@ -40,31 +40,32 @@ public class ClassyTreeImplementation implements ClassyTree {
             return;
         setChangedOnProject(child);
         dodajSubscribere(child);
-        parent.add(new ClassyTreeItem(child));                                                    // ovo sluzi da se prikaze na stablu (view)    (za JTree)
-        ((ClassyNodeComposite) parent.getClassyNode()).addChild(child);                           // ali moram da ga isto i dodam u model        (za Model)
+        parent.add(new ClassyTreeItem(child)); // this is in order to show on the Tree (view) for JTree
+        ((ClassyNodeComposite) parent.getClassyNode()).addChild(child);  // we need to add it also in the model (for the Model)
 
         if (parent.getClassyNode() instanceof ProjectExplorer || parent.getClassyNode() instanceof Project || parent.getClassyNode() instanceof Diagram)
             treeView.expandPath(treeView.getSelectionPath());
-        SwingUtilities.updateComponentTreeUI(treeView);                                           // "refresh"
+        SwingUtilities.updateComponentTreeUI(treeView); // "refresh"
     }
     public void addChildToDiagram(ClassyTreeItem parent, DiagramElement diagramElement) {
         if (parent.getClassyNode() instanceof Diagram) {
             // dodajemo i interclase i veze
             ClassyTreeItem child = new ClassyTreeItem(diagramElement);
             parent.add(child);
-            treeView.expandPath(treeView.getSelectionPath());           // expanduj
-            SwingUtilities.updateComponentTreeUI(treeView);             // odmah se prikazi
+            treeView.expandPath(treeView.getSelectionPath()); // expand
+            SwingUtilities.updateComponentTreeUI(treeView);   // show yourself immediately
         }
     }
     @Override
     public void deleteNode(ClassyTreeItem currentItem) {
         ClassyNode node = currentItem.getClassyNode();
         if (node instanceof ProjectExplorer) {
-            ApplicationFramework.getInstance().getMessageGenerator().generateMessage("Ne mozete obrisati ProjectExplorer", MessageType.ERROR);
+            ApplicationFramework.getInstance().getMessageGenerator().generateMessage("You can't delete Project Explorer", MessageType.ERROR);
             return;
         }
-        currentItem.removeFromParent();             /// iz classyTreeItem, u ovom trenutku sa leve strane smo otkacili PACKAGE npr
-                                                    /// ovo ispod sluzi za brisanje sa DESNE strane
+        currentItem.removeFromParent(); // From classyTreeItem, at this moment from the Left side we removed the Package for example
+
+        // This is for deleting from the Right side
         if(node instanceof Diagram){
             ((Diagram) node).removeFromParent();
         }
@@ -93,16 +94,16 @@ public class ClassyTreeImplementation implements ClassyTree {
         }
         return null;
     }
-    private FactoryMethod getUserChoiceForPackageChild() {            // we do this here bcz Utils is not a UI component
+    private FactoryMethod getUserChoiceForPackageChild() {  // we do this here bcz Utils is not a UI component
         Object[] options = {"New Package", "New Diagram"};
         int choice = JOptionPane.showOptionDialog(null, // Parent component
                 "What would you like to add to the package?", // Message
                 "Select Node Type", // Title
                 JOptionPane.YES_NO_OPTION, // Option type
                 JOptionPane.QUESTION_MESSAGE, // Message type
-                null, // ikonica
+                null, // icon
                 options,
-                options[0]); // Default opcija
+                options[0]); // Default option
 
         if (choice == JOptionPane.YES_OPTION)
             return new PackageFactory();

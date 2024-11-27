@@ -42,14 +42,14 @@ public class Diagram extends ClassyNodeComposite implements IPublisher {
     }
     @Override
     public boolean addChild(ClassyNode classyNode) {
-        notifySubscribers(new NotificationForAddingAndRemoving("ADD", classyNode));   // tehnicki nepotrebno, jer se painteri ubacuju direkt
+        notifySubscribers(new NotificationForAddingAndRemoving("ADD", classyNode));   // Technically, not needed, because the painters are directly added
         classyNode.setParent(this);
         return this.getChildren().add(classyNode);
     }
 
     @Override
     public void deleteChild(ClassyNode classyNode) {
-        notifySubscribers(new NotificationForAddingAndRemoving("REMOVE", classyNode)); // izbrisana INTERKLASA iz modela, reci to view-u
+        notifySubscribers(new NotificationForAddingAndRemoving("REMOVE", classyNode)); // Deteled Interclass from the model, tell that to the view!
         this.getChildren().remove(classyNode);
     }
     @Override

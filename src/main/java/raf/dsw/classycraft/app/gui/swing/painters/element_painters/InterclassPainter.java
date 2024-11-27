@@ -1,4 +1,4 @@
-package raf.dsw.classycraft.app.gui.swing.painters.elementi;
+package raf.dsw.classycraft.app.gui.swing.painters.element_painters;
 
 import raf.dsw.classycraft.app.gui.swing.painters.ElementPainter;
 import raf.dsw.classycraft.app.model.diagramElements.DiagramElement;
@@ -10,7 +10,7 @@ import java.awt.geom.GeneralPath;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InterclassPainter extends ElementPainter {         /// nacrtaj me kako je model ima recept da me nacrta
+public class InterclassPainter extends ElementPainter {     // Draw me like as the information contained in the model
 
     protected Shape shape;
     private DiagramElement diagramElement;
@@ -21,8 +21,7 @@ public class InterclassPainter extends ElementPainter {         /// nacrtaj me k
     }
     @Override
     public void paint(Graphics2D g) {
-
-        drawShape();                                // crtaj oblik za prosledjenu klasu. (takodje se trigeruje za move state)
+        drawShape();  // Draw the shape for the given class (also triggered for "Move state")
         int strokeWidth = diagramElement.getStroke();
         Stroke stroke = new BasicStroke(strokeWidth);
 
@@ -45,7 +44,7 @@ public class InterclassPainter extends ElementPainter {         /// nacrtaj me k
         int y = 0;
         if(diagramElement instanceof Interclass){
             x = ((Interclass)diagramElement).getLocation().x;
-            y = ((Interclass)diagramElement).getLocation().y + 8;       // korekcija
+            y = ((Interclass)diagramElement).getLocation().y + 8;       // correction
         }
 
         int PADDING = 1;
@@ -60,15 +59,15 @@ public class InterclassPainter extends ElementPainter {         /// nacrtaj me k
             FontMetrics fm = g.getFontMetrics();
             int stringWidth = fm.stringWidth(name);
             int elementWidth = ((Interclass)diagramElement).getDimension().width;
-            int centerX = x + (elementWidth - stringWidth) / 2;                     // centar pravougaonika
-            g.drawString(name, centerX, y + PADDING);                            // pisi to ime u centar
+            int centerX = x + (elementWidth - stringWidth) / 2;                     // Rectangle center
+            g.drawString(name, centerX, y + PADDING);                            // Write the name in the center
         }
 
         int currentY = LINE_HEIGHT;
         int lineAfterAttributesY = 0;
         boolean containsAttribute = false;
 
-        // pisanje atributa i metoda za klasu
+        // The process of writing attributes and methods for Class
         if(diagramElement instanceof Klasa){
             for (ClassContent attribute : ((Klasa)diagramElement).getAttributes()) {
                 if(attribute instanceof Attribute){
@@ -79,11 +78,11 @@ public class InterclassPainter extends ElementPainter {         /// nacrtaj me k
                 }
             }
             if(containsAttribute){
-                lineAfterAttributesY = y + currentY - 9;        // za iscrtavanje linije, normalno kad ima sve atribute, kao i pre
+                lineAfterAttributesY = y + currentY - 9;        // for drawing lines, when we have attributes
             }
             else{
                 currentY += 10;
-                lineAfterAttributesY = y + currentY - 9;        // za iscrtavanje linije kad nema atributa, da ostane prazan prostor
+                lineAfterAttributesY = y + currentY - 9;        // for drawing lines, when we dont have attributes
             }
 
             for (ClassContent method : ((Klasa)diagramElement).getMethods()) {
@@ -94,10 +93,11 @@ public class InterclassPainter extends ElementPainter {         /// nacrtaj me k
                 }
             }
         }
-        // pisanje atributa i metoda za interfejs
+
+        // The process of writing methods for Interface
         if(diagramElement instanceof Interfejs){
             currentY += 10;
-            lineAfterAttributesY = y + currentY - 9;        // za iscrtavanje linije
+            lineAfterAttributesY = y + currentY - 9;        // for drawing lines
             for (ClassContent method : ((Interfejs)diagramElement).getMethods()) {
                 if(method instanceof Method){
                     String sb = method.getVidljivost() + ((Method) method).getMethodName();
@@ -106,7 +106,8 @@ public class InterclassPainter extends ElementPainter {         /// nacrtaj me k
                 }
             }
         }
-        // pisanje atributa i metoda za enum
+
+        // The process of writing attributes and methods for Enum
         if(diagramElement instanceof Enum){
             for (ClassContent attribute : ((Enum)diagramElement).getAttributes()) {
                 if(attribute instanceof Attribute){
@@ -131,7 +132,8 @@ public class InterclassPainter extends ElementPainter {         /// nacrtaj me k
                 }
             }
         }
-        // pisanje atributa i metoda za apstrakt class
+
+        // The process of writing attributes and methods for Abstract class
         if(diagramElement instanceof AbstractClass){
             for (ClassContent attribute : ((AbstractClass)diagramElement).getAttributes()) {
                 if(attribute instanceof Attribute){
@@ -142,11 +144,11 @@ public class InterclassPainter extends ElementPainter {         /// nacrtaj me k
                 }
             }
             if(containsAttribute){
-                lineAfterAttributesY = y + currentY - 9;        // za iscrtavanje linije, normalno kad ima sve atribute, kao i pre
+                lineAfterAttributesY = y + currentY - 9;  // explained in "class" process
             }
             else{
                 currentY += 10;
-                lineAfterAttributesY = y + currentY - 9;        // za iscrtavanje linije kad nema atributa, da ostane prazan prostor
+                lineAfterAttributesY = y + currentY - 9;
             }
             for (ClassContent method : ((AbstractClass)diagramElement).getMethods()) {
                 if(method instanceof Method){
@@ -161,8 +163,8 @@ public class InterclassPainter extends ElementPainter {         /// nacrtaj me k
         Dimension dimension = ((Interclass)diagramElement).getDimension();
 
         g.setColor(Color.BLACK); // Line color
-        g.drawLine(x, lineAfterNameY, x + dimension.width, lineAfterNameY);                    // line after name
-        g.drawLine(x, lineAfterAttributesY, x + dimension.width, lineAfterAttributesY);         // line after attributes
+        g.drawLine(x, lineAfterNameY, x + dimension.width, lineAfterNameY);  // line after name
+        g.drawLine(x, lineAfterAttributesY, x + dimension.width, lineAfterAttributesY);  // line after attributes
     }
 
     @Override
@@ -176,7 +178,7 @@ public class InterclassPainter extends ElementPainter {         /// nacrtaj me k
         Point currentLocation = interclass.getLocation();
         Dimension dimension = interclass.getDimension();
 
-        // updajteujem shape koordinate
+        // Updating shape coordinates
         shape = new GeneralPath();
         ((GeneralPath)shape).moveTo(currentLocation.x, currentLocation.y);
         ((GeneralPath)shape).lineTo(currentLocation.x + dimension.width, currentLocation.y);

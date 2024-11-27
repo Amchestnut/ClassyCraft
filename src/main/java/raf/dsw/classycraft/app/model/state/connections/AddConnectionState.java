@@ -3,7 +3,7 @@ package raf.dsw.classycraft.app.model.state.connections;
 import raf.dsw.classycraft.app.controller.commandActions.AbstractCommand;
 import raf.dsw.classycraft.app.controller.commandActions.commands.AddConnectionCommand;
 import raf.dsw.classycraft.app.gui.swing.painters.ElementPainter;
-import raf.dsw.classycraft.app.gui.swing.painters.elementi.InterclassPainter;
+import raf.dsw.classycraft.app.gui.swing.painters.element_painters.InterclassPainter;
 import raf.dsw.classycraft.app.gui.swing.view.DiagramView;
 import raf.dsw.classycraft.app.model.diagramElements.DiagramElement;
 import raf.dsw.classycraft.app.model.diagramElements.connections.DataForConnection;
@@ -36,7 +36,7 @@ public class AddConnectionState implements State {
     @Override
     public void misOtpusten(int x, int y, DiagramView diagramView) {
         diagramView.setTemporaryLine(null);
-        diagramView.repaint();                                 // BUGFIX, repaint da bi se odmah obrisala ova linija "temporary" kad otpustimo mis
+        diagramView.repaint();   // BUGFIX, repaint in order to immediately delete this temporary line when we release the mouse!
 
         if(interclassPainterFROM instanceof InterclassPainter && interclassPainterTO instanceof InterclassPainter){
             DiagramElement diagramElement1 = interclassPainterFROM.getDiagramElement();
@@ -47,7 +47,7 @@ public class AddConnectionState implements State {
                 return;
             }
 
-            // Here we get the data for connections. Here we check if its NULL, and never later - andrija
+            // Here we get the data for connections. Here we check if its NULL, and never later
             DataForConnection dataForConnection = diagramView.kojuVezuHoceUser();
             if(dataForConnection == null)
                 return;
@@ -67,7 +67,7 @@ public class AddConnectionState implements State {
             Line2D linija = new Line2D.Double(new Point(initialPointClicked.x, initialPointClicked.y), new Point(x, y));
             diagramView.setTemporaryLine(linija);
 
-            interclassPainterTO = null;                     // BIG BRAIN BUGFIX, uvek se setuje na null ovaj TO, inace bi prilikom prevlacenja uvek zahvatio klasu iz koje krece, pa bi crtao vezu samu na sebe!!!
+            interclassPainterTO = null;  // BIG BRAIN BUGFIX, always set to null this "TO", if not, during mouse drag we would always get the class from where it starts, so it draw the connection on himself!!!
 
             for(ElementPainter painter : diagramView.getPainters()){
                 if(painter instanceof InterclassPainter){

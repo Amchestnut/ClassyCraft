@@ -17,14 +17,14 @@ public class AddDuplicateState implements State {
         ElementPainter theOneThatWillBeAdded = null;
         DiagramElement diagramElement = null;
 
-        // prvo ide provera da vidimo da li je samo jedan jedini selektovan.
+        // First goes the check to see if only 1 is selected!
         if(diagramView.getSelectionedRectangles().isEmpty()){
             ApplicationFramework.getInstance().getMessageGenerator().generateMessage(
-                    "Nemate nijedan selektovani Element da bi ste ga duplirali", MessageType.ERROR);
+                    "You dont have any selected element to duplicate!", MessageType.ERROR);
         }
         else if(diagramView.getSelectionedRectangles().size() > 1){
             ApplicationFramework.getInstance().getMessageGenerator().generateMessage(
-                    "Previse selektovanih Elemenata, izaberite samo jedan", MessageType.ERROR);
+                    "You have too much elements selected, pick only 1!", MessageType.ERROR);
         }
         else if(diagramView.getSelectionedRectangles().size() == 1){
             theOneThatWillBeAdded = diagramView.getSelectionedRectangles().get(0);
@@ -32,7 +32,7 @@ public class AddDuplicateState implements State {
 
 
         if(theOneThatWillBeAdded != null){
-            diagramElement = theOneThatWillBeAdded.getDiagramElement().clone();                    // clone !
+            diagramElement = theOneThatWillBeAdded.getDiagramElement().clone(); // clone !
         }
 
         AbstractCommand command = new AddDuplicateCommand(diagramView, diagramElement, new Point(x, y));

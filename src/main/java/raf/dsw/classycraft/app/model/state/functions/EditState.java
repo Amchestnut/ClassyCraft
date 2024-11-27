@@ -2,8 +2,8 @@ package raf.dsw.classycraft.app.model.state.functions;
 
 import raf.dsw.classycraft.app.controller.commandActions.commands.EditCommand;
 import raf.dsw.classycraft.app.gui.swing.painters.ElementPainter;
-import raf.dsw.classycraft.app.gui.swing.painters.elementi.InterclassPainter;
-import raf.dsw.classycraft.app.gui.swing.painters.veze.ConnectionPainter;
+import raf.dsw.classycraft.app.gui.swing.painters.element_painters.InterclassPainter;
+import raf.dsw.classycraft.app.gui.swing.painters.connection_painters.ConnectionPainter;
 import raf.dsw.classycraft.app.gui.swing.view.DiagramView;
 import raf.dsw.classycraft.app.model.diagramElements.DiagramElement;
 import raf.dsw.classycraft.app.model.state.State;
@@ -14,7 +14,7 @@ public class EditState implements State {
     @Override
     public void misKliknut(int x, int y, DiagramView diagramView) {
         DiagramElement diagramElement = null;
-        // zelimo da proverimo da li se klik misem sece sa bilo kojim trenutnim painterom
+        // We want to check if the current mouse click intersects with any existing painter
         for (ElementPainter painter : diagramView.getPainters()) {
             if (painter instanceof InterclassPainter) {
                 if (painter.elementAt(painter.getDiagramElement(), new Point(x, y))) {

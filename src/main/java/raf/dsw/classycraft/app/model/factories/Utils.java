@@ -20,11 +20,11 @@ public class Utils {
             return null;
         }
         else if(parent instanceof Diagram) {
-            ApplicationFramework.getInstance().getMessageGenerator().generateMessage("Ne mozete dodati nista na dijagram!", MessageType.ERROR);
+            ApplicationFramework.getInstance().getMessageGenerator().generateMessage("You can't add anything on the diagram!", MessageType.ERROR);
             return null;
         }
         else {
-            throw new IllegalArgumentException("Nepoznati tip!");
+            throw new IllegalArgumentException("Unknown type!");
         }
     }
 }

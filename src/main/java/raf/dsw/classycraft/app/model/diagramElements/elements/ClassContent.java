@@ -7,7 +7,7 @@ public abstract class ClassContent {
     public ClassContent(String vidljivost) {
         this.vidljivost = vidljivost;
     }
-    public ClassContent(){      //Za JSON, nema drugu svrhu
+    public ClassContent(){    // For jackson
 
     }
     public String getVidljivost() {

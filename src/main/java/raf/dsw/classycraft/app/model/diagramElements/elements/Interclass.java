@@ -25,7 +25,7 @@ public abstract class Interclass extends DiagramElement {
         this.location = location;
         this.dimension = dimension;
     }
-    public Interclass(){    //za Json, nema drugu svrhu
+    public Interclass(){  // For jackson
 
     }
     public abstract String export();

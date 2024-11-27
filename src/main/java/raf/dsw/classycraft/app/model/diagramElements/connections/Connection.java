@@ -28,7 +28,7 @@ public abstract class Connection extends DiagramElement {
         this.interclassOD = interclassOD;
         this.interclassDO = interclassDO;
     }
-    public Connection(){    //za Json, nema drugu svrhu
+    public Connection(){   // For jackson
 
     }
 

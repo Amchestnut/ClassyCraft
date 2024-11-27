@@ -4,7 +4,7 @@ import raf.dsw.classycraft.app.controller.commandActions.AbstractCommand;
 import raf.dsw.classycraft.app.core.ApplicationFramework;
 import raf.dsw.classycraft.app.gui.swing.messanger.MessageType;
 import raf.dsw.classycraft.app.gui.swing.painters.ElementPainter;
-import raf.dsw.classycraft.app.gui.swing.painters.elementi.InterclassPainter;
+import raf.dsw.classycraft.app.gui.swing.painters.element_painters.InterclassPainter;
 import raf.dsw.classycraft.app.gui.swing.view.DiagramView;
 import raf.dsw.classycraft.app.model.diagramElements.DiagramElement;
 import raf.dsw.classycraft.app.model.diagramElements.elements.Interclass;

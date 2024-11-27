@@ -9,7 +9,7 @@ public class RealisationConnection extends Connection{
         super(color, stroke, name, type, interclassOD, interclassDO);
     }
 
-    public RealisationConnection(){       //za Json, nema drugu svrhu
+    public RealisationConnection(){  // For jackson
 
     }
 }

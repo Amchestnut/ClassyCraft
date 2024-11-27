@@ -52,11 +52,11 @@ public class PackageView extends JLabel implements ISubscriber {
         projectName = new JLabel("\n");
         authorName = new JLabel("\n");
         tabbedPane = new JTabbedPane();
-        stateManager = new StateManager();              /// prazan, ali setovan na addKlasaState na pocetku.   mozda bolje nekako drugacije
+        stateManager = new StateManager();   // Empty, but set on addClassState in the beginning
         listOfAllDiagramViews = new ArrayList<>();
         scrollPane = new JScrollPane();
 
-        ChangeListener changeListener = new ChangeListener() {              //Lisener za promenu tabova, potreban je za setovanje commandManagera i setovanje dugmica
+        ChangeListener changeListener = new ChangeListener() {  // Listener for tab changes, needed for setting commandManager and setting buttons
             public void stateChanged(ChangeEvent changeEvent) {
                 JTabbedPane sourceTabbedPane = (JTabbedPane) changeEvent.getSource();
                 int index = sourceTabbedPane.getSelectedIndex();
@@ -235,18 +235,18 @@ public class PackageView extends JLabel implements ISubscriber {
                             listOfAllDiagramViews.add(tmp);
                         }
 
-                        for(ClassyNode deteDijagrama : ((Diagram) dete).getChildren()){     //Dodaje ucitane interklase na diagram view (i pravi ih)
-                            if(deteDijagrama instanceof Interclass){
-                                AbstractCommand command = new AddInterclassCommand(((Interclass) deteDijagrama).getLocation(), (DiagramElement) deteDijagrama, tmp);
+                        for(ClassyNode diagramChild : ((Diagram) dete).getChildren()){     // Adds loaded interclasses on diagramView (and create them)
+                            if(diagramChild instanceof Interclass){
+                                AbstractCommand command = new AddInterclassCommand(((Interclass) diagramChild).getLocation(), (DiagramElement) diagramChild, tmp);
                                 tmp.getCommandManager().addCommand(command);
                             }
                         }
 
-                        for(ClassyNode deteDijagrama : ((Diagram) dete).getChildren()){     //Dodaje ucitane veze na diagram view (i pravi ih)
-                            if(deteDijagrama instanceof Connection) {
-                                Interclass interclassOD = ((Connection) deteDijagrama).getInterclassOD();
-                                Interclass interclassDO = ((Connection) deteDijagrama).getInterclassDO();
-                                DataForConnection dataForConnection = new DataForConnection(((Connection) deteDijagrama).getType());
+                        for(ClassyNode diagramChild : ((Diagram) dete).getChildren()){     // Adds loaded connections on diagramView (and create them)
+                            if(diagramChild instanceof Connection) {
+                                Interclass interclassOD = ((Connection) diagramChild).getInterclassOD();
+                                Interclass interclassDO = ((Connection) diagramChild).getInterclassDO();
+                                DataForConnection dataForConnection = new DataForConnection(((Connection) diagramChild).getType());
 
                                 for(ClassyNode deteDiagrama2 : ((Diagram) dete).getChildren()){
                                     if(deteDiagrama2 instanceof Interclass){
@@ -261,12 +261,12 @@ public class PackageView extends JLabel implements ISubscriber {
 
                                 dataForConnection.setInterclassOD(interclassOD);
                                 dataForConnection.setInterclassDO(interclassDO);
-                                dataForConnection.setInstanceOfTheFirstElement(((Connection) deteDijagrama).getInstanceOfTheFirstElement());
-                                dataForConnection.setInstanceOfTheSecondElement(((Connection) deteDijagrama).getInstanceOfTheSecondElement());
-                                dataForConnection.setKardinalnostOfTheFirstElement(((Connection) deteDijagrama).getKardinalnostOfTheFirstElement());
-                                dataForConnection.setKardinalnostOfTheSecondElement(((Connection) deteDijagrama).getInstanceOfTheSecondElement());
-                                dataForConnection.setVisibilityOfTheFirstElement(((Connection) deteDijagrama).getVisibilityOfTheFirstElement());
-                                dataForConnection.setVisibilityOfTheSecondElement(((Connection) deteDijagrama).getVisibilityOfTheSecondElement());
+                                dataForConnection.setInstanceOfTheFirstElement(((Connection) diagramChild).getInstanceOfTheFirstElement());
+                                dataForConnection.setInstanceOfTheSecondElement(((Connection) diagramChild).getInstanceOfTheSecondElement());
+                                dataForConnection.setKardinalnostOfTheFirstElement(((Connection) diagramChild).getKardinalnostOfTheFirstElement());
+                                dataForConnection.setKardinalnostOfTheSecondElement(((Connection) diagramChild).getInstanceOfTheSecondElement());
+                                dataForConnection.setVisibilityOfTheFirstElement(((Connection) diagramChild).getVisibilityOfTheFirstElement());
+                                dataForConnection.setVisibilityOfTheSecondElement(((Connection) diagramChild).getVisibilityOfTheSecondElement());
 
                                 AbstractCommand command = new AddConnectionCommand(interclassOD, interclassDO, tmp, dataForConnection, true);
                                 tmp.getCommandManager().addCommand(command);
@@ -305,10 +305,10 @@ public class PackageView extends JLabel implements ISubscriber {
     }
 
     private Point applyTransformation(Point originalPoint, DiagramView paintedPanel) {
-        AffineTransform transform = paintedPanel.getTransform();        // Ovde dobijem transformaciju
+        AffineTransform transform = paintedPanel.getTransform();        // Here I get the transformation
         Point newPoint = new Point();
         try {
-            transform.inverseTransform(originalPoint, newPoint);        // Ovde je inversujem
+            transform.inverseTransform(originalPoint, newPoint);        // Here I inverse it
         } catch (NoninvertibleTransformException e) {
             e.printStackTrace();
         }
@@ -318,14 +318,14 @@ public class PackageView extends JLabel implements ISubscriber {
     public void misJeKliknut(int x, int y, DiagramView diagramView){
         Point p = applyTransformation(new Point(x,y),diagramView);
 
-        /// ako su neki elementi bili kliknuti, ovde ih vrati na pocetnu boju.       VAZI SAMO ZA NEKE STATE-ve, ne za sve!
+        // If some elements were clicked, here we return them back on original color (only for some states, not all)
         State s = this.stateManager.getCurrentState();
         if(s instanceof AddInterclassState || s instanceof ZoomState || s instanceof AddConnectionState || s instanceof ZoomToFitState || s instanceof EditState){
             diagramView.getSelectionedRectangles().clear();
             diagramView.getSelectionedConnections().clear();
             diagramView.backToOriginalColor();
         }
-        this.stateManager.getCurrentState().misKliknut(p.x, p.y, diagramView);  // za trenutni state, pozove metodu misKliknut, pozove metodu u NEKI State
+        this.stateManager.getCurrentState().misKliknut(p.x, p.y, diagramView);  // For current state, call method misKliknut, and then call method in some State
     }
     public void misJeOtpusten(int x, int y, DiagramView diagramView){
         Point p = applyTransformation(new Point(x,y),diagramView);
@@ -341,7 +341,7 @@ public class PackageView extends JLabel implements ISubscriber {
     }
 
 
-    public DiagramView getDiagramViewFromScrollPane(JScrollPane scrollPane) {   // za screenshot, da bi izvukli diagramview iz JScrollPane
+    public DiagramView getDiagramViewFromScrollPane(JScrollPane scrollPane) {   // for screenshot, dto take out diagramView from JScrollPane
         for (DiagramView diagramView : listOfAllDiagramViews) {
             if (scrollPane.getViewport().getView() == diagramView) {
                 return diagramView;
@@ -386,7 +386,7 @@ public class PackageView extends JLabel implements ISubscriber {
         this.stateManager.setZoomToFitState();
     }
 
-    //geteri i seteri
+    // Getters and setters
     public JLabel getProjectName() {
         return projectName;
     }

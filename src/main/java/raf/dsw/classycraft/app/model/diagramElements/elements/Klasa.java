@@ -12,12 +12,12 @@ import java.util.Objects;
 public class Klasa extends Interclass{
     private List<ClassContent> attributes;
     private List<ClassContent> methods;
-    public Klasa(int color, int stroke, String name, Point location, Dimension dimension) {       // recept za crtanje
+    public Klasa(int color, int stroke, String name, Point location, Dimension dimension) {       // guide how to draw
         super(color, stroke, name, location, dimension);
         attributes = new ArrayList<>();
         methods = new ArrayList<>();
     }
-    public Klasa(){         //za Json, nema drugu svrhu
+    public Klasa(){    // For jackson
         attributes = new ArrayList<>();
         methods = new ArrayList<>();
     }

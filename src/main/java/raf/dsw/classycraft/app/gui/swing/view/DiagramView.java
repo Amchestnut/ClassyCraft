@@ -3,8 +3,8 @@ package raf.dsw.classycraft.app.gui.swing.view;
 import raf.dsw.classycraft.app.controller.commandActions.CommandManager;
 import raf.dsw.classycraft.app.controller.mouseAdapters.MouseAdapter;
 import raf.dsw.classycraft.app.gui.swing.painters.ElementPainter;
-import raf.dsw.classycraft.app.gui.swing.painters.elementi.*;
-import raf.dsw.classycraft.app.gui.swing.painters.veze.ConnectionPainter;
+import raf.dsw.classycraft.app.gui.swing.painters.element_painters.*;
+import raf.dsw.classycraft.app.gui.swing.painters.connection_painters.ConnectionPainter;
 import raf.dsw.classycraft.app.gui.swing.tree.model.ClassyTreeItem;
 import raf.dsw.classycraft.app.model.diagramElements.DiagramElement;
 import raf.dsw.classycraft.app.model.diagramElements.connections.DataForConnection;
@@ -30,9 +30,9 @@ public class DiagramView extends JPanel implements ISubscriber {
 
     private String tabName;
     private List<ElementPainter> painters;
-    private List<ElementPainter> selectionedRectangles;             // lista paintera, jer painter ima model , a model nema painter ;)
+    private List<ElementPainter> selectionedRectangles;  // lsit of painters, becuase painter has the model, but model doesnt have the painter ;) (MVC)
     private Diagram diagram;
-    private Rectangle selectionRectangle = null;                    // pravougaonik za selekciju
+    private Rectangle selectionRectangle = null;
     private Line2D temporaryLine = null;
     private List<ElementPainter> selectionedConnections;
     private AffineTransform transform = new AffineTransform();
@@ -106,12 +106,12 @@ public class DiagramView extends JPanel implements ISubscriber {
         }
 
         if (selectionRectangle != null) {
-            float[] dash1 = {10.0f};            // 10 pixela je dash
+            float[] dash1 = {10.0f};            // 10 pixel dash
             BasicStroke dashed =
                     new BasicStroke(1.0f,
                             BasicStroke.CAP_BUTT,
                             BasicStroke.JOIN_MITER,
-                            10.0f, dash1, 0.0f); // ovde pravim stroke, i stavljam mu ove osobine
+                            10.0f, dash1, 0.0f); // Here I create the stroke, and give him this properties
 
             g2d.setStroke(dashed);
             g2d.setColor(Color.BLACK);
@@ -127,7 +127,7 @@ public class DiagramView extends JPanel implements ISubscriber {
         JDialog dialog = new JDialog((Frame) null, "Create Element", true);
         dialog.setLayout(new BoxLayout(dialog.getContentPane(), BoxLayout.Y_AXIS));
 
-        DataForElementFromDialog dataForElementFromDialog = new DataForElementFromDialog();         // OBJECT u kome cuvam ukucane podatke
+        DataForElementFromDialog dataForElementFromDialog = new DataForElementFromDialog();   // OBJECT where I save the typed data
 
         JTextField nameField = new JTextField(20);
         dialog.add(new JLabel("Name:"));
@@ -153,29 +153,29 @@ public class DiagramView extends JPanel implements ISubscriber {
 
         classButton.setSelected(true);
 
-        // text area za atribute i metode
+        // text area for attributes and methods
         JTextArea attributesArea = new JTextArea(5, 20);
         attributesArea.setBorder(BorderFactory.createTitledBorder("Attributes"));
-        dodajHintText("-Uneti atribute u sledecem formatu: \n" +
-                "-vidljivost, naziv atributa, povratni tip, kao na primer: + \n" +
-                "-brojStrana: int                         ili:\n" +
-                "+nazivKnjige: String                 ili:\n" +
-                "#debljinaStrane: double           ili:\n" +
-                "~procitanaKnjiga: boolean"
+        dodajHintText("-Enter attributes in the following format: \n" +
+                        "-visibility, attribute name, return type, for example: \n" +
+                        "-numberOfPages: int                         or:\n" +
+                        "+bookTitle: String                         or:\n" +
+                        "#pageThickness: double                     or:\n" +
+                        "~isBookRead: boolean"
                 , attributesArea);
 
 
         JTextArea methodsArea = new JTextArea(5, 20);
         methodsArea.setBorder(BorderFactory.createTitledBorder("Methods"));
-        dodajHintText("-Uneti metode u sledecem formatu:  \n" +
-                        "-nazivMetode (tip argumenata, npr int, ili String,int,int): povratni tip, kao na primer: \n"  +
-                        "+izracunajBrojSlovaNaStrani (int): int              ili:\n" +
-                        "#kojiDanJeDanas: (String): String                   ili:\n" +
-                        "~daLiJeProcitao: (int): boolean"
+        dodajHintText("-Enter methods in the following format: \n" +
+                        "-methodName (argument types, e.g., int or String,int,int): return type, for example: \n" +
+                        "+calculateNumberOfLettersOnPage (int): int            or:\n" +
+                        "#whatDayIsItToday: (String): String                   or:\n" +
+                        "~hasItBeenRead: (int): boolean"
                 , methodsArea);
 
 
-        // ne mogu da se dodaju atributi u interfejs i metode u enum
+        // Cant add attributes in interface, and methods in enum
         ItemListener itemListener = e -> {
             attributesArea.setEnabled(!interfaceButton.isSelected());
             methodsArea.setEnabled(!enumButton.isSelected());
@@ -193,12 +193,12 @@ public class DiagramView extends JPanel implements ISubscriber {
 
         JButton AddButton = new JButton("ADD");
         dialog.add(AddButton);
-        dialog.pack();                                              // size ovaj dialog
-        dialog.setLocationRelativeTo(null);                         // centriraj
+        dialog.pack();  // size this dialog
+        dialog.setLocationRelativeTo(null);  // center
         final boolean[] addButtonPressed = {false};
 
 
-        // kada kliknem ok, pokupi sve podatke
+        // when i click ok, collect all data
         AddButton.addActionListener(e -> {
 
             String selectedType;
@@ -219,22 +219,29 @@ public class DiagramView extends JPanel implements ISubscriber {
             }
 
             // !enumButton.isSelected() &&
-            if(attributesArea.getText().equalsIgnoreCase("-Uneti atribute u sledecem formatu: \n" + "-vidljivost, naziv atributa, povratni tip, kao na primer: + \n" + "-brojStrana: int                         ili:\n" + "+nazivKnjige: String                 ili:\n" + "#debljinaStrane: double           ili:\n" + "~procitanaKnjiga: boolean")){
+            if (attributesArea.getText().equalsIgnoreCase("-Enter attributes in the following format: \n" +
+                    "-visibility, attribute name, return type, for example: \n" +
+                    "-numberOfPages: int                         or:\n" +
+                    "+bookTitle: String                         or:\n" +
+                    "#pageThickness: double                     or:\n" +
+                    "~isBookRead: boolean")) {
                 attributesArea.setText("");
             }
-            if(methodsArea.getText().equalsIgnoreCase("-Uneti metode u sledecem formatu:  \n" + "-nazivMetode (tip argumenata, npr int, ili String,int,int): povratni tip, kao na primer: \n"  + "+izracunajBrojSlovaNaStrani (int): int              ili:\n" + "#kojiDanJeDanas: (String): String                   ili:\n" + "~daLiJeProcitao: (int): boolean")){
+            if (methodsArea.getText().equalsIgnoreCase("-Enter methods in the following format: \n" +
+                    "-methodName (argument types, e.g., int or String,int,int): return type, for example: \n" +
+                    "+calculateNumberOfLettersOnPage (int): int            or:\n" +
+                    "#whatDayIsItToday: (String): String                   or:\n" +
+                    "~hasItBeenRead: (int): boolean")) {
                 methodsArea.setText("");
-                //JOptionPane.showMessageDialog(dialog, "Ne mozete uneti hint text kao metodu! Unesite svoje metode!", "Input Error", JOptionPane.ERROR_MESSAGE);
-                //return;
             }
 
-            String[] sviAtributi = attributesArea.getText().split("\n");
-            boolean atributiOK = true;
-            // proveravamo sve unete atribute, osim ako nije u pitanju interfejs
+            String[] allAtributes = attributesArea.getText().split("\n");
+            boolean attributesOK = true;
+            // Check for all entered attributes, except if it's an interface
             if(!interfaceButton.isSelected()){
-                for(String atribut: sviAtributi){
-                    if(proveriNetacnostUnosaZaAtribut(atribut)){         // ako vrati false, atributi nisu ok
-                        atributiOK = false;
+                for(String atribut: allAtributes){
+                    if(proveriNetacnostUnosaZaAtribut(atribut)){  // If returns false, attributes are not ok
+                        attributesOK = false;
                     }
                 }
             }
@@ -250,19 +257,19 @@ public class DiagramView extends JPanel implements ISubscriber {
                 }
             }
 
-            String vidlivostKlase = nameField.getText();
-            boolean checkIfEnteredVisibility = vidlivostKlase.isEmpty() || vidlivostKlase.charAt(0) == '+' || vidlivostKlase.charAt(0) == '-' || vidlivostKlase.charAt(0) == '#' || vidlivostKlase.charAt(0) == '~';
+            String visibilityOfTheClass = nameField.getText();
+            boolean checkIfEnteredVisibility = visibilityOfTheClass.isEmpty() || visibilityOfTheClass.charAt(0) == '+' || visibilityOfTheClass.charAt(0) == '-' || visibilityOfTheClass.charAt(0) == '#' || visibilityOfTheClass.charAt(0) == '~';
             if(!checkIfEnteredVisibility){
-                JOptionPane.showMessageDialog(dialog, "Nije tacno uneta vidljivost klase", "Input Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(dialog, "Class visibility not correctly entered!", "Input Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
-            if (!atributiOK) {
-                JOptionPane.showMessageDialog(dialog, "Nije tacno unet atribut", "Input Error", JOptionPane.ERROR_MESSAGE);
+            if (!attributesOK) {
+                JOptionPane.showMessageDialog(dialog, "Attribute not correctly entered", "Input Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
             if (!metodeOK) {
-                JOptionPane.showMessageDialog(dialog, "Nije tacno uneta metoda", "Input Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(dialog, "Method not correctly entered", "Input Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
@@ -347,7 +354,7 @@ public class DiagramView extends JPanel implements ISubscriber {
         JScrollPane methodsScrollPane = new JScrollPane(methodsArea);
         dialog.add(attributesScrollPane);
         dialog.add(methodsScrollPane);
-        attributesArea.setEnabled(!typeOfTheSelectedInterclassWas.equalsIgnoreCase("Interface"));   // ne moze da se edituje textfield atributi kad je interfejs
+        attributesArea.setEnabled(!typeOfTheSelectedInterclassWas.equalsIgnoreCase("Interface"));   // Can't edit attributes textfield in interface
         methodsArea.setEnabled(!typeOfTheSelectedInterclassWas.equalsIgnoreCase("Enum class"));
 
         ItemListener itemListener = e -> attributesArea.setEnabled(!interfaceButton.isSelected());
@@ -393,36 +400,45 @@ public class DiagramView extends JPanel implements ISubscriber {
                     selectedType = "None"; // this case should not happen as one is always selected
                 }
 
-                String vidlivostKlase = nameField.getText();
-                boolean checkIfEnteredVisibility = vidlivostKlase.isEmpty() || vidlivostKlase.charAt(0) == '+' || vidlivostKlase.charAt(0) == '-' || vidlivostKlase.charAt(0) == '#' || vidlivostKlase.charAt(0) == '~';
+                String visibilityOfTheClass = nameField.getText();
+                boolean checkIfEnteredVisibility = visibilityOfTheClass.isEmpty() || visibilityOfTheClass.charAt(0) == '+' || visibilityOfTheClass.charAt(0) == '-' || visibilityOfTheClass.charAt(0) == '#' || visibilityOfTheClass.charAt(0) == '~';
 
-                if(!checkIfEnteredVisibility){
-                    JOptionPane.showMessageDialog(dialog, "Nije tacno uneta vidljivost klase", "Input Error", JOptionPane.ERROR_MESSAGE);
+                if (!checkIfEnteredVisibility) {
+                    JOptionPane.showMessageDialog(dialog, "The visibility of the class is not entered correctly", "Input Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
                 // !enumButton.isSelected() &&
-                if(attributesArea.getText().equalsIgnoreCase("-Uneti atribute u sledecem formatu: \n" + "-vidljivost, naziv atributa, povratni tip, kao na primer: + \n" + "-brojStrana: int                         ili:\n" + "+nazivKnjige: String                 ili:\n" + "#debljinaStrane: double           ili:\n" + "~procitanaKnjiga: boolean")){
+                if (attributesArea.getText().equalsIgnoreCase("-Enter attributes in the following format: \n" +
+                        "-visibility, attribute name, return type, for example: \n" +
+                        "-numberOfPages: int                         or:\n" +
+                        "+bookTitle: String                         or:\n" +
+                        "#pageThickness: double                     or:\n" +
+                        "~isBookRead: boolean")) {
                     attributesArea.setText("");
                 }
-                if(methodsArea.getText().equalsIgnoreCase("-Uneti metode u sledecem formatu:  \n" + "-nazivMetode (tip argumenata, npr int, ili String,int,int): povratni tip, kao na primer: \n"  + "+izracunajBrojSlovaNaStrani (int): int              ili:\n" + "#kojiDanJeDanas: (String): String                   ili:\n" + "~daLiJeProcitao: (int): boolean")){
+                if (methodsArea.getText().equalsIgnoreCase("-Enter methods in the following format: \n" +
+                        "-methodName (argument types, e.g., int or String,int,int): return type, for example: \n" +
+                        "+calculateNumberOfLettersOnPage (int): int            or:\n" +
+                        "#whatDayIsItToday: (String): String                   or:\n" +
+                        "~hasItBeenRead: (int): boolean")) {
                     methodsArea.setText("");
                 }
 
-                String[] sviAtributi = attributesArea.getText().split("\n");
-                boolean atributiOK = true;
-                // proveravamo sve unete atribute, osim ako nije u pitanju interfejs
+                String[] allAtributes = attributesArea.getText().split("\n");
+                boolean attributesOK = true;
+                // check for all entered attributes, except if it's an interface
                 if(!interfaceButton.isSelected()){
-                    for(String atribut: sviAtributi){
-                        if(proveriNetacnostUnosaZaAtribut(atribut)){         // ako vrati false, atributi nisu ok
-                            atributiOK = false;
+                    for(String atribut: allAtributes){
+                        if(proveriNetacnostUnosaZaAtribut(atribut)){
+                            attributesOK = false;
                         }
                     }
                 }
 
                 String[] sveMetode = methodsArea.getText().split("\n");
                 boolean metodeOK = true;
-                // proveravamo sve unete metode, osim ako nije u pitanju enum
+                // check all methods except if it is an Enum
                 if(!enumButton.isSelected()){
                     for(String metoda: sveMetode){
                         if(proveriNetacnostUnosaZaMetodu(metoda)){
@@ -431,12 +447,12 @@ public class DiagramView extends JPanel implements ISubscriber {
                     }
                 }
 
-                if (!atributiOK) {
-                    JOptionPane.showMessageDialog(dialog, "Nije tacno unet atribut", "Input Error", JOptionPane.ERROR_MESSAGE);
+                if (!attributesOK) {
+                    JOptionPane.showMessageDialog(dialog, "Attribute not correctly entered", "Input Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 if (!metodeOK) {
-                    JOptionPane.showMessageDialog(dialog, "Nije tacno uneta metoda", "Input Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(dialog, "Method not correctly entered", "Input Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
@@ -478,12 +494,12 @@ public class DiagramView extends JPanel implements ISubscriber {
         dialog.setModal(true);
         dialog.setSize(600, 400);
 
-        JRadioButton associationButton = new JRadioButton("Veza asocijacije");
-        JRadioButton inheritanceButton = new JRadioButton("Veza nasledjivanja");
-        JRadioButton realisationButton = new JRadioButton("Veza realizacije");
-        JRadioButton dependencyButton = new JRadioButton("Veza zavisnosti");
-        JRadioButton aggregationButton = new JRadioButton("Veza agregacije");
-        JRadioButton compositionButton = new JRadioButton("Veza kompozicije", true);   // default upaljen
+        JRadioButton associationButton = new JRadioButton("Association connection");
+        JRadioButton inheritanceButton = new JRadioButton("Inheritance connection");
+        JRadioButton realisationButton = new JRadioButton("Realisation connection");
+        JRadioButton dependencyButton = new JRadioButton("Dependency connection");
+        JRadioButton aggregationButton = new JRadioButton("Aggregation connection");
+        JRadioButton compositionButton = new JRadioButton("Composition connection", true);   // default true
 
         ButtonGroup group = new ButtonGroup();
         group.add(associationButton);
@@ -500,24 +516,24 @@ public class DiagramView extends JPanel implements ISubscriber {
         dialog.add(aggregationButton);
         dialog.add(compositionButton);
 
-        JLabel labelFrom = new JLabel("Element IZ koga se povlaci veza, ima instancu elementa DO u obliku:");   // labela
-        JTextArea textAreaFrom = new JTextArea(1, 20);         // samo jedan red
-        textAreaFrom.setBorder(BorderFactory.createTitledBorder("Instanca interklase IZ"));
-        dodajHintText("-tipKnjizevnosti 0..1", textAreaFrom);       // hint text
-        JScrollPane prvi = new JScrollPane(textAreaFrom);
+        JLabel labelFrom = new JLabel("The element FROM which the connection originates has an instance of the TO element in the form of:"); // label
+        JTextArea textAreaFrom = new JTextArea(1, 20); // single-line text area
+        textAreaFrom.setBorder(BorderFactory.createTitledBorder("Instance of interclass FROM"));
+        dodajHintText("-literatureType 0..1", textAreaFrom); // hint text
+        JScrollPane firstScrollPane = new JScrollPane(textAreaFrom);
 
-        JLabel labelTo = new JLabel("Element DO, u kome se zavrsava veza, ima instancu elementa IZ u obliku:");
+        JLabel labelTo = new JLabel("The element TO, where the connection ends, has an instance of the FROM element in the form of:");
         JTextArea textAreaTo = new JTextArea(1, 20);
-        textAreaTo.setBorder(BorderFactory.createTitledBorder("Instanca interklase DO"));
-        dodajHintText("-knjige 0..*", textAreaTo);
-        JScrollPane drugi = new JScrollPane(textAreaTo);
+        textAreaTo.setBorder(BorderFactory.createTitledBorder("Instance of interclass TO"));
+        dodajHintText("-books 0..*", textAreaTo);
+        JScrollPane secondScrollPane = new JScrollPane(textAreaTo);
 
         dialog.add(labelFrom);
-        dialog.add(prvi);
+        dialog.add(firstScrollPane);
         dialog.add(labelTo);
-        dialog.add(drugi);
+        dialog.add(secondScrollPane);
 
-        // listener da enabluje ili disabluje textarea na osnovu toga koji button je kliknut
+        // Listener to enable/disable TextArea based on what button is clicked
         ActionListener al = e -> {
             boolean enable = associationButton.isSelected() || aggregationButton.isSelected() || compositionButton.isSelected();
             textAreaFrom.setEnabled(enable);
@@ -541,30 +557,32 @@ public class DiagramView extends JPanel implements ISubscriber {
             boolean firstText = proveriTacnostUnosaZaVezu(enteredText1);
             boolean secondText= proveriTacnostUnosaZaVezu(enteredText2);
 
-            boolean prviJePrazan = false;
-            boolean drugiJePrazan = false;
+            boolean firstIsEmpty = false;
+            boolean secondIsEmpty = false;
 
             if(enteredText1.equalsIgnoreCase("")){
                 firstText = true;
-                prviJePrazan = true;
+                firstIsEmpty = true;
             }
             if(enteredText2.equalsIgnoreCase("")){
                 secondText = true;
-                drugiJePrazan = true;
+                secondIsEmpty = true;
             }
-            boolean obaSuPrazna = false;
-            if(associationButton.isSelected() || aggregationButton.isSelected() || compositionButton.isSelected()){
-                obaSuPrazna = prviJePrazan && drugiJePrazan;        // ne smeju oba da budu prazna, ali smeju ako je neka druga veza
+            boolean bothAreEmpty = false;
 
-                if(enteredText1.equalsIgnoreCase("-tipKnjizevnosti 0..1") || enteredText2.equalsIgnoreCase("-knjige 0..*")){
-                    JOptionPane.showMessageDialog(dialog, "Ne moze da ostane default text", "Input Error", JOptionPane.ERROR_MESSAGE);
+            if (associationButton.isSelected() || aggregationButton.isSelected() || compositionButton.isSelected()) {
+                bothAreEmpty = firstIsEmpty && secondIsEmpty; // Both cannot be empty, unless it's another type of connection
+
+                if (enteredText1.equalsIgnoreCase("-literatureType 0..1") || enteredText2.equalsIgnoreCase("-books 0..*")) {
+                    JOptionPane.showMessageDialog(dialog, "Default text cannot remain", "Input Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
             }
-            if(associationButton.isSelected() || aggregationButton.isSelected() || compositionButton.isSelected()){
-                boolean result = firstText && secondText && (!obaSuPrazna);
-                if(!result){
-                    JOptionPane.showMessageDialog(dialog, "Pogresan unos! Ne smeju oba da budu prazna, ili je neki unos neispravan", "Input Error", JOptionPane.ERROR_MESSAGE);
+
+            if (associationButton.isSelected() || aggregationButton.isSelected() || compositionButton.isSelected()) {
+                boolean result = firstText && secondText && (!bothAreEmpty);
+                if (!result) {
+                    JOptionPane.showMessageDialog(dialog, "Invalid input! Both fields cannot be empty, or some input is incorrect", "Input Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
             }
@@ -581,10 +599,10 @@ public class DiagramView extends JPanel implements ISubscriber {
         dialog.setVisible(true);
 
         if (!okPressed[0]) {
-            return null;                // dialog zatvoren a nije kliknut ok
+            return null;   // dialog closed but OK wasn't clicked
         }
 
-        // Extractujem selected values
+        // Extract selected values
         String connectionType = null;
 
         if (associationButton.isSelected()) {
@@ -608,17 +626,17 @@ public class DiagramView extends JPanel implements ISubscriber {
 
         DataForConnection dataForConnection = new DataForConnection(connectionType);
 
-        // ako je selektovana veza asocijacije, agregacije ili kompozicije, dodaj mu i ostale parametre osim tipa
+        // If association, aggregation or composition connection selected, add him other parameters except the type
         if(associationButton.isSelected() || aggregationButton.isSelected() || compositionButton.isSelected()){
             String firstText = textAreaFrom.getText();
             String secondText = textAreaTo.getText();
 
-            if(!firstText.equalsIgnoreCase("")){                  // ako nije empty
+            if(!firstText.equalsIgnoreCase("")){                  // if not empty
                 String[] parts1 = firstText.trim().split("\\s+");
-                String visibilityFrom = parts1[0].substring(0, 1);           // prvi karakter (vidljivost)
-                String instanceFrom = parts1[0].substring(1);      // instanca
+                String visibilityFrom = parts1[0].substring(0, 1);           // First char (visibility)
+                String instanceFrom = parts1[0].substring(1);      // instance
 
-                dataForConnection.setVisibilityOfTheFirstElement(visibilityFrom);  // lepo napravljen custom Data Object koji prima ovo
+                dataForConnection.setVisibilityOfTheFirstElement(visibilityFrom);  // Nicely created custom Data Object that accept this
                 dataForConnection.setInstanceOfTheFirstElement(instanceFrom);
                 dataForConnection.setKardinalnostOfTheFirstElement(parts1[1]);
             }
@@ -643,30 +661,25 @@ public class DiagramView extends JPanel implements ISubscriber {
         dialog.setModal(true);
         dialog.setSize(600, 400);
 
-        JRadioButton associationButton = new JRadioButton("Veza asocijacije");
-        JRadioButton inheritanceButton = new JRadioButton("Veza nasledjivanja");
-        JRadioButton realisationButton = new JRadioButton("Veza realizacije");
-        JRadioButton dependencyButton = new JRadioButton("Veza zavisnosti");
-        JRadioButton aggregationButton = new JRadioButton("Veza agregacije");
-        JRadioButton compositionButton = new JRadioButton("Veza kompozicije");
+        JRadioButton associationButton = new JRadioButton("Association Connection");
+        JRadioButton inheritanceButton = new JRadioButton("Inheritance Connection");
+        JRadioButton realisationButton = new JRadioButton("Realisation Connection");
+        JRadioButton dependencyButton = new JRadioButton("Dependency Connection");
+        JRadioButton aggregationButton = new JRadioButton("Aggregation Connection");
+        JRadioButton compositionButton = new JRadioButton("Composition Connection");
 
-        String tip = preFilledData.getType();
-        if(tip.equalsIgnoreCase("asocijacija")){
+        String type = preFilledData.getType();
+        if (type.equalsIgnoreCase("association")) {
             associationButton.setSelected(true);
-        }
-        else if(tip.equalsIgnoreCase("nasledjivanje")){
+        } else if (type.equalsIgnoreCase("inheritance")) {
             inheritanceButton.setSelected(true);
-        }
-        else if(tip.equalsIgnoreCase("realizacija")){
+        } else if (type.equalsIgnoreCase("realisation")) {
             realisationButton.setSelected(true);
-        }
-        else if(tip.equalsIgnoreCase("zavisnost")){
+        } else if (type.equalsIgnoreCase("dependency")) {
             dependencyButton.setSelected(true);
-        }
-        else if(tip.equalsIgnoreCase("agregacija")){
+        } else if (type.equalsIgnoreCase("aggregation")) {
             aggregationButton.setSelected(true);
-        }
-        else if(tip.equalsIgnoreCase("kompozicija")){
+        } else if (type.equalsIgnoreCase("composition")) {
             compositionButton.setSelected(true);
         }
 
@@ -692,30 +705,35 @@ public class DiagramView extends JPanel implements ISubscriber {
         dialog.add(aggregationButton);
         dialog.add(compositionButton);
 
-        String unosIzPrvogTextField = "";
-        unosIzPrvogTextField += preFilledData.getVisibilityOfTheFirstElement() + preFilledData.getInstanceOfTheFirstElement() + " " + preFilledData.getKardinalnostOfTheFirstElement();
 
-        String unosIzDrugogTextField = "";
-        unosIzDrugogTextField = preFilledData.getVisibilityOfTheSecondElement() + preFilledData.getInstanceOfTheSecondElement() + " " + preFilledData.getKardinalnostOfTheSecondElement();
+        String inputFromFirstTextField = "";
+        inputFromFirstTextField += preFilledData.getVisibilityOfTheFirstElement() +
+                preFilledData.getInstanceOfTheFirstElement() + " " +
+                preFilledData.getKardinalnostOfTheFirstElement();
 
-        JLabel labelFrom = new JLabel("Element IZ koga se povlaci veza, ima instancu elementa DO u obliku:");   // labela
+        String inputFromSecondTextField = "";
+        inputFromSecondTextField = preFilledData.getVisibilityOfTheSecondElement() +
+                preFilledData.getInstanceOfTheSecondElement() + " " +
+                preFilledData.getKardinalnostOfTheSecondElement();
+
+        JLabel labelFrom = new JLabel("The element FROM which the connection originates has an instance of the TO element in the form:");
         JTextArea textAreaFrom = new JTextArea(1, 20);
-        textAreaFrom.setBorder(BorderFactory.createTitledBorder("Instanca interklase IZ"));
-        textAreaFrom.setText(unosIzPrvogTextField);
-        JScrollPane prvi = new JScrollPane(textAreaFrom);
+        textAreaFrom.setBorder(BorderFactory.createTitledBorder("Instance of Interclass FROM"));
+        textAreaFrom.setText(inputFromFirstTextField);
+        JScrollPane firstScrollPane = new JScrollPane(textAreaFrom);
 
-        JLabel labelTo = new JLabel("Element DO, u kome se zavrsava veza, ima instancu elementa IZ u obliku:");
+        JLabel labelTo = new JLabel("The element TO where the connection ends has an instance of the FROM element in the form:");
         JTextArea textAreaTo = new JTextArea(1, 20);
-        textAreaTo.setBorder(BorderFactory.createTitledBorder("Instanca interklase DO"));
-        textAreaTo.setText(unosIzDrugogTextField);
-        JScrollPane drugi = new JScrollPane(textAreaTo);
+        textAreaTo.setBorder(BorderFactory.createTitledBorder("Instance of Interclass TO"));
+        textAreaTo.setText(inputFromSecondTextField);
+        JScrollPane secondScrollPane = new JScrollPane(textAreaTo);
 
         dialog.add(labelFrom);
-        dialog.add(prvi);
+        dialog.add(firstScrollPane);
         dialog.add(labelTo);
-        dialog.add(drugi);
+        dialog.add(secondScrollPane);
 
-        if(tip.equalsIgnoreCase("nasledjivanje") || tip.equalsIgnoreCase("realizacija") || tip.equalsIgnoreCase("zavisnost")){
+        if(type.equalsIgnoreCase("inheritance") || type.equalsIgnoreCase("realisation") || type.equalsIgnoreCase("dependency")){
             textAreaFrom.setEditable(false);
             textAreaTo.setEditable(false);
         }
@@ -730,32 +748,31 @@ public class DiagramView extends JPanel implements ISubscriber {
             boolean firstText = proveriTacnostUnosaZaVezu(enteredText1);
             boolean secondText= proveriTacnostUnosaZaVezu(enteredText2);
 
-            boolean prviJePrazan = false;
-            boolean drugiJePrazan = false;
+            boolean firstIsEmpty = false;
+            boolean secondIsEmpty = false;
 
             if(enteredText1.equalsIgnoreCase("")){
                 firstText = true;
-                prviJePrazan = true;
+                firstIsEmpty = true;
             }
             if(enteredText2.equalsIgnoreCase("")){
                 secondText = true;
-                drugiJePrazan = true;
+                secondIsEmpty = true;
             }
-            boolean obaSuPrazna = false;
+            boolean bothAreEmpty = false;
             if(associationButton.isSelected() || aggregationButton.isSelected() || compositionButton.isSelected()){
-                obaSuPrazna = prviJePrazan && drugiJePrazan;        // ne smeju oba da budu prazna, ali smeju ako je neka druga veza
+                bothAreEmpty = firstIsEmpty && secondIsEmpty;
 
-
-                if(enteredText1.equalsIgnoreCase("-tipKnjizevnosti 0..1") || enteredText2.equalsIgnoreCase("-knjige 0..*")){
-                    JOptionPane.showMessageDialog(dialog, "Ne moze da ostane default text", "Input Error", JOptionPane.ERROR_MESSAGE);
+                if (enteredText1.equalsIgnoreCase("-literaryType 0..1") || enteredText2.equalsIgnoreCase("-books 0..*")) {
+                    JOptionPane.showMessageDialog(dialog, "Default text cannot remain", "Input Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
             }
 
             if(associationButton.isSelected() || aggregationButton.isSelected() || compositionButton.isSelected()){
-                boolean result = firstText && secondText && (!obaSuPrazna);
+                boolean result = firstText && secondText && (!bothAreEmpty);
                 if(!result){
-                    JOptionPane.showMessageDialog(dialog, "Pogresan unos! Ne smeju oba da budu prazna, ili je neki unos neispravan", "Input Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(dialog, "Both can't be empty, or entered instance is not typed correctly!", "Input Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
             }
@@ -772,10 +789,10 @@ public class DiagramView extends JPanel implements ISubscriber {
         dialog.setVisible(true);
 
         if (!okPressed[0]) {
-            return null;                // dialog zatvoren a nije kliknut ok
+            return null;
         }
 
-        // Extractujem selected values
+        // Extract selected values
         String connectionType = null;
 
         if (associationButton.isSelected()) {
@@ -799,17 +816,16 @@ public class DiagramView extends JPanel implements ISubscriber {
 
         DataForConnection dataForConnection = new DataForConnection(connectionType);
 
-        // ako je selektovana veza asocijacije, agregacije ili kompozicije, dodaj mu i ostale parametre osim tipa
         if(associationButton.isSelected() || aggregationButton.isSelected() || compositionButton.isSelected()){
             String firstText = textAreaFrom.getText();
             String secondText = textAreaTo.getText();
 
-            if(!firstText.equalsIgnoreCase("")){                            // ako nije empty
+            if(!firstText.equalsIgnoreCase("")){
                 String[] parts1 = firstText.trim().split("\\s+");
-                String visibilityFrom = parts1[0].substring(0, 1);                     // prvi karakter (vidljivost)
-                String instanceFrom = parts1[0].substring(1);                // instanca
+                String visibilityFrom = parts1[0].substring(0, 1);
+                String instanceFrom = parts1[0].substring(1);
 
-                dataForConnection.setVisibilityOfTheFirstElement(visibilityFrom);      // lepo napravljen custom Data Object koji prima ovo
+                dataForConnection.setVisibilityOfTheFirstElement(visibilityFrom);
                 dataForConnection.setInstanceOfTheFirstElement(instanceFrom);
                 dataForConnection.setKardinalnostOfTheFirstElement(parts1[1]);
             }
@@ -834,7 +850,7 @@ public class DiagramView extends JPanel implements ISubscriber {
         for(ElementPainter painter : painters){
             if(painter instanceof KlasaPainter){
                 DiagramElement diagramElement = ((KlasaPainter)painter).getDiagramElement();
-                diagramElement.setColor(0xFFFF4040); // malo svetlija boja od originalne crvene
+                diagramElement.setColor(0xFFFF4040);
             }
             else if(painter instanceof InterfejsPainter){
                 DiagramElement diagramElement = ((InterfejsPainter)painter).getDiagramElement();
@@ -864,12 +880,12 @@ public class DiagramView extends JPanel implements ISubscriber {
 
     public boolean proveriTacnostUnosaZaVezu(String unos){
 
-        String[] parts = unos.trim().split("\\s+");   // splitujemo po space
+        String[] parts = unos.trim().split("\\s+");   // split by space
 
-        if (parts.length != 2)                              // ako ima vise od 2 dela, vrati false i reci neispravan unos
+        if (parts.length != 2)
             return false;
 
-        // samo provera da li prvi karakter pocinje sa -,+,~
+        // visibility check -,+,~
         boolean firstPartValid = parts[0].length() > 0 &&
                        (parts[0].charAt(0) == '+' ||
                         parts[0].charAt(0) == '-' ||
@@ -885,12 +901,11 @@ public class DiagramView extends JPanel implements ISubscriber {
         if(unos.equalsIgnoreCase(""))
             return false;
 
-        String[] parts = unos.trim().split("\\s+");   // splitujemo po space
+        String[] parts = unos.trim().split("\\s+");
 
-        if (parts.length != 2)                              // ako ima vise od 2 dela, vrati false i reci neispravan unos
+        if (parts.length != 2)
             return true;
 
-        // samo provera da li prvi karakter pocinje sa -,+,~
         boolean firstPartValid = parts[0].length() > 0 &&
                 (parts[0].charAt(0) == '+' ||
                         parts[0].charAt(0) == '-' ||
@@ -906,12 +921,11 @@ public class DiagramView extends JPanel implements ISubscriber {
         if(unos.equalsIgnoreCase(""))
             return false;
 
-        String[] parts = unos.trim().split("\\s+");   // splitujemo po space
+        String[] parts = unos.trim().split("\\s+");
 
-        if (parts.length != 3)                               // ako ima vise od 2 dela, vrati false i reci neispravan unos
+        if (parts.length != 3)
             return true;
 
-        // samo provera da li prvi karakter pocinje sa -,+,~
         boolean firstPartValid = parts[0].length() > 0 &&
                 (parts[0].charAt(0) == '+' ||
                         parts[0].charAt(0) == '-' ||
@@ -920,13 +934,11 @@ public class DiagramView extends JPanel implements ISubscriber {
 
         boolean secondPartValid = true;
         String uZagradama = parts[1];
-        uZagradama = uZagradama.substring(1, uZagradama.length() - 2);      // od (boolean,int,int): skinuli smo zagrade i :
+        uZagradama = uZagradama.substring(1, uZagradama.length() - 2);      // from (boolean,int,int): we take off the brackets
         String[] contentUZagradama = uZagradama.split(",");
         for(String s : contentUZagradama){
             if (!s.equals("int") && !s.equals("boolean") && !s.equals("double") && !s.equals("String") && !proveriDaLiImaNekaInstancaOvogTipa(s)) {
                 secondPartValid = false;
-                System.out.println("ako vrati false, s je:");
-                System.out.println(s);
                 break;
             }
         }
@@ -959,7 +971,7 @@ public class DiagramView extends JPanel implements ISubscriber {
         });
     }
 
-    // BIG BRAIN TIME: moze kao tip takodje biti i instanca neke klase, NE SMEMO OVO DA ZABORAVIMO!
+    // BIG BRAIN TIME: type can also be an isntance of some class, cant forget this !!!
     private boolean proveriDaLiImaNekaInstancaOvogTipa(String tip){
         for(ElementPainter p : painters){
             if(p instanceof InterclassPainter){
@@ -976,7 +988,7 @@ public class DiagramView extends JPanel implements ISubscriber {
     }
     public ClassyTreeItem findTheItem(ClassyTreeItem item, ClassyNode diagram) {
         if (item.getClassyNode().equals(diagram))
-            return item;            // ako je to taj, daj mi ga da na njega stavim diagramElement
+            return item;            // If it is the one, give it to me so i can put diagramElement in him
         for (int i = 0; i < item.getChildCount(); i++) {
             ClassyTreeItem classyItemNext = findTheItem((ClassyTreeItem) item.getChildAt(i), diagram);
             if (classyItemNext != null)

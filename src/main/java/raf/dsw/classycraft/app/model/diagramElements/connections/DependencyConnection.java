@@ -8,7 +8,7 @@ public class DependencyConnection extends Connection{
     public DependencyConnection(int color, int stroke, String name, String type, Interclass interclassOD, Interclass interclassDO) {
         super(color, stroke, name, type, interclassOD, interclassDO);
     }
-    public DependencyConnection(){     //za Json, nema drugu svrhu
+    public DependencyConnection(){     // For jackson
 
     }
 }

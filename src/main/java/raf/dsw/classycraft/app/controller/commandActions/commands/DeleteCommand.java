@@ -2,8 +2,8 @@ package raf.dsw.classycraft.app.controller.commandActions.commands;
 
 import raf.dsw.classycraft.app.controller.commandActions.AbstractCommand;
 import raf.dsw.classycraft.app.gui.swing.painters.ElementPainter;
-import raf.dsw.classycraft.app.gui.swing.painters.elementi.InterclassPainter;
-import raf.dsw.classycraft.app.gui.swing.painters.veze.ConnectionPainter;
+import raf.dsw.classycraft.app.gui.swing.painters.element_painters.InterclassPainter;
+import raf.dsw.classycraft.app.gui.swing.painters.connection_painters.ConnectionPainter;
 import raf.dsw.classycraft.app.gui.swing.tree.ClassyTreeImplementation;
 import raf.dsw.classycraft.app.gui.swing.tree.model.ClassyTreeItem;
 import raf.dsw.classycraft.app.gui.swing.view.DiagramView;
@@ -46,17 +46,18 @@ public class DeleteCommand extends AbstractCommand {
                     }
                 }
             }
-            // ok, treba da se brise
-            if (willDelete) {                                                                                                 // brisem ga U MODELU, saljem notifikaciju u diagramView, i tamo se obrise painter preko iteratora
+            // ok, we need to delete it
+            // we delete it in the MODEL, and send the notification in diagramView, so there the painter will be deleted (through the iterator)
+            if (willDelete) {
                 for (ElementPainter painter : diagramView.getSelectionedRectangles()) {
                     if (painter instanceof InterclassPainter) {
                         DiagramElement diagramElement = painter.getDiagramElement();
                         if (diagramElement instanceof Interclass) {
                             Interclass interclass = (Interclass) diagramElement;
 
-                            // tmp lista za brisanje
+                            // tmp list for deleting
                             List<Connection> connectionsToRemove = new ArrayList<>(interclass.getAllConnectionsOnThisInterclass());
-                            // idi kroz listu i brisi
+                            // go through the list and delete
                             for (Connection connection : connectionsToRemove) {
                                 interclass.removeAConnectionInThisInterclass(connection);
                                 removeElementFromTreeView(connection, diagramView);
@@ -70,13 +71,13 @@ public class DeleteCommand extends AbstractCommand {
                 }
                 for (ElementPainter painter : diagramView.getSelectionedConnections()) {
                     if (painter instanceof ConnectionPainter) {
-                        DiagramElement interclassOD = ((ConnectionPainter) painter).getInterclassOD();
-                        DiagramElement interclassDO = ((ConnectionPainter) painter).getInterclassDO();
+                        DiagramElement interclassFROM = ((ConnectionPainter) painter).getinterclassFROM();
+                        DiagramElement interclassTO = ((ConnectionPainter) painter).getinterclassTO();
 
                         if (painter.getDiagramElement() instanceof Connection) {
                             Connection connection = (Connection) painter.getDiagramElement();
-                            ((Interclass) interclassOD).removeAConnectionInThisInterclass(connection);
-                            ((Interclass) interclassDO).removeAConnectionInThisInterclass(connection);
+                            ((Interclass) interclassFROM).removeAConnectionInThisInterclass(connection);
+                            ((Interclass) interclassTO).removeAConnectionInThisInterclass(connection);
                             removeElementFromTreeView(connection, diagramView);
                             diagramView.getDiagram().deleteChild(connection);
                         }
@@ -94,7 +95,7 @@ public class DeleteCommand extends AbstractCommand {
             }
         }
         ClassyTreeImplementation classyTree = (ClassyTreeImplementation) MainFrame.getInstance().getClassyTree();
-        SwingUtilities.updateComponentTreeUI(classyTree.getTreeView());             // refresh celo drvo
+        SwingUtilities.updateComponentTreeUI(classyTree.getTreeView());             // refresh the whole tree
         setChangedToTrueInCurrentProject();
     }
     @Override
@@ -112,7 +113,7 @@ public class DeleteCommand extends AbstractCommand {
 
         ClassyTreeItem itemToRemove = diagramView.findTheItem(root, diagramElement);
         if (itemToRemove != null) {
-            classyTree.getTreeModel().removeNodeFromParent(itemToRemove);  // izbaci item iz parent i updejt
+            classyTree.getTreeModel().removeNodeFromParent(itemToRemove);  // Delete the item from the parent and update it
         }
     }
 }

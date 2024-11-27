@@ -9,7 +9,7 @@ public class AssociationConnection extends Connection{
         super(color, stroke, name, type, interclassOD, interclassDO);
     }
 
-    public AssociationConnection(){   //za Json, nema drugu svrhu
+    public AssociationConnection(){  // For jackson
 
     }
 }

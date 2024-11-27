@@ -38,7 +38,7 @@ public class Company extends AbstractFactory{
 
         dimension = odredjivanjeVelicinePravougaonika(name, atributi, metode);
 
-        // u zavisnosti od data U dialogu, pravim klasu/interfejs/enum/abstract
+        // Based on the data in dialog, we create a class/interface/enum/abstract
         if(type.equalsIgnoreCase("Class")){
             interclass = new Klasa(0xFFFF4040, 3, name, location, dimension);
             ((Klasa)interclass).setAttributes(atributi);
@@ -49,7 +49,7 @@ public class Company extends AbstractFactory{
             ((AbstractClass)interclass).setAttributes(atributi);
             ((AbstractClass)interclass).setMethods(metode);
         }
-        else if(type.equalsIgnoreCase("Interface")){  // ako je korisnik kliknuo dodavanje interfejsa, ovde pravimo interfejs
+        else if(type.equalsIgnoreCase("Interface")){  // If the user clicked "add interface", here we create an interface
             interclass = new Interfejs(0xFF40FF40, 3, name, location, dimension);
             ((Interfejs)interclass).setMethods(metode);
         }
@@ -197,7 +197,7 @@ public class Company extends AbstractFactory{
     }
     public String[] getRawAttributesFromDataFromElementFromDialog(DataForElementFromDialog dataForElementFromDialog){
         String[] rawAttributes = null;
-        if(!dataForElementFromDialog.getAttributes().isEmpty() || dataForElementFromDialog.getAttributes().equalsIgnoreCase("")){            /// vraca null pointer exp
+        if(!dataForElementFromDialog.getAttributes().isEmpty() || dataForElementFromDialog.getAttributes().equalsIgnoreCase("")){  // returns null pointer exp
             rawAttributes = dataForElementFromDialog.getAttributes().split("\n");
         }
         return rawAttributes;

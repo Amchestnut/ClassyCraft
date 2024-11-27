@@ -15,12 +15,12 @@ public class AbstractClass extends Interclass{
     private List<ClassContent> attributes;
     private List<ClassContent> methods;
 
-    public AbstractClass(int color, int stroke, String name, Point location, Dimension dimension) {       // recept za crtanje
+    public AbstractClass(int color, int stroke, String name, Point location, Dimension dimension) {       // guide how to draw
         super(color, stroke, name, location, dimension);
         attributes = new ArrayList<>();
         methods = new ArrayList<>();
     }
-    public AbstractClass(){ //za Json, nema drugu svrhu
+    public AbstractClass(){ // For jackson
         attributes = new ArrayList<>();
         methods = new ArrayList<>();
     }

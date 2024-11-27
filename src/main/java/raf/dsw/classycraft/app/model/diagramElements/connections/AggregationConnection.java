@@ -10,7 +10,7 @@ public class AggregationConnection extends Connection{
         super(color, stroke, name, type, interclassOD, interclassDO);
     }
 
-    public AggregationConnection(){    //za Json, nema drugu svrhu
+    public AggregationConnection(){    // For jackson
 
     }
 }

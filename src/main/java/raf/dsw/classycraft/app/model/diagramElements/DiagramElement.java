@@ -13,18 +13,6 @@ import raf.dsw.classycraft.app.observer.ISubscriber;
 import java.util.ArrayList;
 import java.util.List;
 
-//@JsonTypeInfo(
-//        use = JsonTypeInfo.Id.NAME,
-//        include = JsonTypeInfo.As.PROPERTY,
-//        property = "type")
-//@JsonSubTypes({
-//        @JsonSubTypes.Type(value = Klasa.class, name = "Class"),
-//        @JsonSubTypes.Type(value = Interfejs.class, name = "Interface"),
-//        @JsonSubTypes.Type(value = Enum.class, name = "EnumElement"),
-//        // Add other subclasses
-//})
-
-
 public abstract class DiagramElement extends ClassyNode implements IPublisher, Cloneable {
     private int stroke;
     private String name;
@@ -35,7 +23,7 @@ public abstract class DiagramElement extends ClassyNode implements IPublisher, C
         this.stroke = stroke;
         this.name = name;
     }
-    public DiagramElement(){ //za Json, nema drugu svrhu
+    public DiagramElement(){    // for jackson
 
     }
 
@@ -45,7 +33,7 @@ public abstract class DiagramElement extends ClassyNode implements IPublisher, C
 
     public void setColor(int color) {
         this.color = color;
-        notifySubscribers(new NotificationForChangedColor("boja", this));// promena boje ne dimenzije, mrzi me da pravim
+        notifySubscribers(new NotificationForChangedColor("boja", this));
     }
 
     public int getStroke() {

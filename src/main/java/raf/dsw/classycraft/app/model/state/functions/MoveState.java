@@ -5,7 +5,7 @@ import raf.dsw.classycraft.app.controller.commandActions.commands.MoveCommand;
 import raf.dsw.classycraft.app.core.ApplicationFramework;
 import raf.dsw.classycraft.app.gui.swing.messanger.MessageType;
 import raf.dsw.classycraft.app.gui.swing.painters.ElementPainter;
-import raf.dsw.classycraft.app.gui.swing.painters.elementi.InterclassPainter;
+import raf.dsw.classycraft.app.gui.swing.painters.element_painters.InterclassPainter;
 import raf.dsw.classycraft.app.gui.swing.view.DiagramView;
 import raf.dsw.classycraft.app.model.diagramElements.DiagramElement;
 import raf.dsw.classycraft.app.model.diagramElements.elements.Interclass;
@@ -18,13 +18,13 @@ import java.util.List;
 import java.util.Map;
 
 /*
-    Ja hocu da ako je Move-ujem klasu na ekranu samo ako je ona selektovana
-    - 1) provericu da li se klik nalazi na BILO KOM SELEKTOVANOM PAINTERU
-        --- znaci procicu kroz listu selektovanih i videcu da li je bar neki selektovani na toj tacki gde sam kliknuo
-    - 2) ako jeste, setovacu "isDragging" na true
-    - 3) da bi se uopste pokrenula metoda MISPREVUCEN, mora "isDragging" da bude stavljen na true
-    - 4) ako je true, i user krene da draguje, dragovace SVE SELEKTOVANE PRAVOUGAONIKE !!!
-    - 5) kad otpusti mis, zavrsio je sa pomeranjem, i tacka se vraca na null
+    I want to move a class on the screen only if it is selected.
+    - 1) I will check if the click is located on ANY SELECTED PAINTER.
+        --- This means I will iterate through the list of selected elements and see if any selected painter is at the point where I clicked.
+    - 2) If it is, I will set "isDragging" to true.
+    - 3) For the "mouseDragged" method to even be triggered, "isDragging" must be set to true.
+    - 4) If "isDragging" is true and the user starts dragging, ALL SELECTED RECTANGLES will be dragged!!!
+    - 5) When the mouse is released, the dragging operation is complete, and the point resets to null.
  */
 public class MoveState implements State {
 
@@ -36,8 +36,8 @@ public class MoveState implements State {
 
     @Override
     public void misKliknut(int x, int y, DiagramView diagramView) {
-        initialClickPoint = new Point(x,y); // Prvobitni klik se cuva ovde i on se vise NE MENJA tokom drag-a (dok ne pozovemo sve ponovo)
-        isDragging = false;                 // iz nekog razloga msm da ovo treba da stoji ovde, mozda je i visak
+        initialClickPoint = new Point(x,y); // The original click is saved here, and he is not changed during drag (until we call everything again)
+        isDragging = false;
 
         for (ElementPainter painter : diagramView.getSelectionedRectangles()) {
             if (painter instanceof InterclassPainter) {
@@ -60,13 +60,13 @@ public class MoveState implements State {
 
         List<ElementPainter> unselectedPainters = new ArrayList<>();
 
-        for (ElementPainter painter : diagramView.getPainters()) {             // napunim listu unselectovanih Paintera
+        for (ElementPainter painter : diagramView.getPainters()) {     // Fill up the list with unselected painters
             if (!diagramView.getSelectionedRectangles().contains(painter)) {
                 unselectedPainters.add(painter);
             }
         }
 
-        for (ElementPainter painter : diagramView.getSelectionedRectangles()) { //da li se preklapa sa nekim
+        for (ElementPainter painter : diagramView.getSelectionedRectangles()) { // if intersects
             if(painter instanceof InterclassPainter){
                 Rectangle painterBounds = ((InterclassPainter) painter).getShape().getBounds();
 
@@ -81,7 +81,7 @@ public class MoveState implements State {
             }
         }
 
-        if(itIntersectsWithSomeone){                                            /// ako se preklapa sa nekim, vrati ih sve na pocetnu lokaciju
+        if(itIntersectsWithSomeone){    // If intersects with anyone, return them back to original location
             for (ElementPainter selectedPainter : diagramView.getSelectionedRectangles()) {
                 if(selectedPainter instanceof InterclassPainter){
                     DiagramElement diagramElement = selectedPainter.getDiagramElement();
@@ -97,7 +97,7 @@ public class MoveState implements State {
                 }
             }
             ApplicationFramework.getInstance().getMessageGenerator().generateMessage(
-                    "Ne mozete ovde pomeriti element jer se preklapa sa nekim!", MessageType.ERROR);
+                    "You can't move the element here, because he intersects with someone!", MessageType.ERROR);
         }
         else {
             AbstractCommand command = new MoveCommand(initialLocations, newLocations);
@@ -107,7 +107,7 @@ public class MoveState implements State {
     @Override
     public void misPrevucen(int x, int y, DiagramView diagramView) {
         if (isDragging) {
-            int dx = x - initialClickPoint.x;    // ako sam pomerio mis u desno, dx = trenutna tacka drag-a   -   pocetna tacna drag-a
+            int dx = x - initialClickPoint.x;    // If i moved the mouse to the right, dx = current DRAG point  -   original DRAG point
             int dy = y - initialClickPoint.y;
 
             for (ElementPainter selectedPainter : diagramView.getSelectionedRectangles()) {

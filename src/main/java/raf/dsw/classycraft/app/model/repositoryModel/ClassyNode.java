@@ -11,11 +11,10 @@ import raf.dsw.classycraft.app.model.diagramElements.DiagramElement;
 //        include = JsonTypeInfo.As.PROPERTY,
 //        property = "type")
 //@JsonSubTypes({
-//        @JsonSubTypes.Type(value = ClassyNodeComposite.class, name = "Composite"),
-//        @JsonSubTypes.Type(value = DiagramElement.class, name = "DiagramElement"),
-//        // Add other direct subclasses
+//        @JsonSubTypes.Type(value = Project.class, name = "Project"),
+//        @JsonSubTypes.Type(value = Package.class, name = "Package"),
+//        @JsonSubTypes.Type(value = Diagram.class, name = "Diagram")
 //})
-
 
 public abstract class ClassyNode {
     @JsonIgnore

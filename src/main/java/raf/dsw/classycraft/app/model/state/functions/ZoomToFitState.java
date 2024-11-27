@@ -2,7 +2,7 @@ package raf.dsw.classycraft.app.model.state.functions;
 
 import raf.dsw.classycraft.app.controller.mouseAdapters.ZoomListener;
 import raf.dsw.classycraft.app.gui.swing.painters.ElementPainter;
-import raf.dsw.classycraft.app.gui.swing.painters.elementi.InterclassPainter;
+import raf.dsw.classycraft.app.gui.swing.painters.element_painters.InterclassPainter;
 import raf.dsw.classycraft.app.gui.swing.view.DiagramView;
 import raf.dsw.classycraft.app.gui.swing.view.MainFrame;
 import raf.dsw.classycraft.app.model.diagramElements.DiagramElement;
@@ -25,12 +25,12 @@ public class ZoomToFitState implements State {
         }
         else{
             Point topLeft = topLeftPoint(diagramElements);
-            diagramView.setTransform(new AffineTransform());           // vrati na original, pocetno
+            diagramView.setTransform(new AffineTransform());  // return to original
 
-            double randomDistanca = 600;                               // postavljeno je na osnovu random odabira, lepo ga zoomuje ovako
-            double scalingFactor = howMuchScaleFactor(diagramView, randomDistanca);                             // scaling faktori xa x i y ose
+            double randomDistanca = 600;   // Set here with random choise, it zoom it nicely
+            double scalingFactor = howMuchScaleFactor(diagramView, randomDistanca);  // scaling factors for x && y axis
 
-            ZoomListener.applyZoomToPanel(diagramView, scalingFactor, applyTransformation(topLeft, diagramView)); // Iskoristi zoom faktor, pocetna tacka je gornji levi ugao
+            ZoomListener.applyZoomToPanel(diagramView, scalingFactor, applyTransformation(topLeft, diagramView)); // Use the zoom factor, initial point is the top left position
             MainFrame.getInstance().getPackageView().getScrollPane().getViewport().setViewPosition(applyTransformation(topLeft, diagramView));
         }
     }
@@ -70,13 +70,13 @@ public class ZoomToFitState implements State {
         Point minPoint = new Point();
         Point maxPoint = new Point();
 
-        koordinateZaPravougaonik(diagramElements, minPoint, maxPoint);          /// moramo da bi setovali minPoint i maxPoint
+        koordinateZaPravougaonik(diagramElements, minPoint, maxPoint);   //  Need to do this in order to set minPoint && maxPoint
         return new Point(minPoint.x, minPoint.y);
     }
     private double howMuchScaleFactor(DiagramView diagramView, double specifiedDistance) {
         Rectangle boundingBox = granicePravougaonika(diagramView);
 
-        // scaling faktori za x i y, na osnovu distance
+        // // scaling factors for x && y axis, based on the distance
         double scaleX = specifiedDistance / boundingBox.getWidth();
         double scaleY = specifiedDistance / boundingBox.getHeight();
 
@@ -92,7 +92,7 @@ public class ZoomToFitState implements State {
         int width = maxPoint.x - minPoint.x;
         int height = maxPoint.y - minPoint.y;
 
-        // vrati granice tog pravougaonika
+        // return the boundaries of the rectangle
         return new Rectangle(minPoint.x, minPoint.y, width, height);
     }
 

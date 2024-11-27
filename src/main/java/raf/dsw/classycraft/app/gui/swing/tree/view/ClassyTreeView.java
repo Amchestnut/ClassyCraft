@@ -7,16 +7,18 @@ import javax.swing.*;
 import javax.swing.tree.DefaultTreeModel;
 
 /*
-Ovo je zapravo nas: JTree.
+This is essentially our JTree implementation.
 
-Pre nego sto ga napravim, moram da mu dam:
-    1) sve njegove TreeItem-e
-    2) model
-    3) tree selection listener
-    4) tree cell editor
-    5) tree cell rendener
-
+Before creating it, we need to provide:
+    1) All its TreeItems
+    2) A model
+    3) A tree selection listener
+    4) A tree cell editor
+    5) A tree cell renderer
  */
+
+
+// ClassyTreeView extends JTree and adds custom behavior for rendering, editing, and selection.
 public class ClassyTreeView extends JTree {
     public ClassyTreeView(DefaultTreeModel defaultTreeModel) {
         setModel(defaultTreeModel);
@@ -25,7 +27,7 @@ public class ClassyTreeView extends JTree {
         addTreeSelectionListener(new ClassyTreeSelectionListener());
         setCellEditor(new ClassyTreeCellEditor(this, classyTreeCellRenderer));
         setCellRenderer(classyTreeCellRenderer);
-        setEditable(true);                          // dozvoljava da moze da se desi cellEditor, ono sa tri klika misom --- za edit
+        setEditable(true);    // Allows cell editing (example: editing with a triple-click using the mouse)
     }
 }
 

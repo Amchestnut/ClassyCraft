@@ -21,7 +21,7 @@ public class MainFrame extends JFrame implements ISubscriber {
     private PackageView packageView;
     private CommandManager commandManager;
 
-    //buduca polja za sve komponente view-a na glavnom prozoru
+    // Future fields for all view components on the main window
 
     private MainFrame(){
     }
@@ -86,7 +86,7 @@ public class MainFrame extends JFrame implements ISubscriber {
     }
 
     public String enterAuthorNewName(){
-        return JOptionPane.showInputDialog("Ukucajte ime novog autora", null);
+        return JOptionPane.showInputDialog("Write the name of the new author", null);
     }
 
     @Override

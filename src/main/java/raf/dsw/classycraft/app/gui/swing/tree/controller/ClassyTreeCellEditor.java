@@ -29,18 +29,19 @@ public class ClassyTreeCellEditor extends DefaultTreeCellEditor implements Actio
     public Component getTreeCellEditorComponent(JTree arg0, Object arg1, boolean arg2, boolean arg3, boolean arg4, int arg5) {
         clickedOn =arg1;
         edit = new JTextField(arg1.toString());
-        edit.addActionListener(this);                                      // dodajem sebe, da bi pokrenuo metodu: actionPerformed
-        return edit;                                                          // koja trenutna komponenta menja moj cvor u stablu (textbox poslat)
+        edit.addActionListener(this);  // Adding myself, to start the method: action performed
+        return edit;     // which component changes my current Node in the Tree
     }
 
-    public boolean isCellEditable(EventObject arg0) {                        // sta treba da se desi na mom stablu da bi se pokrenuo editabilni event
-        // ako user klikne triput, aktivirace akciju
+    public boolean isCellEditable(EventObject arg0) {   // sta treba da se desi na mom stablu da bi se pokrenuo editabilni event
+        // If the user clicks 3 times, he will activate the action
         if (arg0 instanceof MouseEvent)
             return ((MouseEvent) arg0).getClickCount() == 3;
         return false;
     }
 
-    public void actionPerformed(ActionEvent e){                                  // ova metoda garantuje da ce posle kliknutog enter-a da se sacuva izmenjeni naziv
+    // This method guarantees that after clicked "enter" it will save the new name
+    public void actionPerformed(ActionEvent e){
 
         if (!(clickedOn instanceof ClassyTreeItem))
             return;
@@ -66,7 +67,7 @@ public class ClassyTreeCellEditor extends DefaultTreeCellEditor implements Actio
         }
         else{
             ApplicationFramework.getInstance().getMessageGenerator().generateMessage
-                    ("Ime " + newName + " vec postoji, pokusajte ponovo!", MessageType.ERROR);
+                    ("Name " + newName + " already exists, try again!", MessageType.ERROR);
         }
     }
 }

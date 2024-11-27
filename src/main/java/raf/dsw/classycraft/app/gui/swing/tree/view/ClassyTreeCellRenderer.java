@@ -15,11 +15,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
-/*
-Objasnjenje:
-Ovde u ovoj klasi sredjujem celokupan IZGLED stabla!
-U zavisnosti od toga koji je TIP modela ClassyTreeItem (dal je project, paket ili dijagram), imace odgovarajucu ikonicu
- */
+
+// Here we deal with the whole Tree look
+// Based on the type (project, package, diagram) it will have the right image
 public class ClassyTreeCellRenderer extends DefaultTreeCellRenderer {
 
     private static final int DESIRED_SIZE = 20;

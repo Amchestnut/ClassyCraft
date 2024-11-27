@@ -1,10 +1,10 @@
 package raf.dsw.classycraft.app.controller.commandActions;
 
 import raf.dsw.classycraft.app.gui.swing.painters.ElementPainter;
-import raf.dsw.classycraft.app.gui.swing.painters.elementi.AbstractClassPainter;
-import raf.dsw.classycraft.app.gui.swing.painters.elementi.EnumPainter;
-import raf.dsw.classycraft.app.gui.swing.painters.elementi.InterfejsPainter;
-import raf.dsw.classycraft.app.gui.swing.painters.elementi.KlasaPainter;
+import raf.dsw.classycraft.app.gui.swing.painters.element_painters.AbstractClassPainter;
+import raf.dsw.classycraft.app.gui.swing.painters.element_painters.EnumPainter;
+import raf.dsw.classycraft.app.gui.swing.painters.element_painters.InterfejsPainter;
+import raf.dsw.classycraft.app.gui.swing.painters.element_painters.KlasaPainter;
 import raf.dsw.classycraft.app.gui.swing.view.MainFrame;
 import raf.dsw.classycraft.app.model.diagramElements.DiagramElement;
 import raf.dsw.classycraft.app.model.diagramElements.elements.AbstractClass;

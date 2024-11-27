@@ -7,7 +7,7 @@ public class DataForConnection {
     private String type;
     private String visibilityOfTheFirstElement = "";
     private String instanceOfTheFirstElement = "";
-    private String kardinalnostOfTheFirstElement = "";  // multiplicity na engleskom, mozda sam negde koristio taj naziv
+    private String kardinalnostOfTheFirstElement = "";  // multiplicity
 
     private String visibilityOfTheSecondElement = "";
     private String instanceOfTheSecondElement = "";

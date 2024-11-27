@@ -1,4 +1,4 @@
-package raf.dsw.classycraft.app.gui.swing.painters.elementi;
+package raf.dsw.classycraft.app.gui.swing.painters.element_painters;
 
 import raf.dsw.classycraft.app.model.diagramElements.DiagramElement;
 

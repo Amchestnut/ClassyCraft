@@ -2,8 +2,8 @@ package raf.dsw.classycraft.app.controller.commandActions.commands;
 
 import raf.dsw.classycraft.app.controller.commandActions.AbstractCommand;
 import raf.dsw.classycraft.app.gui.swing.painters.ElementPainter;
-import raf.dsw.classycraft.app.gui.swing.painters.elementi.InterclassPainter;
-import raf.dsw.classycraft.app.gui.swing.painters.veze.*;
+import raf.dsw.classycraft.app.gui.swing.painters.element_painters.InterclassPainter;
+import raf.dsw.classycraft.app.gui.swing.painters.connection_painters.*;
 import raf.dsw.classycraft.app.gui.swing.tree.model.ClassyTreeItem;
 import raf.dsw.classycraft.app.gui.swing.view.DiagramView;
 import raf.dsw.classycraft.app.gui.swing.view.MainFrame;
@@ -81,22 +81,22 @@ public class AddConnectionCommand extends AbstractCommand {
 
         ElementPainter elementPainter = null;
         if(diagramElement instanceof AssociationConnection){
-            elementPainter = new AsocijacijaPainter(interclassOD, interclassDO, diagramElement);            /// PROMENJENO JE sa interclassPainter na interclassu ZBOG KONEKCIONIH TACAKA
+            elementPainter = new AssociationPainter(interclassOD, interclassDO, diagramElement);            /// PROMENJENO JE sa interclassPainter na interclassu ZBOG KONEKCIONIH TACAKA
         }
         else if(diagramElement instanceof InheritanceConnection){
-            elementPainter = new NasledjivanjePainter(interclassOD, interclassDO, diagramElement);
+            elementPainter = new InheritancePainter(interclassOD, interclassDO, diagramElement);
         }
         else if(diagramElement instanceof RealisationConnection){
-            elementPainter = new RealizacijaPainter(interclassOD, interclassDO, diagramElement);
+            elementPainter = new RealisationPainter(interclassOD, interclassDO, diagramElement);
         }
         else if(diagramElement instanceof DependencyConnection){
-            elementPainter = new ZavisnostPainter(interclassOD, interclassDO, diagramElement);
+            elementPainter = new DependencyPainter(interclassOD, interclassDO, diagramElement);
         }
         else if(diagramElement instanceof AggregationConnection){
             elementPainter = new AggregationPainter(interclassOD, interclassDO, diagramElement);
         }
         else if(diagramElement instanceof CompositionConnection){
-            elementPainter = new KompozicijaPainter(interclassOD, interclassDO, diagramElement);
+            elementPainter = new CompositionPainter(interclassOD, interclassDO, diagramElement);
         }
         return elementPainter;
     }

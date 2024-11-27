@@ -30,15 +30,15 @@ public class AboutUsFrame extends JFrame {
         imeIgor = new JLabel("Igor Gajic");
     }
     private void positionalise(){
-        //Stavljamo layout
+        // Adding layout
         this.setLayout(new GridLayout(2, 2));
-        //Centriramo imena
+        // Centering the name
         imeIgor.setHorizontalAlignment(SwingConstants.CENTER);
         imeAndrija.setHorizontalAlignment(SwingConstants.CENTER);
         this.add(imeIgor);
         this.add(imeAndrija);
 
-        //Dodajemo slike
+        // Adding pictures
         JLabel labelImageAndrija = new JLabel(imageAndrija);
         JLabel labelImageIgor = new JLabel(imageIgor);
         this.add(labelImageIgor);

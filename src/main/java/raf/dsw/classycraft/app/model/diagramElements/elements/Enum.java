@@ -11,12 +11,12 @@ import java.util.Objects;
 public class Enum extends Interclass{
     private List<ClassContent> attributes;
     private List<ClassContent> methods;
-    public Enum(int color, int stroke, String name, Point location, Dimension dimension) {       // recept za crtanje
+    public Enum(int color, int stroke, String name, Point location, Dimension dimension) {
         super(color, stroke, name, location, dimension);
         attributes = new ArrayList<>();
         methods = new ArrayList<>();
     }
-    public Enum(){ //za Json, nema drugu svrhu
+    public Enum(){ // For jackson
         attributes = new ArrayList<>();
         methods = new ArrayList<>();
     }

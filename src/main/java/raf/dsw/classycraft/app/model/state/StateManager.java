@@ -6,11 +6,11 @@ import raf.dsw.classycraft.app.model.state.connections.AddConnectionState;
 import raf.dsw.classycraft.app.model.state.functions.*;
 
 public class StateManager {
-    // stejtovi za dodavanje
+    // States for adding
     private State currentState;
     private AddInterclassState addInterclassState;
 
-    // funkcije
+    // functions
     private SelectState selectState;
     private MoveState moveState;
     private DeleteState deleteState;
@@ -19,7 +19,7 @@ public class StateManager {
     private AddDuplicateState addDuplicateState;
     private ZoomToFitState zoomToFitState;
 
-    // veze
+    // connections
     private AddConnectionState addConnectionState;
 
     public StateManager() {
