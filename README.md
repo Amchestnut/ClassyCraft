@@ -63,19 +63,21 @@ Use the **connection tools** to define relationships like:
 4. **Save and Export**
 - Save projects for future editing or export diagrams as images for documentation purposes.
 
-## Real-World Applications
-**Software Development**:
+## Real-World Applications  
+**Software Development**:  
 - Design and prototype class structures for new projects.
-**Education**:
+  
+**Education**:  
 - Teach or learn object-oriented design principles through interactive diagrams.
-**Documentation**:
-- Create professional-grade UML diagrams for software documentation.
+
+**Documentation**:  
+- Create professional-grade UML diagrams for software documentation.  
 
 ## Tech Stack
-**Languages**: Java, Swing (GUI)
-**Libraries**:
-**Jackson**: For serialization and deserialization of diagrams.
-**Java AWT/Swing**: For graphical interface and drawing operations.
+**Languages**: Java, Swing (GUI)  
+**Libraries**:  
+- **Jackson**: For serialization and deserialization of diagrams.  
+- **Java AWT/Swing**: For graphical interface and drawing operations.  
 
 ## Code Example
 **Diagram Code Generation**
