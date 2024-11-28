@@ -3,8 +3,8 @@
 **ClassyCraft** is an intuitive and powerful software tool designed for creating and managing **UML Class Diagrams**. It allows users to visually design classes, interfaces, and their relationships, offering advanced options for code generation, diagram export, and customization. Ideal for developers, students, and educators, ClassyCraft makes modeling class structures simple and efficient.
 
 <p align="center"> 
-  <img src="src/main/resources/image_1.png" alt="ClassyCraft Interface" width="500" />
-  <img src="src/main/resources/image_2.png" alt="Class Diagram Example" width="500" /> 
+  <img src="src/main/resources/image_1.png" alt="ClassyCraft Interface" width="1000" />
+  <img src="src/main/resources/image_2.png" alt="Class Diagram Example" width="1000" /> 
 </p>
 
 ## Features
