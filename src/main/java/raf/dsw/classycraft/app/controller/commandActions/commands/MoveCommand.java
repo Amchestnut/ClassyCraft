@@ -12,14 +12,14 @@ import java.util.Map;
 
 public class MoveCommand extends AbstractCommand {
     private final List<Helper> helpers = new ArrayList<>();
-    public MoveCommand(Map<InterclassPainter, Point> oldLocations, Map<InterclassPainter, Point> newLoactions){
+    public MoveCommand(Map<InterclassPainter, Point> oldLocations, Map<InterclassPainter, Point> newLocations){
         List<InterclassPainter> listOfPainters = new ArrayList<>(oldLocations.keySet());
 
         for(InterclassPainter painter : listOfPainters){
             Helper helper = new Helper();
             helper.setPainter(painter);
             helper.setOldLocation(oldLocations.get(painter));
-            helper.setNewLocation(newLoactions.get(painter));
+            helper.setNewLocation(newLocations.get(painter));
             helpers.add(helper);
         }
     }
@@ -28,7 +28,7 @@ public class MoveCommand extends AbstractCommand {
         for(Helper helper : helpers){
             if(helper.getPainter().getDiagramElement() instanceof Interclass) {
                 ((Interclass) helper.getPainter().getDiagramElement()).setLocation(helper.newLocation);
-                setKonekcioneTackeForPainter(helper.getPainter());
+                setConnectionsPointsForPainter(helper.getPainter());
             }
         }
         setChangedToTrueInCurrentProject();
@@ -39,11 +39,11 @@ public class MoveCommand extends AbstractCommand {
         for(Helper helper : helpers){
             if(helper.getPainter().getDiagramElement() instanceof Interclass) {
                 ((Interclass) helper.getPainter().getDiagramElement()).setLocation(helper.oldLocation);
-                setKonekcioneTackeForPainter(helper.getPainter());
+                setConnectionsPointsForPainter(helper.getPainter());
             }
         }
     }
-    private void setKonekcioneTackeForPainter(ElementPainter painter){
+    private void setConnectionsPointsForPainter(ElementPainter painter){
         if(painter.getDiagramElement() instanceof Interclass)
             ((Interclass) painter.getDiagramElement()).setConnectionPoints(painter.getDiagramElement());
     }

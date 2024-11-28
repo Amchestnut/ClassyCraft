@@ -24,8 +24,7 @@ public class AddDuplicateCommand extends AbstractCommand {
 
     @Override
     public void doCommand() {
-        // sad provera da li bi se na trenutnoj tacki nas novi pravougaonik sekao sa nekim vec postojecim.
-        // prvo uzimamo tacku i velicinu novog pravougaonika
+        // First a check to see if on the current point, our new rectangle, intersects with any existing (so we take the point and the dimension of the new rectangle)
         Dimension dimension = null;
         if(diagramElement instanceof Interclass){
             dimension = ((Interclass) diagramElement).getDimension();
@@ -36,7 +35,7 @@ public class AddDuplicateCommand extends AbstractCommand {
             rectangleOfTheNewElement = new Rectangle(currentPoint.x, currentPoint.y, dimension.width, dimension.height);
         }
 
-        // zatim proveravamo da li se slucajno intersektuje sa nekim postojecim
+        // Then we check if he suddently intersects with any existing
         boolean canBeAdded = true;
 
         for(ElementPainter painter : diagramView.getPainters()) {
@@ -64,7 +63,7 @@ public class AddDuplicateCommand extends AbstractCommand {
         }
         else{
             ApplicationFramework.getInstance().getMessageGenerator().generateMessage(
-                    "Ovaj duplikat koji zelite da dodate se sece sa nekim na ekranu", MessageType.ERROR);
+                    "This duplicate you want to add is intersecting with someone on the workscreen", MessageType.ERROR);
         }
         diagramView.getSelectionedRectangles().clear();
         diagramView.backToOriginalColor();

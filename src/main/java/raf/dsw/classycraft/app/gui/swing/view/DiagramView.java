@@ -30,7 +30,7 @@ public class DiagramView extends JPanel implements ISubscriber {
 
     private String tabName;
     private List<ElementPainter> painters;
-    private List<ElementPainter> selectionedRectangles;  // lsit of painters, becuase painter has the model, but model doesnt have the painter ;) (MVC)
+    private List<ElementPainter> selectionedRectangles;  // list of painters, because painter has the model, but model doesnt have the painter ;) (MVC)
     private Diagram diagram;
     private Rectangle selectionRectangle = null;
     private Line2D temporaryLine = null;

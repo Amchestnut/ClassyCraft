@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("Method")
 public class Method extends ClassContent{
     private String methodName;
-    public Method(String vidljivost, String methodName) {
-        super(vidljivost);
+    public Method(String visibility, String methodName) {
+        super(visibility);
         this.methodName = methodName;
     }
     public Method(){

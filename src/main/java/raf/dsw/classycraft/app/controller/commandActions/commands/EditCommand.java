@@ -28,8 +28,8 @@ public class EditCommand extends AbstractCommand {
     private String newName;
     private List<ClassContent> oldMethods;
     private List<ClassContent> newMethods;
-    private List<ClassContent> oldAtributes;
-    private List<ClassContent> newAtributes;
+    private List<ClassContent> oldAttributes;
+    private List<ClassContent> newAttributes;
     private Company company;
     private boolean isDone;
     private boolean nothingHasBeenDone = true;
@@ -42,39 +42,39 @@ public class EditCommand extends AbstractCommand {
     @Override
     public void doCommand() {
         if(!isDone) {
-            // u ovom objektu ispod imam sve podatke iz prosledjenog diagram elementa !
+            // In this object under, I have all the data from the received DiagramElement!
             if (diagramElement instanceof Interclass) {
                 DataForElementFromDialog dataForElementFromDialog = extractDataFromInterclass(diagramElement);
 
-                DataForElementFromDialog updejtovanData = null;
+                DataForElementFromDialog updatedData = null;
                 if (dataForElementFromDialog != null) {
                     oldName = dataForElementFromDialog.getName();
                     oldType = dataForElementFromDialog.getType();
-                    updejtovanData = diagramView.showEditDialogForInterclass(dataForElementFromDialog);
-                    if(updejtovanData == null)
+                    updatedData = diagramView.showEditDialogForInterclass(dataForElementFromDialog);
+                    if(updatedData == null)
                         return;
-                    newType = updejtovanData.getType();
+                    newType = updatedData.getType();
                 }
 
-                if (updejtovanData != null) {
+                if (updatedData != null) {
                     nothingHasBeenDone = false;
                     String[] rawAttributes = company.getRawAttributesFromDataFromElementFromDialog(dataForElementFromDialog);
                     String[] rawMethods = company.getRawMethodsFromDataFromElementFromDialog(dataForElementFromDialog);
 
-                    List<ClassContent> atributi = new ArrayList<>();
-                    company.refactorAttributes(rawAttributes, atributi);
+                    List<ClassContent> attributes = new ArrayList<>();
+                    company.refactorAttributes(rawAttributes, attributes);
 
-                    List<ClassContent> metode = new ArrayList<>();
-                    company.refactorMethods(rawMethods, metode);
+                    List<ClassContent> methods = new ArrayList<>();
+                    company.refactorMethods(rawMethods, methods);
 
-                    String name = updejtovanData.getName();
+                    String name = updatedData.getName();
                     if (name.isEmpty()) {
                         name = "+EmptyName";
                     }
                     newName = name;
                     diagramElement.setName(name);
-                    setMethodsAndAttributesForDiagramElement(diagramElement, metode, atributi);
-                    ((Interclass) diagramElement).setDimension(company.determiningTheSizeOfTheRectangle(name, atributi, metode));
+                    setMethodsAndAttributesForDiagramElement(diagramElement, methods, attributes);
+                    ((Interclass) diagramElement).setDimension(company.determiningTheSizeOfTheRectangle(name, attributes, methods));
                 }
                 else{
                     nothingHasBeenDone = true;
@@ -88,23 +88,23 @@ public class EditCommand extends AbstractCommand {
                 }
                 if (updatedData != null) {
                     nothingHasBeenDone = false;
-                    if (updatedData.getType().equalsIgnoreCase("asocijacija") || updatedData.getType().equalsIgnoreCase("agregacija") || updatedData.getType().equalsIgnoreCase("kompozicija")) {
+                    if (updatedData.getType().equalsIgnoreCase("association") || updatedData.getType().equalsIgnoreCase("aggregation") || updatedData.getType().equalsIgnoreCase("composition")) {
 
                         String visibilityOfTheFirstElement = updatedData.getVisibilityOfTheFirstElement();
                         String instanceOfTheFirstElement = updatedData.getInstanceOfTheFirstElement();
-                        String kardinalnostOfTheFirstElement = updatedData.getCardinalityOfTheFirstElement();
+                        String cardinalityOfTheFirstElement = updatedData.getCardinalityOfTheFirstElement();
 
                         String visibilityOfTheSecondElement = updatedData.getVisibilityOfTheSecondElement();
                         String instanceOfTheSecondElement = updatedData.getInstanceOfTheSecondElement();
-                        String kardinalnostOfTheSecondElement = updatedData.getCardinalityOfTheSecondElement();
+                        String cardinalityOfTheSecondElement = updatedData.getCardinalityOfTheSecondElement();
 
                         ((Connection) diagramElement).setVisibilityOfTheFirstElement(visibilityOfTheFirstElement);
                         ((Connection) diagramElement).setInstanceOfTheFirstElement(instanceOfTheFirstElement);
-                        ((Connection) diagramElement).setCardinalityOfTheFirstElement(kardinalnostOfTheFirstElement);
+                        ((Connection) diagramElement).setCardinalityOfTheFirstElement(cardinalityOfTheFirstElement);
 
                         ((Connection) diagramElement).setVisibilityOfTheSecondElement(visibilityOfTheSecondElement);
                         ((Connection) diagramElement).setInstanceOfTheSecondElement(instanceOfTheSecondElement);
-                        ((Connection) diagramElement).setCardinalityOfTheSecondElement(kardinalnostOfTheSecondElement);
+                        ((Connection) diagramElement).setCardinalityOfTheSecondElement(cardinalityOfTheSecondElement);
                     }
                 }
                 else{
@@ -117,70 +117,70 @@ public class EditCommand extends AbstractCommand {
                 ClassyTreeItem diagramElementNode = diagramView.findTheItem(root, diagramElement);
 
                 if (diagramElementNode != null) {
-                    diagramElementNode.setUserObject(diagramElement);                  // updejtovan node
-                    SwingUtilities.updateComponentTreeUI(classyTree.getTreeView());    // refresh
+                    diagramElementNode.setUserObject(diagramElement);  // updated Node
+                    SwingUtilities.updateComponentTreeUI(classyTree.getTreeView());  // refresh
                 }
             }
             isDone = true;
         }
         else{
-            turnOldToNewMethodsAndAttributes(newName, newAtributes, newMethods);
+            turnOldToNewMethodsAndAttributes(newName, newAttributes, newMethods);
         }
         setChangedToTrueInCurrentProject();
     }
 
     @Override
     public void undoCommand() {
-        turnOldToNewMethodsAndAttributes(oldName, oldAtributes, oldMethods);
+        turnOldToNewMethodsAndAttributes(oldName, oldAttributes, oldMethods);
     }
 
-    private void turnOldToNewMethodsAndAttributes(String oldName, List<ClassContent> oldAtributes, List<ClassContent> oldMethods) {
+    private void turnOldToNewMethodsAndAttributes(String oldName, List<ClassContent> oldAttributes, List<ClassContent> oldMethods) {
         diagramElement.setName(oldName);
         if(diagramElement instanceof Klasa){
-            ((Klasa) diagramElement).setAttributes(oldAtributes);
+            ((Klasa) diagramElement).setAttributes(oldAttributes);
             ((Klasa) diagramElement).setMethods(oldMethods);
         }
         else if(diagramElement instanceof Interfejs){
-            // nema atribute
+            // He has no attributes
             ((Interfejs) diagramElement).setMethods(oldMethods);
         }
         else if(diagramElement instanceof Enum){
-            ((Enum) diagramElement).setAttributes(oldAtributes);
+            ((Enum) diagramElement).setAttributes(oldAttributes);
             ((Enum) diagramElement).setMethods(oldMethods);
         }
         else if(diagramElement instanceof AbstractClass){
-            ((AbstractClass) diagramElement).setAttributes(oldAtributes);
+            ((AbstractClass) diagramElement).setAttributes(oldAttributes);
             ((AbstractClass) diagramElement).setMethods(oldMethods);
         }
-        ((Interclass) diagramElement).setDimension(company.determiningTheSizeOfTheRectangle(oldName, oldAtributes, oldMethods));
+        ((Interclass) diagramElement).setDimension(company.determiningTheSizeOfTheRectangle(oldName, oldAttributes, oldMethods));
     }
 
-    private void setMethodsAndAttributesForDiagramElement(DiagramElement diagramElement, List<ClassContent> metode, List<ClassContent> atributi){
+    private void setMethodsAndAttributesForDiagramElement(DiagramElement diagramElement, List<ClassContent> methods, List<ClassContent> attributes){
         if (diagramElement instanceof Klasa) {
             oldMethods = ((Klasa) diagramElement).getMethods();
-            oldAtributes = ((Klasa) diagramElement).getAttributes();
-            newMethods = metode;
-            newAtributes = atributi;
-            ((Klasa) diagramElement).setAttributes(newAtributes);
+            oldAttributes = ((Klasa) diagramElement).getAttributes();
+            newMethods = methods;
+            newAttributes = attributes;
+            ((Klasa) diagramElement).setAttributes(newAttributes);
             ((Klasa) diagramElement).setMethods(newMethods);
         } else if (diagramElement instanceof Interfejs) {
             oldMethods = ((Interfejs) diagramElement).getMethods();
-            newMethods = metode;
+            newMethods = methods;
             // nema atribute
             ((Interfejs) diagramElement).setMethods(newMethods);
         } else if (diagramElement instanceof Enum) {
             oldMethods = ((Enum) diagramElement).getMethods();
-            oldAtributes = ((Enum) diagramElement).getAttributes();
-            newMethods = metode;
-            newAtributes = atributi;
-            ((Enum) diagramElement).setAttributes(newAtributes);
+            oldAttributes = ((Enum) diagramElement).getAttributes();
+            newMethods = methods;
+            newAttributes = attributes;
+            ((Enum) diagramElement).setAttributes(newAttributes);
             ((Enum) diagramElement).setMethods(newMethods);
         } else if (diagramElement instanceof AbstractClass) {
-            oldAtributes = ((AbstractClass) diagramElement).getAttributes();
+            oldAttributes = ((AbstractClass) diagramElement).getAttributes();
             oldMethods = ((AbstractClass) diagramElement).getMethods();
-            newMethods = metode;
-            newAtributes = atributi;
-            ((AbstractClass) diagramElement).setAttributes(newAtributes);
+            newMethods = methods;
+            newAttributes = attributes;
+            ((AbstractClass) diagramElement).setAttributes(newAttributes);
             ((AbstractClass) diagramElement).setMethods(newMethods);
         }
     }
@@ -209,7 +209,7 @@ public class EditCommand extends AbstractCommand {
             methods.addAll(((AbstractClass)diagramElement).getMethods());
         }
 
-        // convertujem attributes i methods u string format
+        // Converting attributes && methods in string format
         StringBuilder attributesString = new StringBuilder();
         for (ClassContent attribute : attributes) {
             if(attribute instanceof Attribute){
@@ -243,7 +243,7 @@ public class EditCommand extends AbstractCommand {
         return data;
     }
     public DataForConnection extractDataFromConnection(DiagramElement diagramElement) {
-        if (!(diagramElement instanceof Connection)) {                                           // lakse se kastuje posle ovog
+        if (!(diagramElement instanceof Connection)) {   // Easier casting
             return null;
         }
 
@@ -252,8 +252,8 @@ public class EditCommand extends AbstractCommand {
 
         DataForConnection dataForConnection = new DataForConnection(type);
 
-        // ako je veza imala instance (ako je bila asocijacija ili neka druga koja ima), popunim data object sa tim podacima i vratim
-        if(type.equalsIgnoreCase("asocijacija") || type.equalsIgnoreCase("agregacija") || type.equalsIgnoreCase("kompozicija")){
+        // If the connect had instanced (association/agg/comp), fill up the data object with that data and return
+        if(type.equalsIgnoreCase("association") || type.equalsIgnoreCase("aggregation") || type.equalsIgnoreCase("composition")){
             dataForConnection.setVisibilityOfTheFirstElement(connection.getVisibilityOfTheFirstElement());
             dataForConnection.setInstanceOfTheFirstElement(connection.getInstanceOfTheFirstElement());
             dataForConnection.setCardinalityOfTheFirstElement(connection.getCardinalityOfTheFirstElement());
@@ -333,20 +333,20 @@ public class EditCommand extends AbstractCommand {
         this.newMethods = newMethods;
     }
 
-    public List<ClassContent> getOldAtributes() {
-        return oldAtributes;
+    public List<ClassContent> getOldAttributes() {
+        return oldAttributes;
     }
 
-    public void setOldAtributes(List<ClassContent> oldAtributes) {
-        this.oldAtributes = oldAtributes;
+    public void setOldAttributes(List<ClassContent> oldAttributes) {
+        this.oldAttributes = oldAttributes;
     }
 
-    public List<ClassContent> getNewAtributes() {
-        return newAtributes;
+    public List<ClassContent> getNewAttributes() {
+        return newAttributes;
     }
 
-    public void setNewAtributes(List<ClassContent> newAtributes) {
-        this.newAtributes = newAtributes;
+    public void setNewAttributes(List<ClassContent> newAttributes) {
+        this.newAttributes = newAttributes;
     }
 
     public boolean isDone() {

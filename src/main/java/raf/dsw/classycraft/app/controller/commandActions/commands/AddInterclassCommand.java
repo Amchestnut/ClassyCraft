@@ -36,11 +36,12 @@ public class AddInterclassCommand extends AbstractCommand {
             newDimension = ((Interclass) diagramElement).getDimension();
         }
 
-        assert newDimension != null;        // newDimension nikad nece biti null;
+        assert newDimension != null;        // newDimension will never be null;
         Rectangle elementThatWillBeAdded = new Rectangle(location.x, location.y, newDimension.width, newDimension.height);
         boolean canBeAdded = true;
 
-        for(ElementPainter painter : diagramView.getPainters()) {               // ovde gledam jel se sece sa nekim na ekranu
+        // Here i check for any intersects
+        for(ElementPainter painter : diagramView.getPainters()) {
             if(painter instanceof InterclassPainter){
                 Rectangle painterBounds = ((InterclassPainter) painter).getShape().getBounds();
                 if(painterBounds.intersects(elementThatWillBeAdded)){
@@ -51,8 +52,8 @@ public class AddInterclassCommand extends AbstractCommand {
         }
 
         if(canBeAdded){
-            ((Interclass) diagramElement).setConnectionPoints(diagramElement);   // ------ ovo sam dodao da bi se konekcione tacke nalazile u modelu umesto u painteru.
-            diagramView.dodajMeKaoSubscribera(diagramElement);                  // SVAKI DIJAGRAMELEMENT IMA 1 SUBScriber --- TO JE DIAGRAMVIEW
+            ((Interclass) diagramElement).setConnectionPoints(diagramElement);   // This is added so the connection points are stored in the model instead of storing them in the painter
+            diagramView.dodajMeKaoSubscribera(diagramElement);  // Every diagramElement has 1 subscriber -> DiagramView
 
             diagramView.addPainter(painter);
             if(!diagramView.getDiagram().getChildren().contains(diagramElement))
@@ -62,7 +63,7 @@ public class AddInterclassCommand extends AbstractCommand {
         }
         else{
             ApplicationFramework.getInstance().getMessageGenerator().generateMessage(
-                    "Ne moze ovde da se doda, preklapa se sa postojecim elementom", MessageType.ERROR);
+                    "Can't be added here, it intersects with an existing element!", MessageType.ERROR);
         }
         setChangedToTrueInCurrentProject();
     }

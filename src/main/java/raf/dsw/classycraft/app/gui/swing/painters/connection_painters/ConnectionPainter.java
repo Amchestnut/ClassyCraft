@@ -32,13 +32,13 @@ public class ConnectionPainter extends ElementPainter {
         Point second = null;
 
         if(interclassFROM instanceof Interclass && interclassTO instanceof Interclass){
-            if(((Interclass) interclassFROM).getConnectionsPoints().isEmpty())
+            if(((Interclass) interclassFROM).getConnectionPoints().isEmpty())
                 ((Interclass) interclassFROM).setConnectionPoints(interclassFROM);
-            if(((Interclass) interclassTO).getConnectionsPoints().isEmpty())
+            if(((Interclass) interclassTO).getConnectionPoints().isEmpty())
                 ((Interclass) interclassTO).setConnectionPoints(interclassTO);
 
-            for(Point p1 : ((Interclass) interclassFROM).getConnectionsPoints()){
-                for(Point p2 : ((Interclass) interclassTO).getConnectionsPoints()){
+            for(Point p1 : ((Interclass) interclassFROM).getConnectionPoints()){
+                for(Point p2 : ((Interclass) interclassTO).getConnectionPoints()){
                     double distance = p1.distance(p2);
                     if(distance < minDistance){
                         minDistance = distance;
@@ -56,7 +56,7 @@ public class ConnectionPainter extends ElementPainter {
                 ((Connection)diagramElement).setConnectionPointTO(second);
             }
 
-            // ivice i velicina invisible pravougaonika
+            // Edges and the size of the invisible rectangle
             double x = Math.min(first.x, second.x);
             double y = Math.min(first.y, second.y);
             double width = Math.abs(first.x - second.x);

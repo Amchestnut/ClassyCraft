@@ -16,3 +16,9 @@
 [ERROR][27.11.2024][21:53] You can't move the element here, because he intersects with someone!
 [ERROR][27.11.2024][21:53] You can't move the element here, because he intersects with someone!
 [ERROR][28.11.2024][10:5] You can't move the element here, because he intersects with someone!
+[ERROR][28.11.2024][11:44] You can't move the element here, because he intersects with someone!
+[ERROR][28.11.2024][11:44] You need to select a Project!
+[ERROR][28.11.2024][11:44] You dont have any selected element to duplicate!
+[ERROR][28.11.2024][11:44] This duplicate you want to add is intersecting with someone on the workscreen
+[ERROR][28.11.2024][11:44] You dont have any selected element to duplicate!
+[ERROR][28.11.2024][11:44] You dont have any selected element to duplicate!

@@ -1,0 +1,249 @@
+{
+  "@class" : "raf.dsw.classycraft.app.model.modelImplementation.Project",
+  "name" : "Project2",
+  "children" : [ "java.util.ArrayList", [ {
+    "@class" : "raf.dsw.classycraft.app.model.modelImplementation.Package",
+    "name" : "Package1",
+    "children" : [ "java.util.ArrayList", [ ] ],
+    "path" : null
+  }, {
+    "@class" : "raf.dsw.classycraft.app.model.modelImplementation.Package",
+    "name" : "Package2",
+    "children" : [ "java.util.ArrayList", [ {
+      "@class" : "raf.dsw.classycraft.app.model.modelImplementation.Diagram",
+      "name" : "Diagram1",
+      "children" : [ "java.util.ArrayList", [ {
+        "@class" : "raf.dsw.classycraft.app.model.diagramElements.elements.Klasa",
+        "name" : "+EmptyName",
+        "stroke" : 3,
+        "color" : -49088,
+        "location" : [ "java.awt.Point", {
+          "x" : 596.0,
+          "y" : 612.0
+        } ],
+        "dimension" : [ "java.awt.Dimension", {
+          "width" : 100.0,
+          "height" : 70.0
+        } ],
+        "attributes" : [ "java.util.ArrayList", [ ] ],
+        "methods" : [ "java.util.ArrayList", [ ] ],
+        "abstraction" : "",
+        "connectionsPoints" : [ "java.util.ArrayList", [ [ "java.awt.Point", {
+          "x" : 646.0,
+          "y" : 612.0
+        } ], [ "java.awt.Point", {
+          "x" : 696.0,
+          "y" : 647.0
+        } ], [ "java.awt.Point", {
+          "x" : 646.0,
+          "y" : 682.0
+        } ], [ "java.awt.Point", {
+          "x" : 596.0,
+          "y" : 647.0
+        } ] ] ]
+      }, {
+        "@class" : "raf.dsw.classycraft.app.model.diagramElements.elements.Interfejs",
+        "name" : "+EmptyNamekk",
+        "stroke" : 3,
+        "color" : -12517568,
+        "location" : [ "java.awt.Point", {
+          "x" : 1157.0,
+          "y" : 630.0
+        } ],
+        "dimension" : [ "java.awt.Dimension", {
+          "width" : 100.0,
+          "height" : 70.0
+        } ],
+        "methods" : [ "java.util.ArrayList", [ ] ],
+        "connectionsPoints" : [ "java.util.ArrayList", [ [ "java.awt.Point", {
+          "x" : 1207.0,
+          "y" : 630.0
+        } ], [ "java.awt.Point", {
+          "x" : 1257.0,
+          "y" : 665.0
+        } ], [ "java.awt.Point", {
+          "x" : 1207.0,
+          "y" : 700.0
+        } ], [ "java.awt.Point", {
+          "x" : 1157.0,
+          "y" : 665.0
+        } ] ] ]
+      }, {
+        "@class" : "raf.dsw.classycraft.app.model.diagramElements.elements.AbstractClass",
+        "name" : "+EmptyName",
+        "stroke" : 3,
+        "color" : -192,
+        "location" : [ "java.awt.Point", {
+          "x" : 724.0,
+          "y" : 931.0
+        } ],
+        "dimension" : [ "java.awt.Dimension", {
+          "width" : 100.0,
+          "height" : 70.0
+        } ],
+        "attributes" : [ "java.util.ArrayList", [ ] ],
+        "methods" : [ "java.util.ArrayList", [ ] ],
+        "abstraction" : "",
+        "connectionsPoints" : [ "java.util.ArrayList", [ [ "java.awt.Point", {
+          "x" : 774.0,
+          "y" : 931.0
+        } ], [ "java.awt.Point", {
+          "x" : 824.0,
+          "y" : 966.0
+        } ], [ "java.awt.Point", {
+          "x" : 774.0,
+          "y" : 1001.0
+        } ], [ "java.awt.Point", {
+          "x" : 724.0,
+          "y" : 966.0
+        } ] ] ]
+      }, {
+        "@class" : "raf.dsw.classycraft.app.model.diagramElements.elements.Enum",
+        "name" : "+EmptyName",
+        "stroke" : 3,
+        "color" : -12566273,
+        "location" : [ "java.awt.Point", {
+          "x" : 1255.0,
+          "y" : 971.0
+        } ],
+        "dimension" : [ "java.awt.Dimension", {
+          "width" : 100.0,
+          "height" : 70.0
+        } ],
+        "attributes" : [ "java.util.ArrayList", [ [ "raf.dsw.classycraft.app.model.diagramElements.elements.Attribute", {
+          "vidljivost" : "-",
+          "attributeName" : "andrija: int"
+        } ] ] ],
+        "methods" : [ "java.util.ArrayList", [ ] ],
+        "connectionsPoints" : [ "java.util.ArrayList", [ [ "java.awt.Point", {
+          "x" : 1305.0,
+          "y" : 971.0
+        } ], [ "java.awt.Point", {
+          "x" : 1355.0,
+          "y" : 1006.0
+        } ], [ "java.awt.Point", {
+          "x" : 1305.0,
+          "y" : 1041.0
+        } ], [ "java.awt.Point", {
+          "x" : 1255.0,
+          "y" : 1006.0
+        } ] ] ]
+      }, {
+        "@class" : "raf.dsw.classycraft.app.model.diagramElements.connections.RealisationConnection",
+        "name" : "Realisation connection",
+        "stroke" : 5,
+        "color" : -16777216,
+        "type" : "realisation",
+        "visibilityOfTheFirstElement" : "",
+        "instanceOfTheFirstElement" : "",
+        "cardinalityOfTheFirstElement" : "",
+        "visibilityOfTheSecondElement" : "",
+        "instanceOfTheSecondElement" : "",
+        "cardinalityOfTheSecondElement" : "",
+        "interclassFROM" : {
+          "@class" : "raf.dsw.classycraft.app.model.diagramElements.elements.Interfejs",
+          "name" : "+EmptyNamekk",
+          "stroke" : 3,
+          "color" : -12517568,
+          "location" : [ "java.awt.Point", {
+            "x" : 1157.0,
+            "y" : 630.0
+          } ],
+          "dimension" : [ "java.awt.Dimension", {
+            "width" : 100.0,
+            "height" : 70.0
+          } ],
+          "methods" : [ "java.util.ArrayList", [ ] ],
+          "connectionsPoints" : [ "java.util.ArrayList", [ [ "java.awt.Point", {
+            "x" : 1207.0,
+            "y" : 630.0
+          } ], [ "java.awt.Point", {
+            "x" : 1257.0,
+            "y" : 665.0
+          } ], [ "java.awt.Point", {
+            "x" : 1207.0,
+            "y" : 700.0
+          } ], [ "java.awt.Point", {
+            "x" : 1157.0,
+            "y" : 665.0
+          } ] ] ]
+        },
+        "interclassTO" : {
+          "@class" : "raf.dsw.classycraft.app.model.diagramElements.elements.Klasa",
+          "name" : "+EmptyName",
+          "stroke" : 3,
+          "color" : -49088,
+          "location" : [ "java.awt.Point", {
+            "x" : 596.0,
+            "y" : 612.0
+          } ],
+          "dimension" : [ "java.awt.Dimension", {
+            "width" : 100.0,
+            "height" : 70.0
+          } ],
+          "attributes" : [ "java.util.ArrayList", [ ] ],
+          "methods" : [ "java.util.ArrayList", [ ] ],
+          "abstraction" : "",
+          "connectionsPoints" : [ "java.util.ArrayList", [ [ "java.awt.Point", {
+            "x" : 646.0,
+            "y" : 612.0
+          } ], [ "java.awt.Point", {
+            "x" : 696.0,
+            "y" : 647.0
+          } ], [ "java.awt.Point", {
+            "x" : 646.0,
+            "y" : 682.0
+          } ], [ "java.awt.Point", {
+            "x" : 596.0,
+            "y" : 647.0
+          } ] ] ]
+        },
+        "connectionPointFROM" : [ "java.awt.Point", {
+          "x" : 1157.0,
+          "y" : 665.0
+        } ],
+        "connectionPointTO" : [ "java.awt.Point", {
+          "x" : 696.0,
+          "y" : 647.0
+        } ]
+      }, {
+        "@class" : "raf.dsw.classycraft.app.model.diagramElements.elements.Interfejs",
+        "name" : "+EmptyNamekk",
+        "stroke" : 3,
+        "color" : -12517568,
+        "location" : [ "java.awt.Point", {
+          "x" : 1408.0,
+          "y" : 784.0
+        } ],
+        "dimension" : [ "java.awt.Dimension", {
+          "width" : 100.0,
+          "height" : 70.0
+        } ],
+        "methods" : [ "java.util.ArrayList", [ ] ],
+        "connectionsPoints" : [ "java.util.ArrayList", [ [ "java.awt.Point", {
+          "x" : 1207.0,
+          "y" : 630.0
+        } ], [ "java.awt.Point", {
+          "x" : 1257.0,
+          "y" : 665.0
+        } ], [ "java.awt.Point", {
+          "x" : 1207.0,
+          "y" : 700.0
+        } ], [ "java.awt.Point", {
+          "x" : 1157.0,
+          "y" : 665.0
+        } ] ] ]
+      } ] ],
+      "path" : null
+    } ] ],
+    "path" : null
+  }, {
+    "@class" : "raf.dsw.classycraft.app.model.modelImplementation.Package",
+    "name" : "Package3",
+    "children" : [ "java.util.ArrayList", [ ] ],
+    "path" : null
+  } ] ],
+  "author" : "Author1",
+  "path" : "C:\\Users\\Windows11\\Documents\\1p",
+  "changed" : false
+}

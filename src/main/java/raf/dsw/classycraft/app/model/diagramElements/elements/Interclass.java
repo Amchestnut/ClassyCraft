@@ -66,7 +66,7 @@ public abstract class Interclass extends DiagramElement {
         setConnectionPoints(this);
     }
 
-    public List<Point> getConnectionsPoints() {
+    public List<Point> getConnectionPoints() {
         return connectionPoints;
     }
 

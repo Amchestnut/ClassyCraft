@@ -41,14 +41,13 @@ public class AddConnectionCommand extends AbstractCommand {
     @Override
     public void doCommand() {
         if(interclassPainterFROM != null && interclassPainterTO != null){
-            // Abstraktna fabrika za veze za bonus
             Company company = new Company();
             DiagramElement diagramElement = company.createConnection(dataForConnection);
             diagramView.dodajMeKaoSubscribera(diagramElement);
             this.diagramElement = diagramElement;
             this.elementPainter = instantiatePainter(diagramElement);
 
-            // ovo moramo da uradimo zbog brisanja kasnije !!! ako se obrise klasa koja ima veze, moraju i njene veze da se obrisu
+            // need to do this because of the deletion later (if we delete a class that has connections, all of her connections need also to be deleted
             if(interclassPainterFROM instanceof InterclassPainter && interclassPainterTO instanceof InterclassPainter){
                 DiagramElement tmp = interclassPainterFROM.getDiagramElement();
                 if(tmp instanceof Interclass){
@@ -62,13 +61,13 @@ public class AddConnectionCommand extends AbstractCommand {
             diagramView.dodajMeKaoSubscribera(diagramElement);
             diagramView.addPainter(elementPainter);
             if(!diagramHasThisChild) {
-                diagramView.getDiagram().addChild(diagramElement);          // tehnicki tacno ali ne zelim je u stablu
+                diagramView.getDiagram().addChild(diagramElement);
                 diagramHasThisChild = true;
             }
             ClassyTreeItem root = MainFrame.getInstance().getClassyTree().getRoot();
             ClassyNode diagram = diagramView.getDiagram();
             ClassyTreeItem classyTreeItem = diagramView.findTheItem(root, diagram);
-            MainFrame.getInstance().getClassyTree().addChildToDiagram(classyTreeItem, elementPainter.getDiagramElement());   // vec objasnjeno u addInterclassState
+            MainFrame.getInstance().getClassyTree().addChildToDiagram(classyTreeItem, elementPainter.getDiagramElement());
         }
         diagramView.repaint();
         setChangedToTrueInCurrentProject();
@@ -81,7 +80,7 @@ public class AddConnectionCommand extends AbstractCommand {
 
         ElementPainter elementPainter = null;
         if(diagramElement instanceof AssociationConnection){
-            elementPainter = new AssociationPainter(interclassOD, interclassDO, diagramElement);            /// PROMENJENO JE sa interclassPainter na interclassu ZBOG KONEKCIONIH TACAKA
+            elementPainter = new AssociationPainter(interclassOD, interclassDO, diagramElement);
         }
         else if(diagramElement instanceof InheritanceConnection){
             elementPainter = new InheritancePainter(interclassOD, interclassDO, diagramElement);

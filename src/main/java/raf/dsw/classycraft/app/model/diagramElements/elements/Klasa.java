@@ -12,6 +12,7 @@ import java.util.Objects;
 public class Klasa extends Interclass{
     private List<ClassContent> attributes;
     private List<ClassContent> methods;
+
     public Klasa(int color, int stroke, String name, Point location, Dimension dimension) {       // guide how to draw
         super(color, stroke, name, location, dimension);
         attributes = new ArrayList<>();
@@ -21,6 +22,7 @@ public class Klasa extends Interclass{
         attributes = new ArrayList<>();
         methods = new ArrayList<>();
     }
+
     @Override
     public String ispisiMetode() {
         StringBuilder stringBuilder = new StringBuilder();
@@ -61,7 +63,7 @@ public class Klasa extends Interclass{
         for(ClassContent classContent : attributes){
             stringBuilder.append("\t").append(classContent.export()).append("\n");
         }
-        for(Connection connection : getAllConnectionsOnThisInterclass()){       //za sakrivene
+        for(Connection connection : getAllConnectionsOnThisInterclass()){     // for the hidden
             if(connection instanceof DependencyConnection && connection.getInterclassFROM().equals(this)){
                 Interclass druga = connection.getInterclassTO();
 
@@ -163,17 +165,17 @@ public class Klasa extends Interclass{
             stringBuilder.append("\t").append(classContent.export()).append("\n");
         }
         if(doIExtendOrImplementSomething != null){
-            stringBuilder.append(ispisiAtributeIMetodeNasledjeneKlase());
+            stringBuilder.append(writeTheAttributesAndMethodsOfTheInheritedClass());
         }
         stringBuilder.append("}");
         return stringBuilder.toString();
     }
-    public String ispisiAtributeIMetodeNasledjeneKlase(){
-        Interclass staNasledjujem;
+    public String writeTheAttributesAndMethodsOfTheInheritedClass(){
+        Interclass whatDoIInherit;
         for(Connection connection : getAllConnectionsOnThisInterclass()){
             if(connection.getInterclassFROM().equals(this)){
-                staNasledjujem = connection.getInterclassTO();
-                return staNasledjujem.ispisiMetode();
+                whatDoIInherit = connection.getInterclassTO();
+                return whatDoIInherit.ispisiMetode();
             }
         }
         return "";

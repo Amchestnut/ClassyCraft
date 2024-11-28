@@ -111,7 +111,6 @@ public class LoadProjectAction extends AbstractClassyAction {
 
             if(parent.getClassyNode() instanceof Package){
                 ((Package) parent.getClassyNode()).notifySubscribers(new NotificationForOpeningPackage(parent.getClassyNode(), diagramItem.getClassyNode()));
-                System.out.println("AAA");
             }
 
             Diagram diagram = (Diagram) diagramItem.getClassyNode();

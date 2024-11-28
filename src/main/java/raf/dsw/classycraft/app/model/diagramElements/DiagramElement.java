@@ -53,7 +53,8 @@ public abstract class DiagramElement extends ClassyNode implements IPublisher, C
     public void setName(String name) {
         this.name = name;
     }
-/// u add child, kad dodam metodu, da preracunam ponovo sirinu i visinu i notify subskrajbere
+
+    // In add child, when I add a method, I calculate the width and height again and I notify subscribers
     @Override
     public void addSubscriber(ISubscriber iSubscriber) {
         this.subs.add(iSubscriber);
@@ -75,7 +76,7 @@ public abstract class DiagramElement extends ClassyNode implements IPublisher, C
     public DiagramElement clone() {
         try {
             DiagramElement clone = (DiagramElement) super.clone();
-            // deep copy a ne shallow copy
+            // deep copy and not shallow copy
             clone.subs = new ArrayList<>(this.subs);
             return clone;
         } catch (CloneNotSupportedException e) {

@@ -73,6 +73,10 @@ public class CommandManager {
         }
     }
 
+    public boolean isLoading() {    // Could use it in AddInterclassCommand to stop adding if loading from project, to make this cleaner
+        return isLoading;
+    }
+
     public void setLoading(boolean loading) {
         this.isLoading = loading;
     }
