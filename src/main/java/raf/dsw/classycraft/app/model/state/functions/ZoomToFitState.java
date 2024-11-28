@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ZoomToFitState implements State {
+    // Mouse clicked
     @Override
     public void misKliknut(int x, int y, DiagramView diagramView) {
         List<DiagramElement> diagramElements = getDiagramElements(diagramView);
@@ -34,11 +35,13 @@ public class ZoomToFitState implements State {
             MainFrame.getInstance().getPackageView().getScrollPane().getViewport().setViewPosition(applyTransformation(topLeft, diagramView));
         }
     }
+    // Mouse released
     @Override
     public void misOtpusten(int x, int y, DiagramView diagramView) {
 
     }
 
+    // Mouse drag
     @Override
     public void misPrevucen(int x, int y, DiagramView diagramView) {
 
@@ -70,11 +73,11 @@ public class ZoomToFitState implements State {
         Point minPoint = new Point();
         Point maxPoint = new Point();
 
-        koordinateZaPravougaonik(diagramElements, minPoint, maxPoint);   //  Need to do this in order to set minPoint && maxPoint
+        coordinatesForRectangle(diagramElements, minPoint, maxPoint);   //  Need to do this in order to set minPoint && maxPoint
         return new Point(minPoint.x, minPoint.y);
     }
     private double howMuchScaleFactor(DiagramView diagramView, double specifiedDistance) {
-        Rectangle boundingBox = granicePravougaonika(diagramView);
+        Rectangle boundingBox = rectangleBoundaries(diagramView);
 
         // // scaling factors for x && y axis, based on the distance
         double scaleX = specifiedDistance / boundingBox.getWidth();
@@ -82,12 +85,12 @@ public class ZoomToFitState implements State {
 
         return Math.min(scaleX, scaleY);
     }
-    private Rectangle granicePravougaonika(DiagramView diagramView) {
+    private Rectangle rectangleBoundaries(DiagramView diagramView) {
         List<DiagramElement> diagramElements = getDiagramElements(diagramView);
 
         Point minPoint = new Point();
         Point maxPoint = new Point();
-        koordinateZaPravougaonik(diagramElements, minPoint, maxPoint);
+        coordinatesForRectangle(diagramElements, minPoint, maxPoint);
 
         int width = maxPoint.x - minPoint.x;
         int height = maxPoint.y - minPoint.y;
@@ -96,7 +99,7 @@ public class ZoomToFitState implements State {
         return new Rectangle(minPoint.x, minPoint.y, width, height);
     }
 
-    private void koordinateZaPravougaonik(List<DiagramElement> diagramElements, Point minPoint, Point maxPoint) {
+    private void coordinatesForRectangle(List<DiagramElement> diagramElements, Point minPoint, Point maxPoint) {
         int minX = Integer.MAX_VALUE;
         int minY = Integer.MAX_VALUE;
         int maxX = Integer.MIN_VALUE;

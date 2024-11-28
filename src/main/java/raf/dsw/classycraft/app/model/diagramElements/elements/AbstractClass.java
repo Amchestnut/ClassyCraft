@@ -30,24 +30,24 @@ public class AbstractClass extends Interclass{
         StringBuilder stringBuilder = new StringBuilder();
         String name = getName();
 
-        String vidljiv = "";
+        String visibility = "";
         String tmp = "";
         if(name.contains("+")) {
-            vidljiv = "public ";
+            visibility = "public ";
             tmp = "\\+";
         }
         else if(name.contains("-")) {
-            vidljiv = "private ";
+            visibility = "private ";
             tmp = "-";
         }
         else if(name.contains("#")) {
-            vidljiv = "protected ";
+            visibility = "protected ";
             tmp = "#";
         }
 
         String doIExtendOrImplementSomething = getAbstraction();
 
-        stringBuilder.append(vidljiv + "abstract class " + getName().split(tmp)[1] + doIExtendOrImplementSomething + "{\n");
+        stringBuilder.append(visibility + "abstract class " + getName().split(tmp)[1] + doIExtendOrImplementSomething + "{\n");
         for(ClassContent classContent : attributes){
             stringBuilder.append(classContent.export() + "\n");
         }
@@ -55,7 +55,7 @@ public class AbstractClass extends Interclass{
             stringBuilder.append(classContent.export() + "\n");
         }
         if(doIExtendOrImplementSomething != null){
-            stringBuilder.append(ispisiAtributeIMetodeNasledjeneKlase());
+            stringBuilder.append(writeAllAttributesAndMethodsOfTheInheritedClass());
         }
         stringBuilder.append("}\n");
         return stringBuilder.toString();
@@ -77,12 +77,12 @@ public class AbstractClass extends Interclass{
         return stringBuilder.toString();
     }
 
-    public String ispisiAtributeIMetodeNasledjeneKlase(){
-        Interclass staNasledjujem;
+    public String writeAllAttributesAndMethodsOfTheInheritedClass(){
+        Interclass whoDoIInherit;
         for(Connection connection : getAllConnectionsOnThisInterclass()){
-            if(connection.getInterclassOD().equals(this)){
-                staNasledjujem = connection.getInterclassDO();
-                return staNasledjujem.ispisiMetode();
+            if(connection.getInterclassFROM().equals(this)){
+                whoDoIInherit = connection.getInterclassTO();
+                return whoDoIInherit.ispisiMetode();
             }
         }
         return "";
@@ -92,8 +92,8 @@ public class AbstractClass extends Interclass{
         StringBuilder stringBuilder = new StringBuilder();
 
         for(Connection connection : getAllConnectionsOnThisInterclass()){
-            if(connection.getInterclassOD().equals(this)){
-                Interclass interclass = connection.getInterclassDO();
+            if(connection.getInterclassFROM().equals(this)){
+                Interclass interclass = connection.getInterclassTO();
                 if(connection instanceof RealisationConnection) {
                     stringBuilder.append(" implements ").append(interclass.getName());
                 }

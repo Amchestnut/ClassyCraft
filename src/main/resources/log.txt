@@ -15,3 +15,4 @@
 [ERROR][27.11.2024][19:7] Morate selektovati neki Diagram!
 [ERROR][27.11.2024][21:53] You can't move the element here, because he intersects with someone!
 [ERROR][27.11.2024][21:53] You can't move the element here, because he intersects with someone!
+[ERROR][28.11.2024][10:5] You can't move the element here, because he intersects with someone!

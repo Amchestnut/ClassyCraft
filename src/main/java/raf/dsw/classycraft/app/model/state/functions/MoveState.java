@@ -70,9 +70,9 @@ public class MoveState implements State {
             if(painter instanceof InterclassPainter){
                 Rectangle painterBounds = ((InterclassPainter) painter).getShape().getBounds();
 
-                for(ElementPainter neselektovan : unselectedPainters){
-                    if(neselektovan instanceof InterclassPainter){
-                        Rectangle boundsOfUnselectedPainter = ((InterclassPainter) neselektovan).getShape().getBounds();
+                for(ElementPainter unselected : unselectedPainters){
+                    if(unselected instanceof InterclassPainter){
+                        Rectangle boundsOfUnselectedPainter = ((InterclassPainter) unselected).getShape().getBounds();
                         if(painterBounds.intersects(boundsOfUnselectedPainter)){
                             itIntersectsWithSomeone = true;
                         }
@@ -92,7 +92,7 @@ public class MoveState implements State {
                     }
                     if(lastLocation != null){
                         ((Interclass) diagramElement).setLocation(lastLocation);
-                        ((Interclass) diagramElement).setKonekcioneTacke(diagramElement);
+                        ((Interclass) diagramElement).setConnectionPoints(diagramElement);
                     }
                 }
             }
@@ -118,7 +118,7 @@ public class MoveState implements State {
                     if(lastLocation != null){
                         Point newLocation = new Point(lastLocation.x + dx, lastLocation.y + dy);
                         ((Interclass) diagramElement).setLocation(newLocation);
-                        ((Interclass) diagramElement).setKonekcioneTacke(diagramElement);
+                        ((Interclass) diagramElement).setConnectionPoints(diagramElement);
 
                         // Update the new location in the newLocations map - for undo-redo
                         newLocations.put((InterclassPainter) selectedPainter, ((Interclass)diagramElement).getLocation());

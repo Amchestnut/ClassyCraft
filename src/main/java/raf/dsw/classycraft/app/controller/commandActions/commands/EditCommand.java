@@ -74,7 +74,7 @@ public class EditCommand extends AbstractCommand {
                     newName = name;
                     diagramElement.setName(name);
                     setMethodsAndAttributesForDiagramElement(diagramElement, metode, atributi);
-                    ((Interclass) diagramElement).setDimension(company.odredjivanjeVelicinePravougaonika(name, atributi, metode));
+                    ((Interclass) diagramElement).setDimension(company.determiningTheSizeOfTheRectangle(name, atributi, metode));
                 }
                 else{
                     nothingHasBeenDone = true;
@@ -92,19 +92,19 @@ public class EditCommand extends AbstractCommand {
 
                         String visibilityOfTheFirstElement = updatedData.getVisibilityOfTheFirstElement();
                         String instanceOfTheFirstElement = updatedData.getInstanceOfTheFirstElement();
-                        String kardinalnostOfTheFirstElement = updatedData.getKardinalnostOfTheFirstElement();
+                        String kardinalnostOfTheFirstElement = updatedData.getCardinalityOfTheFirstElement();
 
                         String visibilityOfTheSecondElement = updatedData.getVisibilityOfTheSecondElement();
                         String instanceOfTheSecondElement = updatedData.getInstanceOfTheSecondElement();
-                        String kardinalnostOfTheSecondElement = updatedData.getKardinalnostOfTheSecondElement();
+                        String kardinalnostOfTheSecondElement = updatedData.getCardinalityOfTheSecondElement();
 
                         ((Connection) diagramElement).setVisibilityOfTheFirstElement(visibilityOfTheFirstElement);
                         ((Connection) diagramElement).setInstanceOfTheFirstElement(instanceOfTheFirstElement);
-                        ((Connection) diagramElement).setKardinalnostOfTheFirstElement(kardinalnostOfTheFirstElement);
+                        ((Connection) diagramElement).setCardinalityOfTheFirstElement(kardinalnostOfTheFirstElement);
 
                         ((Connection) diagramElement).setVisibilityOfTheSecondElement(visibilityOfTheSecondElement);
                         ((Connection) diagramElement).setInstanceOfTheSecondElement(instanceOfTheSecondElement);
-                        ((Connection) diagramElement).setKardinalnostOfTheSecondElement(kardinalnostOfTheSecondElement);
+                        ((Connection) diagramElement).setCardinalityOfTheSecondElement(kardinalnostOfTheSecondElement);
                     }
                 }
                 else{
@@ -152,7 +152,7 @@ public class EditCommand extends AbstractCommand {
             ((AbstractClass) diagramElement).setAttributes(oldAtributes);
             ((AbstractClass) diagramElement).setMethods(oldMethods);
         }
-        ((Interclass) diagramElement).setDimension(company.odredjivanjeVelicinePravougaonika(oldName, oldAtributes, oldMethods));
+        ((Interclass) diagramElement).setDimension(company.determiningTheSizeOfTheRectangle(oldName, oldAtributes, oldMethods));
     }
 
     private void setMethodsAndAttributesForDiagramElement(DiagramElement diagramElement, List<ClassContent> metode, List<ClassContent> atributi){
@@ -256,11 +256,11 @@ public class EditCommand extends AbstractCommand {
         if(type.equalsIgnoreCase("asocijacija") || type.equalsIgnoreCase("agregacija") || type.equalsIgnoreCase("kompozicija")){
             dataForConnection.setVisibilityOfTheFirstElement(connection.getVisibilityOfTheFirstElement());
             dataForConnection.setInstanceOfTheFirstElement(connection.getInstanceOfTheFirstElement());
-            dataForConnection.setKardinalnostOfTheFirstElement(connection.getKardinalnostOfTheFirstElement());
+            dataForConnection.setCardinalityOfTheFirstElement(connection.getCardinalityOfTheFirstElement());
 
             dataForConnection.setVisibilityOfTheSecondElement(connection.getVisibilityOfTheSecondElement());
             dataForConnection.setInstanceOfTheSecondElement(connection.getInstanceOfTheSecondElement());
-            dataForConnection.setKardinalnostOfTheSecondElement(connection.getKardinalnostOfTheSecondElement());
+            dataForConnection.setCardinalityOfTheSecondElement(connection.getCardinalityOfTheSecondElement());
         }
 
         return dataForConnection;

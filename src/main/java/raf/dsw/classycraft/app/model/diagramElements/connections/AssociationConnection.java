@@ -5,8 +5,8 @@ import raf.dsw.classycraft.app.model.diagramElements.elements.Interclass;
 
 @JsonTypeName("AssociationConnection")
 public class AssociationConnection extends Connection{
-    public AssociationConnection(int color, int stroke, String name, String type, Interclass interclassOD, Interclass interclassDO) {
-        super(color, stroke, name, type, interclassOD, interclassDO);
+    public AssociationConnection(int color, int stroke, String name, String type, Interclass interclassFROM, Interclass interclassTO) {
+        super(color, stroke, name, type, interclassFROM, interclassTO);
     }
 
     public AssociationConnection(){  // For jackson

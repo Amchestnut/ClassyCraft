@@ -51,8 +51,9 @@ public class AddConnectionState implements State {
             DataForConnection dataForConnection = diagramView.kojuVezuHoceUser();
             if(dataForConnection == null)
                 return;
-            dataForConnection.setInterclassOD((Interclass) interclassPainterFROM.getDiagramElement());
-            dataForConnection.setInterclassDO((Interclass) interclassPainterTO.getDiagramElement());
+
+            dataForConnection.setInterclassFROM((Interclass) interclassPainterFROM.getDiagramElement());
+            dataForConnection.setInterclassTO((Interclass) interclassPainterTO.getDiagramElement());
 
             AbstractCommand command = new AddConnectionCommand(interclassPainterFROM, interclassPainterTO, diagramView, dataForConnection);
             diagramView.getCommandManager().addCommand(command);

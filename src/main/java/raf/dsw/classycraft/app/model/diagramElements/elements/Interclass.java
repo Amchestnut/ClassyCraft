@@ -18,7 +18,7 @@ public abstract class Interclass extends DiagramElement {
     @JsonIgnore
     private List<Connection> allConnectionsOnThisInterclass = new ArrayList<>();
     @JsonIgnore
-    private List<Point> konekcioneTacke = new ArrayList<>();
+    private List<Point> connectionPoints = new ArrayList<>();
 
     public Interclass(int color, int stroke, String name, Point location, Dimension dimension) {
         super(color, stroke, name);
@@ -63,14 +63,14 @@ public abstract class Interclass extends DiagramElement {
     public void setDimension(Dimension dimension) {
         this.dimension = dimension;
         notifySubscribers(new NotificationForChangingDimensions("dimenzija", this));
-        setKonekcioneTacke(this);
+        setConnectionPoints(this);
     }
 
-    public List<Point> getKonekcioneTacke() {
-        return konekcioneTacke;
+    public List<Point> getConnectionsPoints() {
+        return connectionPoints;
     }
 
-    public void setKonekcioneTacke(DiagramElement diagramElement) {
+    public void setConnectionPoints(DiagramElement diagramElement) {
         int width = 0;
         int height = 0;
 
@@ -95,7 +95,7 @@ public abstract class Interclass extends DiagramElement {
         listOfConnectionDots.add(midBottom);
         listOfConnectionDots.add(midLeft);
 
-        this.konekcioneTacke = listOfConnectionDots;
-        notifySubscribers(new NotificationForChangingVisibility("novetacke", this));            /// PROMENI NOTIFIKACIJU
+        this.connectionPoints = listOfConnectionDots;
+        notifySubscribers(new NotificationForChangingVisibility("novetacke", this)); // Could add a new notification for this specifically
     }
 }

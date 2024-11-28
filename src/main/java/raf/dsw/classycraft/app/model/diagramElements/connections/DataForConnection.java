@@ -7,14 +7,14 @@ public class DataForConnection {
     private String type;
     private String visibilityOfTheFirstElement = "";
     private String instanceOfTheFirstElement = "";
-    private String kardinalnostOfTheFirstElement = "";  // multiplicity
+    private String cardinalityOfTheFirstElement = "";
 
     private String visibilityOfTheSecondElement = "";
     private String instanceOfTheSecondElement = "";
-    private String kardinalnostOfTheSecondElement = "";
+    private String cardinalityOfTheSecondElement = "";
 
-    private Interclass interclassOD;
-    private Interclass interclassDO;
+    private Interclass interclassFROM;
+    private Interclass interclassTO;
 
     public DataForConnection(String type) {
         this.type = type;
@@ -60,35 +60,35 @@ public class DataForConnection {
         this.instanceOfTheSecondElement = instanceOfTheSecondElement;
     }
 
-    public String getKardinalnostOfTheFirstElement() {
-        return kardinalnostOfTheFirstElement;
+    public String getCardinalityOfTheFirstElement() {
+        return cardinalityOfTheFirstElement;
     }
 
-    public void setKardinalnostOfTheFirstElement(String kardinalnostOfTheFirstElement) {
-        this.kardinalnostOfTheFirstElement = kardinalnostOfTheFirstElement;
+    public void setCardinalityOfTheFirstElement(String cardinalityOfTheFirstElement) {
+        this.cardinalityOfTheFirstElement = cardinalityOfTheFirstElement;
     }
 
-    public String getKardinalnostOfTheSecondElement() {
-        return kardinalnostOfTheSecondElement;
+    public String getCardinalityOfTheSecondElement() {
+        return cardinalityOfTheSecondElement;
     }
 
-    public void setKardinalnostOfTheSecondElement(String kardinalnostOfTheSecondElement) {
-        this.kardinalnostOfTheSecondElement = kardinalnostOfTheSecondElement;
+    public void setCardinalityOfTheSecondElement(String cardinalityOfTheSecondElement) {
+        this.cardinalityOfTheSecondElement = cardinalityOfTheSecondElement;
     }
 
-    public Interclass getInterclassOD() {
-        return interclassOD;
+    public Interclass getInterclassFROM() {
+        return interclassFROM;
     }
 
-    public void setInterclassOD(Interclass interclassOD) {
-        this.interclassOD = interclassOD;
+    public void setInterclassFROM(Interclass interclassFROM) {
+        this.interclassFROM = interclassFROM;
     }
 
-    public Interclass getInterclassDO() {
-        return interclassDO;
+    public Interclass getInterclassTO() {
+        return interclassTO;
     }
 
-    public void setInterclassDO(Interclass interclassDO) {
-        this.interclassDO = interclassDO;
+    public void setInterclassTO(Interclass interclassTO) {
+        this.interclassTO = interclassTO;
     }
 }

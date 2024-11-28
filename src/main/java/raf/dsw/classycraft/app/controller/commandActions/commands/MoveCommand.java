@@ -45,7 +45,7 @@ public class MoveCommand extends AbstractCommand {
     }
     private void setKonekcioneTackeForPainter(ElementPainter painter){
         if(painter.getDiagramElement() instanceof Interclass)
-            ((Interclass) painter.getDiagramElement()).setKonekcioneTacke(painter.getDiagramElement());
+            ((Interclass) painter.getDiagramElement()).setConnectionPoints(painter.getDiagramElement());
     }
     private static class Helper{
         private Point oldLocation;

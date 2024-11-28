@@ -27,42 +27,42 @@ public class Company extends AbstractFactory{
         String[] rawAttributes = getRawAttributesFromDataFromElementFromDialog(dataForElementFromDialog);
         String[] rawMethods = getRawMethodsFromDataFromElementFromDialog(dataForElementFromDialog);
 
-        List<ClassContent> atributi = new ArrayList<>();
-        atributi = refactorAttributes(rawAttributes, atributi);
-        List<ClassContent> metode = new ArrayList<>();
-        metode = refactorMethods(rawMethods, metode);
+        List<ClassContent> attributes = new ArrayList<>();
+        attributes = refactorAttributes(rawAttributes, attributes);
+        List<ClassContent> methods = new ArrayList<>();
+        methods = refactorMethods(rawMethods, methods);
 
         if(name.isEmpty()){
             name = "+EmptyName";
         }
 
-        dimension = odredjivanjeVelicinePravougaonika(name, atributi, metode);
+        dimension = determiningTheSizeOfTheRectangle(name, attributes, methods);
 
         // Based on the data in dialog, we create a class/interface/enum/abstract
         if(type.equalsIgnoreCase("Class")){
             interclass = new Klasa(0xFFFF4040, 3, name, location, dimension);
-            ((Klasa)interclass).setAttributes(atributi);
-            ((Klasa)interclass).setMethods(metode);
+            ((Klasa)interclass).setAttributes(attributes);
+            ((Klasa)interclass).setMethods(methods);
         }
         else if(type.equalsIgnoreCase("Abstract Class")){
             interclass = new AbstractClass(0xFFFFFF40, 3, name, location, dimension);
-            ((AbstractClass)interclass).setAttributes(atributi);
-            ((AbstractClass)interclass).setMethods(metode);
+            ((AbstractClass)interclass).setAttributes(attributes);
+            ((AbstractClass)interclass).setMethods(methods);
         }
         else if(type.equalsIgnoreCase("Interface")){  // If the user clicked "add interface", here we create an interface
             interclass = new Interfejs(0xFF40FF40, 3, name, location, dimension);
-            ((Interfejs)interclass).setMethods(metode);
+            ((Interfejs)interclass).setMethods(methods);
         }
         else if(type.equalsIgnoreCase("Enum Class")){
             interclass = new Enum(0xFF4040FF, 3, name, location, dimension);
-            ((Enum)interclass).setAttributes(atributi);
-            ((Enum)interclass).setMethods(metode);
+            ((Enum)interclass).setAttributes(attributes);
+            ((Enum)interclass).setMethods(methods);
         }
 
         return interclass;
     }
 
-    public List<ClassContent> refactorAttributes(String[] rawAttributes, List<ClassContent> atributi) {
+    public List<ClassContent> refactorAttributes(String[] rawAttributes, List<ClassContent> attributes) {
         if(rawAttributes != null){
             for (String pojedinacanAtribut : rawAttributes) {
                 pojedinacanAtribut = pojedinacanAtribut.trim();
@@ -71,11 +71,11 @@ public class Company extends AbstractFactory{
                     String visibility = String.valueOf(pojedinacanAtribut.charAt(0));
                     String attributeName = pojedinacanAtribut.substring(1).trim();
 
-                    atributi.add(new Attribute(visibility, attributeName));
+                    attributes.add(new Attribute(visibility, attributeName));
                 }
             }
         }
-        return atributi;
+        return attributes;
     }
     public List<ClassContent> refactorMethods(String[] rawMethods, List<ClassContent> metode){
         if(rawMethods != null){
@@ -98,64 +98,64 @@ public class Company extends AbstractFactory{
         String type = dataForConnection.getType();
         String visibilityOfTheFirstElement = dataForConnection.getVisibilityOfTheFirstElement();
         String instanceOfTheFirstElement = dataForConnection.getInstanceOfTheFirstElement();
-        String kardinalnostOfTheFirstElement = dataForConnection.getKardinalnostOfTheFirstElement();
+        String kardinalnostOfTheFirstElement = dataForConnection.getCardinalityOfTheFirstElement();
 
         String visibilityOfTheSecondElement = dataForConnection.getVisibilityOfTheSecondElement();
         String instanceOfTheSecondElement = dataForConnection.getInstanceOfTheSecondElement();
-        String kardinalnostOfTheSecondElement = dataForConnection.getKardinalnostOfTheSecondElement();
+        String kardinalnostOfTheSecondElement = dataForConnection.getCardinalityOfTheSecondElement();
 
-        Interclass interclassOD = dataForConnection.getInterclassOD();
-        Interclass interclassDO = dataForConnection.getInterclassDO();
+        Interclass interclassFROM = dataForConnection.getInterclassFROM();
+        Interclass interclassTO = dataForConnection.getInterclassTO();
         Connection connection = null;
 
-        if(type.equalsIgnoreCase("asocijacija")){
-            connection = new AssociationConnection(0xff000000,5, "Veza asocijacije", "asocijacija", interclassOD, interclassDO);
+        if(type.equalsIgnoreCase("association")){
+            connection = new AssociationConnection(0xff000000,5, "Association connection", "association", interclassFROM, interclassTO);
 
             connection.setVisibilityOfTheFirstElement(visibilityOfTheFirstElement);
             connection.setInstanceOfTheFirstElement(instanceOfTheFirstElement);
-            connection.setKardinalnostOfTheFirstElement(kardinalnostOfTheFirstElement);
+            connection.setCardinalityOfTheFirstElement(kardinalnostOfTheFirstElement);
 
             connection.setVisibilityOfTheSecondElement(visibilityOfTheSecondElement);
             connection.setInstanceOfTheSecondElement(instanceOfTheSecondElement);
-            connection.setKardinalnostOfTheSecondElement(kardinalnostOfTheSecondElement);
+            connection.setCardinalityOfTheSecondElement(kardinalnostOfTheSecondElement);
 
         }
-        else if(type.equalsIgnoreCase("nasledjivanje")){
-            connection = new InheritanceConnection(0xff000000,5, "Veza nasledjivanja", "nasledjivanje", interclassOD, interclassDO);
+        else if(type.equalsIgnoreCase("inheritance")){
+            connection = new InheritanceConnection(0xff000000,5, "Inheritance connection", "inheritance", interclassFROM, interclassTO);
         }
-        else if(type.equalsIgnoreCase("realizacija")){
-            connection = new RealisationConnection(0xff000000,5, "Veza realizacije", "realizacija", interclassOD, interclassDO);
+        else if(type.equalsIgnoreCase("realisation")){
+            connection = new RealisationConnection(0xff000000,5, "Realisation connection", "realisation", interclassFROM, interclassTO);
         }
-        else if(type.equalsIgnoreCase("zavisnost")){
-            connection = new DependencyConnection(0xff000000,5, "Veza zavisnosti", "zavisnost", interclassOD, interclassDO);
+        else if(type.equalsIgnoreCase("dependency")){
+            connection = new DependencyConnection(0xff000000,5, "Dependency connection", "dependency", interclassFROM, interclassTO);
         }
-        else if(type.equalsIgnoreCase("agregacija")){
-            connection = new AggregationConnection(0xff000000,5, "Veza agregacije", "agregacija", interclassOD, interclassDO);
+        else if(type.equalsIgnoreCase("aggregation")){
+            connection = new AggregationConnection(0xff000000,5, "Aggregation connection", "aggregation", interclassFROM, interclassTO);
 
             connection.setVisibilityOfTheFirstElement(visibilityOfTheFirstElement);
             connection.setInstanceOfTheFirstElement(instanceOfTheFirstElement);
-            connection.setKardinalnostOfTheFirstElement(kardinalnostOfTheFirstElement);
+            connection.setCardinalityOfTheFirstElement(kardinalnostOfTheFirstElement);
 
             connection.setVisibilityOfTheSecondElement(visibilityOfTheSecondElement);
             connection.setInstanceOfTheSecondElement(instanceOfTheSecondElement);
-            connection.setKardinalnostOfTheSecondElement(kardinalnostOfTheSecondElement);
+            connection.setCardinalityOfTheSecondElement(kardinalnostOfTheSecondElement);
         }
-        else if(type.equalsIgnoreCase("kompozicija")){
-            connection = new CompositionConnection(0xff000000,5, "Veza kompozicije", "kompozicija", interclassOD, interclassDO);
+        else if(type.equalsIgnoreCase("composition")){
+            connection = new CompositionConnection(0xff000000,5, "Composition connection", "composition", interclassFROM, interclassTO);
 
             connection.setVisibilityOfTheFirstElement(visibilityOfTheFirstElement);
             connection.setInstanceOfTheFirstElement(instanceOfTheFirstElement);
-            connection.setKardinalnostOfTheFirstElement(kardinalnostOfTheFirstElement);
+            connection.setCardinalityOfTheFirstElement(kardinalnostOfTheFirstElement);
 
             connection.setVisibilityOfTheSecondElement(visibilityOfTheSecondElement);
             connection.setInstanceOfTheSecondElement(instanceOfTheSecondElement);
-            connection.setKardinalnostOfTheSecondElement(kardinalnostOfTheSecondElement);
+            connection.setCardinalityOfTheSecondElement(kardinalnostOfTheSecondElement);
         }
 
         return connection;
     }
 
-    public Dimension odredjivanjeVelicinePravougaonika(String name, List<ClassContent> atributi, List<ClassContent> metode){
+    public Dimension determiningTheSizeOfTheRectangle(String name, List<ClassContent> attributes, List<ClassContent> methods){
 
         int minimumWidth = 100;
         int minimumHeight = 70;
@@ -164,7 +164,7 @@ public class Company extends AbstractFactory{
         int counterMethod = 0;
 
         int maxWidth = calculateStringWidth(name);
-        for(ClassContent cc : atributi){
+        for(ClassContent cc : attributes){
             counterAttribute++;
             String currentAttribute = null;
             if(cc instanceof Attribute){
@@ -176,7 +176,7 @@ public class Company extends AbstractFactory{
             }
             maxWidth = Math.max(maxWidth, stringSize);
         }
-        for(ClassContent cc : metode){
+        for(ClassContent cc : methods){
             counterMethod++;
             String currentMethod = null;
             if(cc instanceof Method){

@@ -33,7 +33,7 @@ public class ClassyTreeCellEditor extends DefaultTreeCellEditor implements Actio
         return edit;     // which component changes my current Node in the Tree
     }
 
-    public boolean isCellEditable(EventObject arg0) {   // sta treba da se desi na mom stablu da bi se pokrenuo editabilni event
+    public boolean isCellEditable(EventObject arg0) {
         // If the user clicks 3 times, he will activate the action
         if (arg0 instanceof MouseEvent)
             return ((MouseEvent) arg0).getClickCount() == 3;

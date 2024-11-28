@@ -244,8 +244,8 @@ public class PackageView extends JLabel implements ISubscriber {
 
                         for(ClassyNode diagramChild : ((Diagram) dete).getChildren()){     // Adds loaded connections on diagramView (and create them)
                             if(diagramChild instanceof Connection) {
-                                Interclass interclassOD = ((Connection) diagramChild).getInterclassOD();
-                                Interclass interclassDO = ((Connection) diagramChild).getInterclassDO();
+                                Interclass interclassOD = ((Connection) diagramChild).getInterclassFROM();
+                                Interclass interclassDO = ((Connection) diagramChild).getInterclassTO();
                                 DataForConnection dataForConnection = new DataForConnection(((Connection) diagramChild).getType());
 
                                 for(ClassyNode deteDiagrama2 : ((Diagram) dete).getChildren()){
@@ -259,12 +259,12 @@ public class PackageView extends JLabel implements ISubscriber {
                                     }
                                 }
 
-                                dataForConnection.setInterclassOD(interclassOD);
-                                dataForConnection.setInterclassDO(interclassDO);
+                                dataForConnection.setInterclassFROM(interclassOD);
+                                dataForConnection.setInterclassTO(interclassDO);
                                 dataForConnection.setInstanceOfTheFirstElement(((Connection) diagramChild).getInstanceOfTheFirstElement());
                                 dataForConnection.setInstanceOfTheSecondElement(((Connection) diagramChild).getInstanceOfTheSecondElement());
-                                dataForConnection.setKardinalnostOfTheFirstElement(((Connection) diagramChild).getKardinalnostOfTheFirstElement());
-                                dataForConnection.setKardinalnostOfTheSecondElement(((Connection) diagramChild).getInstanceOfTheSecondElement());
+                                dataForConnection.setCardinalityOfTheFirstElement(((Connection) diagramChild).getCardinalityOfTheFirstElement());
+                                dataForConnection.setCardinalityOfTheSecondElement(((Connection) diagramChild).getInstanceOfTheSecondElement());
                                 dataForConnection.setVisibilityOfTheFirstElement(((Connection) diagramChild).getVisibilityOfTheFirstElement());
                                 dataForConnection.setVisibilityOfTheSecondElement(((Connection) diagramChild).getVisibilityOfTheSecondElement());
 

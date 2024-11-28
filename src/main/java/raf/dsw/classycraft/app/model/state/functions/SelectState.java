@@ -23,12 +23,12 @@ import java.awt.geom.Rectangle2D;
 
 public class SelectState implements State {
 
-    private Point pocetnaTackaZaPravougaonik;
+    private Point initialPointForTheRectangle;
 
     @Override
     public void misKliknut(int x, int y, DiagramView diagramView) {
 
-        pocetnaTackaZaPravougaonik = new Point(x, y);
+        initialPointForTheRectangle = new Point(x, y);
 
         boolean somethingWasSelectedBefore = false;
         if(!diagramView.getSelectionedRectangles().isEmpty()){       // If any was clicked before, kick him off to create a new one
@@ -75,10 +75,10 @@ public class SelectState implements State {
         diagramView.getSelectionedRectangles().clear();
         diagramView.getSelectionedConnections().clear();
 
-        int rectX = Math.min((int)pocetnaTackaZaPravougaonik.getX(), x);
-        int rectY = Math.min((int)pocetnaTackaZaPravougaonik.getY(), y);
-        int rectWidth = Math.abs(x - (int)pocetnaTackaZaPravougaonik.getX());
-        int rectHeight = Math.abs(y - (int)pocetnaTackaZaPravougaonik.getY());
+        int rectX = Math.min((int)initialPointForTheRectangle.getX(), x);
+        int rectY = Math.min((int)initialPointForTheRectangle.getY(), y);
+        int rectWidth = Math.abs(x - (int)initialPointForTheRectangle.getX());
+        int rectHeight = Math.abs(y - (int)initialPointForTheRectangle.getY());
 
         Rectangle selectionRect = new Rectangle(rectX, rectY, rectWidth, rectHeight);
         diagramView.setSelectionRectangle(selectionRect);

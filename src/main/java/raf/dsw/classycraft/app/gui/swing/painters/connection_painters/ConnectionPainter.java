@@ -32,13 +32,13 @@ public class ConnectionPainter extends ElementPainter {
         Point second = null;
 
         if(interclassFROM instanceof Interclass && interclassTO instanceof Interclass){
-            if(((Interclass) interclassFROM).getKonekcioneTacke().isEmpty())
-                ((Interclass) interclassFROM).setKonekcioneTacke(interclassFROM);
-            if(((Interclass) interclassTO).getKonekcioneTacke().isEmpty())
-                ((Interclass) interclassTO).setKonekcioneTacke(interclassTO);
+            if(((Interclass) interclassFROM).getConnectionsPoints().isEmpty())
+                ((Interclass) interclassFROM).setConnectionPoints(interclassFROM);
+            if(((Interclass) interclassTO).getConnectionsPoints().isEmpty())
+                ((Interclass) interclassTO).setConnectionPoints(interclassTO);
 
-            for(Point p1 : ((Interclass) interclassFROM).getKonekcioneTacke()){
-                for(Point p2 : ((Interclass) interclassTO).getKonekcioneTacke()){
+            for(Point p1 : ((Interclass) interclassFROM).getConnectionsPoints()){
+                for(Point p2 : ((Interclass) interclassTO).getConnectionsPoints()){
                     double distance = p1.distance(p2);
                     if(distance < minDistance){
                         minDistance = distance;
@@ -52,8 +52,8 @@ public class ConnectionPainter extends ElementPainter {
         if (first != null && second != null) {
             myConnection = new Line2D.Double(first, second);
             if(diagramElement instanceof Connection){
-                ((Connection)diagramElement).setKonekcionaTackaOD(first);
-                ((Connection)diagramElement).setKonekcionaTackaDO(second);
+                ((Connection)diagramElement).setConnectionPointFROM(first);
+                ((Connection)diagramElement).setConnectionPointTO(second);
             }
 
             // ivice i velicina invisible pravougaonika

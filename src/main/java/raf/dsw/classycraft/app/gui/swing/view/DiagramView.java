@@ -69,7 +69,7 @@ public class DiagramView extends JPanel implements ISubscriber {
                     ElementPainter ep = iterator.next();
                     if(ep instanceof InterclassPainter){
                         if(ep.getDiagramElement().equals(diagramElement)){
-                            iterator.remove(); // koristim iterator da bi izbacio element
+                            iterator.remove(); // Using iterator to remove the element
                         }
                     }
                 }
@@ -248,7 +248,7 @@ public class DiagramView extends JPanel implements ISubscriber {
 
             String[] sveMetode = methodsArea.getText().split("\n");
             boolean metodeOK = true;
-            // proveravamo sve unete metode, osim ako nije u pitanju enum
+            // checking for all entered methods, except if it's an Enum
             if(!enumButton.isSelected()){
                 for(String metoda: sveMetode){
                     if(proveriNetacnostUnosaZaMetodu(metoda)){
@@ -606,22 +606,22 @@ public class DiagramView extends JPanel implements ISubscriber {
         String connectionType = null;
 
         if (associationButton.isSelected()) {
-            connectionType = "asocijacija";
+            connectionType = "association";
         }
         else if (inheritanceButton.isSelected()) {
-            connectionType = "nasledjivanje";
+            connectionType = "inheritance";
         }
         else if (realisationButton.isSelected()) {
-            connectionType = "realizacija";
+            connectionType = "realisation";
         }
         else if (dependencyButton.isSelected()) {
-            connectionType = "zavisnost";
+            connectionType = "dependency";
         }
         else if (aggregationButton.isSelected()) {
-            connectionType = "agregacija";
+            connectionType = "aggregation";
         }
         else if (compositionButton.isSelected()) {
-            connectionType = "kompozicija";
+            connectionType = "composition";
         }
 
         DataForConnection dataForConnection = new DataForConnection(connectionType);
@@ -638,7 +638,7 @@ public class DiagramView extends JPanel implements ISubscriber {
 
                 dataForConnection.setVisibilityOfTheFirstElement(visibilityFrom);  // Nicely created custom Data Object that accept this
                 dataForConnection.setInstanceOfTheFirstElement(instanceFrom);
-                dataForConnection.setKardinalnostOfTheFirstElement(parts1[1]);
+                dataForConnection.setCardinalityOfTheFirstElement(parts1[1]);
             }
 
             if(!secondText.equalsIgnoreCase("")){
@@ -648,7 +648,7 @@ public class DiagramView extends JPanel implements ISubscriber {
 
                 dataForConnection.setVisibilityOfTheSecondElement(visibilityTo);
                 dataForConnection.setInstanceOfTheSecondElement(instanceTo);
-                dataForConnection.setKardinalnostOfTheSecondElement(parts2[1]);
+                dataForConnection.setCardinalityOfTheSecondElement(parts2[1]);
             }
         }
         return dataForConnection;
@@ -709,12 +709,12 @@ public class DiagramView extends JPanel implements ISubscriber {
         String inputFromFirstTextField = "";
         inputFromFirstTextField += preFilledData.getVisibilityOfTheFirstElement() +
                 preFilledData.getInstanceOfTheFirstElement() + " " +
-                preFilledData.getKardinalnostOfTheFirstElement();
+                preFilledData.getCardinalityOfTheFirstElement();
 
         String inputFromSecondTextField = "";
         inputFromSecondTextField = preFilledData.getVisibilityOfTheSecondElement() +
                 preFilledData.getInstanceOfTheSecondElement() + " " +
-                preFilledData.getKardinalnostOfTheSecondElement();
+                preFilledData.getCardinalityOfTheSecondElement();
 
         JLabel labelFrom = new JLabel("The element FROM which the connection originates has an instance of the TO element in the form:");
         JTextArea textAreaFrom = new JTextArea(1, 20);
@@ -792,26 +792,26 @@ public class DiagramView extends JPanel implements ISubscriber {
             return null;
         }
 
-        // Extract selected values
+        // Extract selected values. Also, this may be duplicated
         String connectionType = null;
 
         if (associationButton.isSelected()) {
-            connectionType = "asocijacija";
+            connectionType = "association";
         }
         else if (inheritanceButton.isSelected()) {
-            connectionType = "nasledjivanje";
+            connectionType = "inheritance";
         }
         else if (realisationButton.isSelected()) {
-            connectionType = "realizacija";
+            connectionType = "realisation";
         }
         else if (dependencyButton.isSelected()) {
-            connectionType = "zavisnost";
+            connectionType = "dependency";
         }
         else if (aggregationButton.isSelected()) {
-            connectionType = "agregacija";
+            connectionType = "aggregation";
         }
         else if (compositionButton.isSelected()) {
-            connectionType = "kompozicija";
+            connectionType = "composition";
         }
 
         DataForConnection dataForConnection = new DataForConnection(connectionType);
@@ -827,7 +827,7 @@ public class DiagramView extends JPanel implements ISubscriber {
 
                 dataForConnection.setVisibilityOfTheFirstElement(visibilityFrom);
                 dataForConnection.setInstanceOfTheFirstElement(instanceFrom);
-                dataForConnection.setKardinalnostOfTheFirstElement(parts1[1]);
+                dataForConnection.setCardinalityOfTheFirstElement(parts1[1]);
             }
 
             if(!secondText.equalsIgnoreCase("")){
@@ -837,7 +837,7 @@ public class DiagramView extends JPanel implements ISubscriber {
 
                 dataForConnection.setVisibilityOfTheSecondElement(visibilityTo);
                 dataForConnection.setInstanceOfTheSecondElement(instanceTo);
-                dataForConnection.setKardinalnostOfTheSecondElement(parts2[1]);
+                dataForConnection.setCardinalityOfTheSecondElement(parts2[1]);
             }
 
         }
@@ -971,7 +971,7 @@ public class DiagramView extends JPanel implements ISubscriber {
         });
     }
 
-    // BIG BRAIN TIME: type can also be an isntance of some class, cant forget this !!!
+    // BIG BRAIN TIME: type can also be an instance of some class, cant forget this !!!
     private boolean proveriDaLiImaNekaInstancaOvogTipa(String tip){
         for(ElementPainter p : painters){
             if(p instanceof InterclassPainter){

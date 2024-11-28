@@ -10,23 +10,23 @@ public abstract class Connection extends DiagramElement {
     private String type;
     private String visibilityOfTheFirstElement = "";
     private String instanceOfTheFirstElement = "";
-    private String kardinalnostOfTheFirstElement = "";
+    private String cardinalityOfTheFirstElement = "";
 
     private String visibilityOfTheSecondElement = "";
     private String instanceOfTheSecondElement = "";
-    private String kardinalnostOfTheSecondElement = "";
+    private String cardinalityOfTheSecondElement = "";
 
-    private Interclass interclassOD;
-    private Interclass interclassDO;
+    private Interclass interclassFROM;
+    private Interclass interclassTO;
 
-    private Point konekcionaTackaOD;
-    private Point konekcionaTackaDO;
+    private Point connectionPointFROM;
+    private Point connectionPointTO;
 
-    public Connection(int color, int stroke, String name, String type, Interclass interclassOD, Interclass interclassDO) {
+    public Connection(int color, int stroke, String name, String type, Interclass interclassFROM, Interclass interclassTO) {
         super(color, stroke, name);
         this.type = type;
-        this.interclassOD = interclassOD;
-        this.interclassDO = interclassDO;
+        this.interclassFROM = interclassFROM;
+        this.interclassTO = interclassTO;
     }
     public Connection(){   // For jackson
 
@@ -56,12 +56,12 @@ public abstract class Connection extends DiagramElement {
         this.instanceOfTheFirstElement = instanceOfTheFirstElement;
     }
 
-    public String getKardinalnostOfTheFirstElement() {
-        return kardinalnostOfTheFirstElement;
+    public String getCardinalityOfTheFirstElement() {
+        return cardinalityOfTheFirstElement;
     }
 
-    public void setKardinalnostOfTheFirstElement(String kardinalnostOfTheFirstElement) {
-        this.kardinalnostOfTheFirstElement = kardinalnostOfTheFirstElement;
+    public void setCardinalityOfTheFirstElement(String cardinalityOfTheFirstElement) {
+        this.cardinalityOfTheFirstElement = cardinalityOfTheFirstElement;
     }
 
     public String getVisibilityOfTheSecondElement() {
@@ -80,42 +80,45 @@ public abstract class Connection extends DiagramElement {
         this.instanceOfTheSecondElement = instanceOfTheSecondElement;
     }
 
-    public String getKardinalnostOfTheSecondElement() {
-        return kardinalnostOfTheSecondElement;
+    public String getCardinalityOfTheSecondElement() {
+        return cardinalityOfTheSecondElement;
     }
 
-    public void setKardinalnostOfTheSecondElement(String kardinalnostOfTheSecondElement) {
-        this.kardinalnostOfTheSecondElement = kardinalnostOfTheSecondElement;
+    public void setCardinalityOfTheSecondElement(String cardinalityOfTheSecondElement) {
+        this.cardinalityOfTheSecondElement = cardinalityOfTheSecondElement;
     }
 
-    public Interclass getInterclassOD() {
-        return interclassOD;
+    public Interclass getInterclassFROM() {
+        return interclassFROM;
     }
 
-    public void setInterclassOD(Interclass interclassOD) {
-        this.interclassOD = interclassOD;
+    public void setInterclassFROM(Interclass interclassFROM) {
+        this.interclassFROM = interclassFROM;
     }
 
-    public Interclass getInterclassDO() {
-        return interclassDO;
+    public Interclass getInterclassTO() {
+        return interclassTO;
     }
 
-    public void setInterclassDO(Interclass interclassDO) {
-        this.interclassDO = interclassDO;
+    public void setInterclassTO(Interclass interclassTO) {
+        this.interclassTO = interclassTO;
     }
 
-    public Point getKonekcionaTackaOD() {
-        return konekcionaTackaOD;
+    public Point getConnectionPointFROM() {
+        return connectionPointFROM;
     }
-    public Point getKonekcionaTackaDO() {
-        return konekcionaTackaDO;
+
+    public void setConnectionPointFROM(Point connectionPointFROM) {
+        this.connectionPointFROM = connectionPointFROM;
+        notifySubscribers(new NotificationForChangingVisibility("Connection point changed", this)); // Feel free to change this message, add a new one specifically if you want
     }
-    public void setKonekcionaTackaOD(Point konekcionaTackaOD) {
-        this.konekcionaTackaOD = konekcionaTackaOD;
-        notifySubscribers(new NotificationForChangingVisibility("Promenjena konekciona tacka", this));      /// PROMENI NOTIFIKACIJU
+
+    public Point getConnectionPointTO() {
+        return connectionPointTO;
     }
-    public void setKonekcionaTackaDO(Point konekcionaTackaDO) {
-        this.konekcionaTackaDO = konekcionaTackaDO;
-        notifySubscribers(new NotificationForChangingVisibility("Promenjena konekciona tacka", this));      /// PROMENI NOTIFIKACIJU
+
+    public void setConnectionPointTO(Point connectionPointTO) {
+        this.connectionPointTO = connectionPointTO;
+        notifySubscribers(new NotificationForChangingVisibility("Connection point changed", this));
     }
 }

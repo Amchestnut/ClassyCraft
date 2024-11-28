@@ -32,7 +32,7 @@ public class AddInterclassCommand extends AbstractCommand {
     public void doCommand() {
         Dimension newDimension = null;
         if(diagramElement instanceof Interclass){
-            ((Interclass) diagramElement).setKonekcioneTacke(diagramElement);
+            ((Interclass) diagramElement).setConnectionPoints(diagramElement);
             newDimension = ((Interclass) diagramElement).getDimension();
         }
 
@@ -51,7 +51,7 @@ public class AddInterclassCommand extends AbstractCommand {
         }
 
         if(canBeAdded){
-            ((Interclass) diagramElement).setKonekcioneTacke(diagramElement);   // ------ ovo sam dodao da bi se konekcione tacke nalazile u modelu umesto u painteru.
+            ((Interclass) diagramElement).setConnectionPoints(diagramElement);   // ------ ovo sam dodao da bi se konekcione tacke nalazile u modelu umesto u painteru.
             diagramView.dodajMeKaoSubscribera(diagramElement);                  // SVAKI DIJAGRAMELEMENT IMA 1 SUBScriber --- TO JE DIAGRAMVIEW
 
             diagramView.addPainter(painter);
