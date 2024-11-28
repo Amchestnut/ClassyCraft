@@ -59,7 +59,6 @@ public class JacksonSerializer {
 //        try (FileWriter writer = new FileWriter(diagram.getPath())) {
 //            objectMapper.writeValue(writer, diagram);
         try{
-            System.out.println("PRINTING FROM JACKSON");
             objectMapper.writeValue(new File(diagram.getPath()), diagram);
         } catch (IOException e) {
             e.printStackTrace();
