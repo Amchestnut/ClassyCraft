@@ -23,10 +23,10 @@
   - Arrange elements with snapping and alignment tools.
 
 - **File Handling**:
-  - Save and load projects in a structured format.
-  - Export diagrams as image files or code repositories.
+  - Save and load projects in a **structured format**.
+  - Export diagrams as **image files** or **code repositories**.
 
-- Error Handling and Validation:
+- **Error Handling and Validation**:
   - Prevent overlapping or invalid relationships.
   - Highlight errors in real-time during diagram creation.
 
